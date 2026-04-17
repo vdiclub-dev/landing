@@ -253,22 +253,23 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
-  const emailResponse = await fetch("https://iubbsnntcreneakbdkmv.supabase.co/functions/v1/dynamic-worker", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-  });
+const emailResponse = await fetch("https://iubbsnntcreneakbdkmv.supabase.co/functions/v1/dynamic-worker", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1YmJzbm50Y3JlbmVha2Jka212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzI1MDYsImV4cCI6MjA4ODE0ODUwNn0.FzMgCZxNIej1skSIc8UAGiODcZEZW1GCWZwBfonm_1Y"
+  },
+  body: JSON.stringify(payload)
+});
 
-  const emailData = await emailResponse.json();
-  console.log("Réponse email:", emailData);
+const emailData = await emailResponse.json();
+console.log("Réponse email:", emailData);
 
-  if (!emailResponse.ok) {
-    alert("Les données ont été enregistrées, mais l'email n'a pas pu être envoyé.");
-    console.error(emailData);
-    return;
-  }
+if (!emailResponse.ok) {
+  alert("Les données ont été enregistrées, mais l'email n'a pas pu être envoyé.");
+  console.error(emailData);
+  return;
+}
 
   window.location.href = "https://www.colixo.ch/merci.html";
 });
