@@ -19,19 +19,69 @@ button:hover{opacity:0.9}
 <body>
 <div class="side"></div>
 <div class="container">
+
+<!-- LOGO -->
+<div style="text-align:center;margin-bottom:20px;">
+  <img src="https://www.colixo.ch/logo.png" alt="Colixo" style="width:140px;max-width:80%;object-fit:contain;">
+</div>
 <h1>Contact Colixo</h1>
 <p>Expliquez votre besoin, nous vous répondons rapidement.</p>
 
 <form action="https://formspree.io/f/TON_ID" method="POST">
-<input type="text" name="nom" placeholder="Votre nom" required>
-<input type="email" name="email" placeholder="Votre email" required>
-<textarea name="message" rows="5" placeholder="Votre demande"></textarea>
+
+<input type="text" name="nom" placeholder="Nom / Société" required>
+
+<input type="email" name="email" placeholder="Email" required>
+
+<input type="tel" name="telephone" placeholder="Téléphone">
+
+<select name="type_service" required>
+  <option value="">Type de service</option>
+  <option>Eco 48h</option>
+  <option>Priority 24h</option>
+  <option>Express</option>
+</select>
+
+<input type="text" name="volume" placeholder="Volume estimé (ex: 50 colis / mois)">
+
+<input type="text" name="frequence" placeholder="Fréquence (quotidien, hebdo, ponctuel)">
+
+<input type="text" name="zone" placeholder="Zones de livraison">
+
+<textarea name="contraintes" rows="4" placeholder="Contraintes spécifiques (horaires, accès, urgence…)"></textarea>
+
+<textarea name="message" rows="5" placeholder="Décrivez votre besoin"></textarea>
+
 <button type="submit">Demander une offre</button>
+
+
+
+<!-- ESTIMATION SIMPLE -->
+<div style="margin-top:20px;padding:15px;background:#121212;border-radius:10px;">
+  <strong>Estimation rapide :</strong>
+  <div id="result" style="margin-top:10px;color:#ff6a00;font-size:18px;">—</div>
+</div>
+
 </form>
+
+<script>
+function calcPrice(){
+  const service = document.querySelector('[name="type_service"]').value;
+  const volume = document.querySelector('[name="volume"]').value;
+
+  let base = 0;
+  if(service === 'Eco 48h') base = 9;
+  if(service === 'Priority 24h') base = 10;
+  if(service === 'Express') base = 25;
+
+  document.getElementById('result').innerText = base ? '≈ ' + base + ' CHF / colis (indicatif)' : '—';
+}
+
+const fields = document.querySelectorAll('select,input');
+fields.forEach(f => f.addEventListener('change', calcPrice));
+</script>
 
 <p style="margin-top:40px">📩 info@colixo.ch<br>🌐 www.colixo.ch</p>
 </div>
 </body>
 </html>
-
-
