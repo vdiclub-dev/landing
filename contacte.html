@@ -253,8 +253,14 @@ form.addEventListener('submit', async (e) => {
     console.error(error);
     return;
   }
-
-  window.location.href = "https://www.colixo.ch/merci.html";
+await fetch("https://TON-PROJET.supabase.co/functions/v1/send-email", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(payload)
+});
+  window.location.href = "https://iubbsnntcreneakbdkmv.supabase.co/functions/v1/dynamic-worker";
 });
 </script>
 </body>
