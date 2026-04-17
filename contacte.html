@@ -5,27 +5,89 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact Colixo</title>
 <style>
-body{margin:0;font-family:Arial;background:#0a0a0a;color:#fff}
-.container{max-width:900px;margin:auto;padding:40px}
-h1{font-size:42px;margin-bottom:10px}
-p{color:#ccc}
-form{margin-top:30px;display:flex;flex-direction:column;gap:15px}
-input,textarea{padding:15px;border:none;border-radius:10px;background:#1a1a1a;color:#fff}
-button{padding:15px;border:none;border-radius:50px;background:#ff6a00;color:#000;font-weight:bold;cursor:pointer}
-button:hover{opacity:0.9}
-.side{position:fixed;right:0;top:0;width:20px;height:100%;background:#ff6a00}
+:root{
+  --bg:#0a0a0a;
+  --panel:#131313;
+  --panel-2:#1a1a1a;
+  --line:rgba(255,255,255,.08);
+  --text:#ffffff;
+  --muted:#cccccc;
+  --accent:#ff6a00;
+  --accent-2:#ff8a33;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.container{max-width:1100px;margin:auto;padding:34px 24px 60px;position:relative;z-index:2}
+h1{font-size:clamp(38px,6vw,64px);line-height:.95;margin:0 0 14px;letter-spacing:-.04em}
+h2{font-size:28px;margin:0 0 10px;letter-spacing:-.03em}
+p{color:var(--muted)}
+form{margin-top:0;display:flex;flex-direction:column;gap:14px}
+input,textarea,select{padding:15px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel-2);color:#fff;outline:none;transition:.2s}
+input:focus,textarea:focus,select:focus{border-color:rgba(255,106,0,.6);box-shadow:0 0 0 3px rgba(255,106,0,.12)}
+button{padding:16px 20px;border:none;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#111;font-weight:800;cursor:pointer;transition:.2s}
+button:hover{transform:translateY(-1px)}
+.side{position:fixed;right:0;top:0;width:20px;height:100%;background:linear-gradient(180deg,var(--accent),#ff7d1f);box-shadow:-8px 0 30px rgba(255,106,0,.25)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:stretch;margin-top:8px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:24px;padding:26px;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.badge{display:inline-flex;min-height:30px;align-items:center;padding:0 12px;border-radius:999px;background:rgba(255,106,0,.12);border:1px solid rgba(255,106,0,.2);color:#ffc79b;font-size:13px;margin-bottom:14px}
+.lead{font-size:18px;max-width:680px}
+.hero-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+.mini{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:18px;padding:16px}
+.mini strong{display:block;font-size:20px;margin-bottom:4px;color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
+.logo-wrap{text-align:center;margin-bottom:20px;position:relative}
+.logo-wrap::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:180px;height:180px;background:radial-gradient(circle,rgba(255,106,0,.18),transparent 65%);filter:blur(20px);z-index:-1}
+.helper{display:grid;gap:12px;margin-top:18px}
+.helper-item{display:flex;justify-content:space-between;gap:12px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.pricebox{margin-top:20px;padding:18px;background:#121212;border:1px solid var(--line);border-radius:18px}
+.pricebig{margin-top:8px;color:var(--accent);font-size:28px;font-weight:800}
+.note{font-size:13px;color:#aaaaaa}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.linkbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:999px;border:1px solid var(--line);color:#fff;text-decoration:none;background:rgba(255,255,255,.02)}
+.section-title{margin:0 0 16px}
+@media(max-width:900px){.hero,.grid,.hero-points{grid-template-columns:1fr}.side{width:14px}.container{padding:22px 16px 40px}}
 </style>
 </head>
 <body>
 <div class="side"></div>
 <div class="container">
 
-<!-- LOGO -->
-<div style="text-align:center;margin-bottom:20px;">
-  <img src="https://www.colixo.ch/logo.png" alt="Colixo" style="width:140px;max-width:80%;object-fit:contain;">
+<div class="logo-wrap">
+  <img src="https://www.colixo.ch/logo.png" alt="Colixo" style="width:160px;max-width:80%;object-fit:contain;">
 </div>
-<h1>Contact Colixo</h1>
-<p>Expliquez votre besoin, nous vous répondons rapidement.</p>
+
+<div class="hero">
+  <div class="card">
+    <span class="badge">Demande de devis</span>
+    <h1>Une page contact plus <span style="color:var(--accent)">claire</span>, plus <span style="color:var(--accent)">vivante</span>, plus utile.</h1>
+    <p class="lead">Expliquez votre besoin et obtenez une estimation indicative immédiatement. La page garde le style Colixo, mais avec plus de présence visuelle et une meilleure conversion.</p>
+    <div class="hero-points">
+      <div class="mini"><strong>24h / 48h</strong><span>Eco et Priority pour les besoins récurrents.</span></div>
+      <div class="mini"><strong>Express</strong><span>Prise en charge rapide pour les urgences.</span></div>
+      <div class="mini"><strong>Souple</strong><span>Adapté aux professionnels et aux contraintes terrain.</span></div>
+    </div>
+    <div class="cta-row">
+      <a class="linkbtn" href="mailto:info@colixo.ch">info@colixo.ch</a>
+      <a class="linkbtn" href="https://www.colixo.ch" target="_blank" rel="noreferrer">www.colixo.ch</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="badge">Réponse rapide</span>
+    <h2 class="section-title">Pourquoi passer par ce formulaire ?</h2>
+    <div class="helper">
+      <div class="helper-item"><span>Besoin mieux qualifié</span><strong>Plus pro</strong></div>
+      <div class="helper-item"><span>Estimation immédiate</span><strong>Plus rapide</strong></div>
+      <div class="helper-item"><span>Demandes urgentes ou récurrentes</span><strong>Plus clair</strong></div>
+      <div class="helper-item"><span>Préparation du devis</span><strong>Gain de temps</strong></div>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <span class="badge">Formulaire intelligent</span>
+    <h2 class="section-title">Présentez votre besoin</h2>
 
 <form action="https://formspree.io/f/TON_ID" method="POST">
 
