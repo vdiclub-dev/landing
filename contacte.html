@@ -55,7 +55,12 @@ input:focus,textarea:focus,select:focus{border-color:rgba(255,106,0,.6);box-shad
 .pill{padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
 .pill strong{display:block;color:#fff;margin-bottom:4px}
 .footer-contact{margin-top:28px;color:var(--muted);line-height:1.7}
-@media(max-width:920px){.hero,.grid,.hero-points,.row,.pill-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}.side{width:14px}.container{padding:22px 16px 40px}}
+@media(max-width:920px){
+  .hero,.grid,.hero-points,.row,.pill-grid{grid-template-columns:1fr}
+  .topbar{flex-direction:column;align-items:flex-start}
+  .side{width:14px}
+  .container{padding:22px 16px 40px}
+}
 </style>
 </head>
 <body>
@@ -112,9 +117,8 @@ input:focus,textarea:focus,select:focus{border-color:rgba(255,106,0,.6);box-shad
     <div class="card">
       <span class="badge">Formulaire intelligent</span>
       <h2 class="section-title">Présentez votre besoin</h2>
-      <form action="https://formspree.io/f/mnjldaad" method="POST">
-        <input type="hidden" name="_next" value="https://www.colixo.ch/merci.html">
-        <input type="hidden" name="_subject" value="Nouvelle demande de devis Colixo">
+
+      <form id="colixo-form">
         <div class="row">
           <input type="text" name="nom" placeholder="Nom / Société" required>
           <input type="email" name="email" placeholder="Email" required>
@@ -165,7 +169,14 @@ input:focus,textarea:focus,select:focus{border-color:rgba(255,106,0,.6);box-shad
   </div>
 </div>
 
-<script>
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+
+const supabase = createClient(
+  'https://iubbsnntcreneakbdkmv.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1YmJzbm50Y3JlbmVha2Jka212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzI1MDYsImV4cCI6MjA4ODE0ODUwNn0.FzMgCZxNIej1skSIc8UAGiODcZEZW1GCWZwBfonm_1Y'
+)
+
 function extractVolumeValue(raw){
   if(!raw) return 0;
   const m = raw.match(/\d+/);
@@ -213,6 +224,37 @@ function calcPrice(){
 document.querySelectorAll('select,input,textarea').forEach(el => {
   el.addEventListener('input', calcPrice);
   el.addEventListener('change', calcPrice);
+});
+
+const form = document.getElementById('colixo-form');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const payload = {
+    nom: form.nom.value,
+    email: form.email.value,
+    telephone: form.telephone.value,
+    type_service: form.type_service.value,
+    volume: form.volume.value,
+    frequence: form.frequence.value,
+    zone: form.zone.value,
+    contraintes: form.contraintes.value,
+    message: form.message.value,
+    created_at: new Date().toISOString()
+  };
+
+  const { error } = await supabase
+    .from('contact_requests')
+    .insert([payload]);
+
+  if (error) {
+    alert("Erreur lors de l'envoi");
+    console.error(error);
+    return;
+  }
+
+  window.location.href = "https://www.colixo.ch/merci.html";
 });
 </script>
 </body>
