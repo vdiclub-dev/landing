@@ -168,7 +168,6 @@ input:focus,textarea:focus,select:focus{border-color:rgba(255,106,0,.6);box-shad
     </div>
   </div>
 </div>
-
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
@@ -254,7 +253,7 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
-  await fetch("https://iubbsnntcreneakbdkmv.supabase.co/functions/v1/dynamic-worker", {
+  const emailResponse = await fetch("https://iubbsnntcreneakbdkmv.supabase.co/functions/v1/send-email", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -262,8 +261,18 @@ form.addEventListener('submit', async (e) => {
     body: JSON.stringify(payload)
   });
 
+  const emailData = await emailResponse.json();
+  console.log("Réponse email:", emailData);
+
+  if (!emailResponse.ok) {
+    alert("Les données ont été enregistrées, mais l'email n'a pas pu être envoyé.");
+    console.error(emailData);
+    return;
+  }
+
   window.location.href = "https://www.colixo.ch/merci.html";
 });
 </script>
+
 </body>
 </html>
