@@ -1,1 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Colixo</title>
+<style>
+body{margin:0;font-family:Arial;background:#0a0a0a;color:#fff}
+.container{max-width:900px;margin:auto;padding:40px}
+h1{font-size:42px;margin-bottom:10px}
+p{color:#ccc}
+form{margin-top:30px;display:flex;flex-direction:column;gap:15px}
+input,textarea{padding:15px;border:none;border-radius:10px;background:#1a1a1a;color:#fff}
+button{padding:15px;border:none;border-radius:50px;background:#ff6a00;color:#000;font-weight:bold;cursor:pointer}
+button:hover{opacity:0.9}
+.side{position:fixed;right:0;top:0;width:20px;height:100%;background:#ff6a00}
+</style>
+</head>
+<body>
+<div class="side"></div>
+<div class="container">
+<h1>Contact Colixo</h1>
+<p>Expliquez votre besoin, nous vous répondons rapidement.</p>
+
+<form action="https://formspree.io/f/TON_ID" method="POST">
+<input type="text" name="nom" placeholder="Votre nom" required>
+<input type="email" name="email" placeholder="Votre email" required>
+<textarea name="message" rows="5" placeholder="Votre demande"></textarea>
+<button type="submit">Demander une offre</button>
+</form>
+
+<p style="margin-top:40px">📩 info@colixo.ch<br>🌐 www.colixo.ch</p>
+</div>
+</body>
+</html>
+
 
