@@ -16,134 +16,202 @@
   --accent-2:#ff8a33;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
-.container{max-width:1100px;margin:auto;padding:34px 24px 60px;position:relative;z-index:2}
-h1{font-size:clamp(38px,6vw,64px);line-height:.95;margin:0 0 14px;letter-spacing:-.04em}
-h2{font-size:28px;margin:0 0 10px;letter-spacing:-.03em}
-p{color:var(--muted)}
-form{margin-top:0;display:flex;flex-direction:column;gap:14px}
-input,textarea,select{padding:15px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel-2);color:#fff;outline:none;transition:.2s}
-input:focus,textarea:focus,select:focus{border-color:rgba(255,106,0,.6);box-shadow:0 0 0 3px rgba(255,106,0,.12)}
-button{padding:16px 20px;border:none;border-radius:999px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#111;font-weight:800;cursor:pointer;transition:.2s}
-button:hover{transform:translateY(-1px)}
-.side{position:fixed;right:0;top:0;width:20px;height:100%;background:linear-gradient(180deg,var(--accent),#ff7d1f);box-shadow:-8px 0 30px rgba(255,106,0,.25)}
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:stretch;margin-top:8px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:24px;padding:26px;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+a{text-decoration:none;color:inherit}
+.side{position:fixed;right:0;top:0;width:20px;height:100%;background:linear-gradient(180deg,var(--accent),#ff7d1f);box-shadow:-8px 0 30px rgba(255,106,0,.25);z-index:1}
+.container{max-width:1120px;margin:auto;padding:28px 24px 60px;position:relative;z-index:2}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 0 24px}
+.brand small{display:block;color:var(--muted)}
+.nav-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn,.linkbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:999px;font-weight:700;transition:.2s}
+.btn{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#111;border:none;cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.linkbtn{border:1px solid var(--line);background:rgba(255,255,255,.02);color:#fff}
+.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:22px;align-items:stretch}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.logo-wrap{text-align:center;margin-bottom:20px;position:relative}
+.logo-wrap::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:200px;height:200px;background:radial-gradient(circle,rgba(255,106,0,.18),transparent 65%);filter:blur(20px);z-index:-1}
 .badge{display:inline-flex;min-height:30px;align-items:center;padding:0 12px;border-radius:999px;background:rgba(255,106,0,.12);border:1px solid rgba(255,106,0,.2);color:#ffc79b;font-size:13px;margin-bottom:14px}
-.lead{font-size:18px;max-width:680px}
-.hero-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:20px}
+h1{font-size:clamp(38px,6vw,66px);line-height:.95;margin:0 0 14px;letter-spacing:-.045em}
+h2{font-size:30px;margin:0 0 10px;letter-spacing:-.03em}
+p{color:var(--muted);margin:0}
+.lead{font-size:18px;max-width:700px;line-height:1.55}
+.hero-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
 .mini{background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:18px;padding:16px}
 .mini strong{display:block;font-size:20px;margin-bottom:4px;color:#fff}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
-.logo-wrap{text-align:center;margin-bottom:20px;position:relative}
-.logo-wrap::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:180px;height:180px;background:radial-gradient(circle,rgba(255,106,0,.18),transparent 65%);filter:blur(20px);z-index:-1}
 .helper{display:grid;gap:12px;margin-top:18px}
 .helper-item{display:flex;justify-content:space-between;gap:12px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
-.pricebox{margin-top:20px;padding:18px;background:#121212;border:1px solid var(--line);border-radius:18px}
-.pricebig{margin-top:8px;color:var(--accent);font-size:28px;font-weight:800}
-.note{font-size:13px;color:#aaaaaa}
-.cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-.linkbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:999px;border:1px solid var(--line);color:#fff;text-decoration:none;background:rgba(255,255,255,.02)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:22px}
 .section-title{margin:0 0 16px}
-@media(max-width:900px){.hero,.grid,.hero-points{grid-template-columns:1fr}.side{width:14px}.container{padding:22px 16px 40px}}
+form{display:flex;flex-direction:column;gap:14px}
+input,textarea,select{padding:15px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel-2);color:#fff;outline:none;transition:.2s;font:inherit}
+input:focus,textarea:focus,select:focus{border-color:rgba(255,106,0,.6);box-shadow:0 0 0 3px rgba(255,106,0,.12)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pricebox{margin-top:20px;padding:18px;background:#121212;border:1px solid var(--line);border-radius:18px}
+.pricebig{margin-top:8px;color:var(--accent);font-size:30px;font-weight:800}
+.note{font-size:13px;color:#aaaaaa;line-height:1.5}
+.pill-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.pill{padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
+.pill strong{display:block;color:#fff;margin-bottom:4px}
+.footer-contact{margin-top:28px;color:var(--muted);line-height:1.7}
+@media(max-width:920px){.hero,.grid,.hero-points,.row,.pill-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}.side{width:14px}.container{padding:22px 16px 40px}}
 </style>
 </head>
 <body>
 <div class="side"></div>
 <div class="container">
-
-<div class="logo-wrap">
-  <img src="https://https://drive.google.com/file/d/15LgUOWGlYcHSFJPwaHj6aOohwRzFrt0D/view?usp=drive_link" alt="Colixo" style="width:160px;max-width:80%;object-fit:contain;">
-</div>
-
-<div class="hero">
-  <div class="card">
-    <span class="badge">Demande de devis</span>
-    <h1>Une page contact plus <span style="color:var(--accent)">claire</span>, plus <span style="color:var(--accent)">vivante</span>, plus utile.</h1>
-    <p class="lead">Expliquez votre besoin et obtenez une estimation indicative immédiatement. La page garde le style Colixo, mais avec plus de présence visuelle et une meilleure conversion.</p>
-    <div class="hero-points">
-      <div class="mini"><strong>24h / 48h</strong><span>Eco et Priority pour les besoins récurrents.</span></div>
-      <div class="mini"><strong>Express</strong><span>Prise en charge rapide pour les urgences.</span></div>
-      <div class="mini"><strong>Souple</strong><span>Adapté aux professionnels et aux contraintes terrain.</span></div>
+  <div class="topbar">
+    <div class="brand">
+      <div>
+        <strong style="letter-spacing:.06em;">COLIXO</strong>
+        <small>Transport & logistique agile</small>
+      </div>
     </div>
-    <div class="cta-row">
+    <div class="nav-actions">
+      <a class="linkbtn" href="https://www.colixo.ch" target="_blank" rel="noreferrer">Voir le site</a>
       <a class="linkbtn" href="mailto:info@colixo.ch">info@colixo.ch</a>
-      <a class="linkbtn" href="https://www.colixo.ch" target="_blank" rel="noreferrer">www.colixo.ch</a>
     </div>
   </div>
 
-  <div class="card">
-    <span class="badge">Réponse rapide</span>
-    <h2 class="section-title">Pourquoi passer par ce formulaire ?</h2>
-    <div class="helper">
-      <div class="helper-item"><span>Besoin mieux qualifié</span><strong>Plus pro</strong></div>
-      <div class="helper-item"><span>Estimation immédiate</span><strong>Plus rapide</strong></div>
-      <div class="helper-item"><span>Demandes urgentes ou récurrentes</span><strong>Plus clair</strong></div>
-      <div class="helper-item"><span>Préparation du devis</span><strong>Gain de temps</strong></div>
+  <div class="logo-wrap">
+    <img src="https://drive.google.com/uc?export=view&id=15LgUOWGlYcHSFJPwaHj6aOohwRzFrt0D" alt="Colixo" style="width:170px;max-width:80%;object-fit:contain;display:block;margin:auto;">
+  </div>
+
+  <div class="hero">
+    <div class="card">
+      <span class="badge">Demande de devis</span>
+      <h1>Une page contact plus <span style="color:var(--accent)">vivante</span>, sans casser le design.</h1>
+      <p class="lead">Présentez votre besoin, obtenez une estimation indicative immédiate et préparez un échange commercial plus clair. L’objectif est simple : garder le style premium Colixo tout en augmentant la conversion.</p>
+      <div class="hero-points">
+        <div class="mini"><strong>24h / 48h</strong><span>Eco et Priority pour les besoins récurrents.</span></div>
+        <div class="mini"><strong>Express</strong><span>Prise en charge rapide pour les urgences.</span></div>
+        <div class="mini"><strong>Souple</strong><span>Adapté aux professionnels et aux contraintes terrain.</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="badge">Réponse rapide</span>
+      <h2 class="section-title">Pourquoi passer par ce formulaire</h2>
+      <div class="helper">
+        <div class="helper-item"><span>Demande mieux qualifiée</span><strong>Plus pro</strong></div>
+        <div class="helper-item"><span>Estimation immédiate</span><strong>Plus rapide</strong></div>
+        <div class="helper-item"><span>Urgent ou récurrent</span><strong>Plus clair</strong></div>
+        <div class="helper-item"><span>Préparation du devis</span><strong>Gain de temps</strong></div>
+      </div>
+      <div class="pill-grid">
+        <div class="pill"><strong>Eco 48h</strong><span>Base compétitive pour vos envois courants.</span></div>
+        <div class="pill"><strong>Priority 24h</strong><span>Pour les besoins plus rapides sans passer en dédié.</span></div>
+        <div class="pill"><strong>Express</strong><span>Pour les urgences et les prises en charge immédiates.</span></div>
+        <div class="pill"><strong>Souplesse</strong><span>Approche claire, directe et adaptée au terrain.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <span class="badge">Formulaire intelligent</span>
+      <h2 class="section-title">Présentez votre besoin</h2>
+      <form action="https://formspree.io/f/TON_ID" method="POST">
+        <div class="row">
+          <input type="text" name="nom" placeholder="Nom / Société" required>
+          <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="row">
+          <input type="tel" name="telephone" placeholder="Téléphone">
+          <select name="type_service" required>
+            <option value="">Type de service</option>
+            <option>Eco 48h</option>
+            <option>Priority 24h</option>
+            <option>Express</option>
+          </select>
+        </div>
+        <div class="row">
+          <input type="text" name="volume" placeholder="Volume estimé (ex: 50 colis / mois)">
+          <input type="text" name="frequence" placeholder="Fréquence (quotidien, hebdo, ponctuel)">
+        </div>
+        <input type="text" name="zone" placeholder="Zones de livraison">
+        <textarea name="contraintes" rows="4" placeholder="Contraintes spécifiques (horaires, accès, urgence, nuit, étages...)"></textarea>
+        <textarea name="message" rows="5" placeholder="Décrivez votre besoin"></textarea>
+        <button type="submit">Demander une offre</button>
+
+        <div class="pricebox">
+          <strong>Estimation rapide</strong>
+          <div id="result" class="pricebig">—</div>
+          <div class="note">Montant indicatif calculé selon le service choisi, le volume saisi, la fréquence et certaines contraintes. Le tarif final reste à confirmer selon distance réelle, volume exact et conditions d’exploitation.</div>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <span class="badge">Aperçu</span>
+      <h2 class="section-title">Comment l’estimation est calculée</h2>
+      <div class="helper">
+        <div class="helper-item"><span>Eco 48h</span><strong>Base 9 CHF</strong></div>
+        <div class="helper-item"><span>Priority 24h</span><strong>Base 10 CHF</strong></div>
+        <div class="helper-item"><span>Express</span><strong>Base 25 CHF</strong></div>
+        <div class="helper-item"><span>Volume mensuel</span><strong>Remise possible</strong></div>
+        <div class="helper-item"><span>Urgence / nuit</span><strong>Majoration possible</strong></div>
+        <div class="helper-item"><span>Zone large / Suisse</span><strong>Ajustement possible</strong></div>
+      </div>
+      <p style="margin-top:18px;color:var(--muted);line-height:1.6;">Cette logique donne une première indication utile pour déclencher la discussion commerciale sans alourdir la page. Elle reste volontairement simple, lisible et cohérente avec l’univers visuel Colixo.</p>
+      <div class="footer-contact">
+        📩 <a href="mailto:info@colixo.ch">info@colixo.ch</a><br>
+        🌐 <a href="https://www.colixo.ch" target="_blank" rel="noreferrer">www.colixo.ch</a>
+      </div>
     </div>
   </div>
 </div>
-
-<div class="grid">
-  <div class="card">
-    <span class="badge">Formulaire intelligent</span>
-    <h2 class="section-title">Présentez votre besoin</h2>
-
-<form action="https://formspree.io/f/TON_ID" method="POST">
-
-<input type="text" name="nom" placeholder="Nom / Société" required>
-
-<input type="email" name="email" placeholder="Email" required>
-
-<input type="tel" name="telephone" placeholder="Téléphone">
-
-<select name="type_service" required>
-  <option value="">Type de service</option>
-  <option>Eco 48h</option>
-  <option>Priority 24h</option>
-  <option>Express</option>
-</select>
-
-<input type="text" name="volume" placeholder="Volume estimé (ex: 50 colis / mois)">
-
-<input type="text" name="frequence" placeholder="Fréquence (quotidien, hebdo, ponctuel)">
-
-<input type="text" name="zone" placeholder="Zones de livraison">
-
-<textarea name="contraintes" rows="4" placeholder="Contraintes spécifiques (horaires, accès, urgence…)"></textarea>
-
-<textarea name="message" rows="5" placeholder="Décrivez votre besoin"></textarea>
-
-<button type="submit">Demander une offre</button>
-
-
-
-<!-- ESTIMATION SIMPLE -->
-<div style="margin-top:20px;padding:15px;background:#121212;border-radius:10px;">
-  <strong>Estimation rapide :</strong>
-  <div id="result" style="margin-top:10px;color:#ff6a00;font-size:18px;">—</div>
-</div>
-
-</form>
 
 <script>
+function extractVolumeValue(raw){
+  if(!raw) return 0;
+  const m = raw.match(/\d+/);
+  return m ? parseInt(m[0],10) : 0;
+}
+
 function calcPrice(){
   const service = document.querySelector('[name="type_service"]').value;
-  const volume = document.querySelector('[name="volume"]').value;
+  const volumeRaw = document.querySelector('[name="volume"]').value || '';
+  const freq = (document.querySelector('[name="frequence"]').value || '').toLowerCase();
+  const zone = (document.querySelector('[name="zone"]').value || '').toLowerCase();
+  const contraintes = (document.querySelector('[name="contraintes"]').value || '').toLowerCase();
+  const result = document.getElementById('result');
 
   let base = 0;
   if(service === 'Eco 48h') base = 9;
   if(service === 'Priority 24h') base = 10;
   if(service === 'Express') base = 25;
 
-  document.getElementById('result').innerText = base ? '≈ ' + base + ' CHF / colis (indicatif)' : '—';
+  if(!base){
+    result.innerText = '—';
+    return;
+  }
+
+  const volume = extractVolumeValue(volumeRaw);
+  let multiplier = 1;
+
+  if(volume >= 250) multiplier -= 0.15;
+  else if(volume >= 200) multiplier -= 0.10;
+  else if(volume >= 150) multiplier -= 0.07;
+  else if(volume >= 100) multiplier -= 0.05;
+  else if(volume >= 50) multiplier -= 0.02;
+
+  if(freq.includes('quotid')) multiplier -= 0.03;
+  if(zone.includes('suisse') || zone.includes('romande')) multiplier += 0.03;
+  if(contraintes.includes('urgent') || contraintes.includes('nuit')) multiplier += 0.12;
+  if(contraintes.includes('etage') || contraintes.includes('étage') || contraintes.includes('ascenseur')) multiplier += 0.05;
+
+  if(multiplier < 0.72) multiplier = 0.72;
+
+  const estimate = (base * multiplier).toFixed(2);
+  result.innerText = '≈ ' + estimate + ' CHF / colis';
 }
 
-const fields = document.querySelectorAll('select,input');
-fields.forEach(f => f.addEventListener('change', calcPrice));
+document.querySelectorAll('select,input,textarea').forEach(el => {
+  el.addEventListener('input', calcPrice);
+  el.addEventListener('change', calcPrice);
+});
 </script>
-
-<p style="margin-top:40px">📩 info@colixo.ch<br>🌐 www.colixo.ch</p>
-</div>
 </body>
 </html>
