@@ -83,7 +83,7 @@
     textarea { min-height: 110px; resize: vertical; }
     .switches { display: grid; gap: 10px; margin-top: 4px; }
     .check { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
-    .check input { width: 18px; height: 18px; accent-color: var(--accent); }
+    .check input[type="checkbox"] { width: 18px; height: 18px; flex: 0 0 18px; accent-color: var(--accent); }
     .pricing-box {
       margin-top: 18px; padding: 18px; border-radius: 16px; border: 1px solid rgba(255,122,0,.22);
       background: linear-gradient(180deg, rgba(255,122,0,.1), rgba(255,122,0,.04));
@@ -140,6 +140,66 @@
     .message.warn { background: rgba(224,161,0,.12); border: 1px solid rgba(224,161,0,.28); color: #ffe19a; }
     .message.error { background: rgba(196,75,75,.12); border: 1px solid rgba(196,75,75,.28); color: #ffc9c9; }
     .footer { margin-top: 22px; color: var(--muted); font-size: 12px; text-align: center; }
+
+    /* ── Packages section ── */
+    .dest-warning {
+      margin: 20px 0 16px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: rgba(224,161,0,.1);
+      border: 1px solid rgba(224,161,0,.3);
+      color: #ffe19a;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .dest-warning strong { color: #ffd267; }
+    .dest-warning .link-btn {
+      background: none; border: none; color: #ffd267; font-size: 14px;
+      cursor: pointer; text-decoration: underline; padding: 0; font-weight: 700;
+    }
+    .packages-section { margin: 0 0 18px; }
+    .packages-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+    }
+    .packages-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .packages-header .action { padding: 9px 14px; font-size: 13px; }
+    .pkg-row {
+      display: grid;
+      grid-template-columns: auto 1fr 1fr auto auto auto;
+      gap: 10px;
+      align-items: center;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.02);
+      margin-bottom: 10px;
+    }
+    .pkg-num {
+      font-size: 13px; font-weight: 800; color: #ffb06f;
+      white-space: nowrap; min-width: 56px;
+    }
+    .pkg-row select, .pkg-row input[type="number"] {
+      margin: 0; padding: 10px 12px; font-size: 14px; border-radius: 10px;
+    }
+    .pkg-fragile-label {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 13px; color: var(--muted); white-space: nowrap; cursor: pointer;
+    }
+    .pkg-fragile-label input { width: 16px; height: 16px; flex: 0 0 16px; }
+    .pkg-price {
+      font-size: 15px; font-weight: 900; color: #ffb06f;
+      white-space: nowrap; min-width: 72px; text-align: right;
+    }
+    .pkg-remove {
+      background: rgba(196,75,75,.15); border: 1px solid rgba(196,75,75,.3);
+      color: #ffc9c9; border-radius: 8px; width: 32px; height: 32px;
+      display: grid; place-items: center; cursor: pointer; font-size: 18px; line-height: 1;
+      flex: 0 0 auto; transition: .15s;
+    }
+    .pkg-remove:hover { background: rgba(196,75,75,.3); }
+    .pkg-remove:disabled { opacity: .25; cursor: default; }
+
     @media print {
       body { background: #fff; }
       .shell > *:not(.layout), .layout > :not(.right-col), .right-col > :not(.label-box) { display: none !important; }
@@ -154,6 +214,9 @@
       .topbar { flex-direction: column; align-items: flex-start; }
       .label-grid, .label-info-grid { grid-template-columns: 1fr; }
       .label-bottom { flex-direction: column; align-items: stretch; }
+      .pkg-row { grid-template-columns: auto 1fr 1fr; grid-template-rows: auto auto; }
+      .pkg-price { grid-column: 2; }
+      .pkg-remove { grid-column: 3; justify-self: end; }
     }
   </style>
 </head>
@@ -181,9 +244,9 @@
         </p>
       </div>
       <div class="card hero-side">
-        <div class="mini-step"><div class="n">1</div><div><strong>Saisie du dépôt</strong><span style="color:var(--muted);">Informations expéditeur, destinataire, service et poids.</span></div></div>
+        <div class="mini-step"><div class="n">1</div><div><strong>Saisie du dépôt</strong><span style="color:var(--muted);">Informations expéditeur, destinataire, service et colis.</span></div></div>
         <div class="mini-step"><div class="n">2</div><div><strong>Montant exact affiché</strong><span style="color:var(--muted);">Le client voit clairement le prix avant l'ouverture de TWINT.</span></div></div>
-        <div class="mini-step"><div class="n">3</div><div><strong>Étiquette après paiement</strong><span style="color:var(--muted);">Référence unique, QR interne et impression propres.</span></div></div>
+        <div class="mini-step"><div class="n">3</div><div><strong>Étiquette après paiement</strong><span style="color:var(--muted);">Une étiquette par colis, numéro de suivi individuel.</span></div></div>
       </div>
     </section>
 
@@ -202,18 +265,6 @@
               <div class="field full"><label for="pickupAddress">Adresse de dépôt</label><input id="pickupAddress" type="text" value="Impasse des Griottes 3, 1462 Yvonand" required /></div>
               <div class="field"><label for="dropDate">Date de dépôt</label><input id="dropDate" type="date" required /></div>
               <div class="field"><label for="dropTime">Heure souhaitée</label><input id="dropTime" type="time" /></div>
-              <div class="field"><label for="packages">Nombre de colis</label><input id="packages" type="number" min="1" value="1" required /></div>
-              <div class="field"><label for="weight">Poids total (kg)</label><input id="weight" type="number" min="0" step="0.1" placeholder="0.0" required /></div>
-              <div class="field"><label for="format">Format</label>
-                <select id="format">
-                  <option value="envelope">Enveloppe</option>
-                  <option value="small_box">Petit carton</option>
-                  <option value="standard_box" selected>Carton standard</option>
-                  <option value="large_box">Grand carton</option>
-                  <option value="fragile">Fragile</option>
-                  <option value="palette">Palette</option>
-                </select>
-              </div>
               <div class="field"><label for="service">Service</label>
                 <select id="service">
                   <option value="eco">Eco 48h</option>
@@ -227,22 +278,35 @@
               <div class="field full"><label for="notes">Consignes</label><textarea id="notes" placeholder="Fragile, appeler avant passage, dépôt à la réception, étage, code d'accès, etc."></textarea></div>
             </div>
 
+            <!-- Destination warning -->
+            <div class="dest-warning">
+              <strong>Tous les colis ci-dessous ont la même destination.</strong>
+              Adresse de livraison différente ? <button type="button" class="link-btn" id="resetLink">Réinitialisez le formulaire</button> et recommencez une nouvelle saisie.
+            </div>
+
+            <!-- Per-package rows -->
+            <div class="packages-section">
+              <div class="packages-header">
+                <span class="packages-title">Colis à expédier</span>
+                <button type="button" id="addPackageBtn" class="action ghost">+ Ajouter un colis</button>
+              </div>
+              <div id="packagesList"></div>
+            </div>
+
             <div class="switches">
-              <label class="check"><input id="fragileExtra" type="checkbox" /> <span>Manipulation fragile</span></label>
-              <label class="check"><input id="nightDrop" type="checkbox" /> <span>Autorisation de dépôt de nuit</span></label>
+              <label class="check"><input id="nightDrop" type="checkbox" /> <span>Autorisation de dépôt de nuit (+CHF 5.00)</span></label>
               <label class="check"><input id="terms" type="checkbox" required /> <span>Je confirme l'exactitude des informations transmises.</span></label>
             </div>
 
             <div class="pricing-box">
               <div class="pricing-top">
-                <div><div class="label">Montant à payer avant génération de l'étiquette</div><div class="amount" id="priceDisplay">CHF 0.00</div></div>
+                <div><div class="label">Montant total à payer avant génération de l'étiquette</div><div class="amount" id="priceDisplay">CHF 0.00</div></div>
                 <div><span class="status-pill draft" id="orderStatusBadge">brouillon</span></div>
               </div>
               <div class="pricing-list">
                 <div class="pricing-row"><span>Service</span><strong id="detailService">Priority 24h</strong></div>
-                <div class="pricing-row"><span>Base tarifaire</span><strong id="detailBase">CHF 0.00</strong></div>
-                <div class="pricing-row"><span>Format / poids</span><strong id="detailFormatWeight">Carton standard • 0 kg</strong></div>
-                <div class="pricing-row"><span>Supplément poids</span><strong id="detailWeightExtra">CHF 0.00</strong></div>
+                <div class="pricing-row"><span>Base tarifaire (1er colis)</span><strong id="detailBase">CHF 0.00</strong></div>
+                <div class="pricing-row" id="detailExtraPackagesRow"><span>Colis supplémentaires</span><strong id="detailExtraPackages">—</strong></div>
                 <div class="pricing-row"><span>Suppléments</span><strong id="detailExtras">Aucun</strong></div>
                 <div class="pricing-row"><span>Référence provisoire</span><strong id="detailReference">—</strong></div>
               </div>
@@ -273,12 +337,12 @@
             <div class="summary-row"><span>Client</span><span id="sumClient">—</span></div>
             <div class="summary-row"><span>Contact</span><span id="sumContact">—</span></div>
             <div class="summary-row"><span>Date / heure</span><span id="sumDateTime">—</span></div>
-            <div class="summary-row"><span>Colis</span><span id="sumPackages">1</span></div>
+            <div class="summary-row"><span>Nombre de colis</span><span id="sumPackages">1</span></div>
             <div class="summary-row"><span>Service</span><span id="sumService">Priority 24h</span></div>
-            <div class="summary-row"><span>Montant</span><span id="sumPrice">CHF 0.00</span></div>
+            <div class="summary-row"><span>Montant total</span><span id="sumPrice">CHF 0.00</span></div>
             <div class="summary-row"><span>Statut</span><span id="sumStatus">Brouillon</span></div>
           </div>
-          <div class="hint">Le prix visible ici est celui qui doit être payé avant de produire l'étiquette finale.</div>
+          <div class="hint" style="margin-top:12px;">Le prix visible ici est celui qui doit être payé avant de produire les étiquettes.</div>
         </div>
 
         <div class="admin-box">
@@ -294,11 +358,11 @@
               <button class="action ghost" type="button" id="saveBtn">Enregistrer / mettre à jour</button>
             </div>
             <div class="row">
-              <button class="action dark" type="button" id="generateLabelBtn">Générer l'étiquette</button>
+              <button class="action dark" type="button" id="generateLabelBtn">Générer les étiquettes</button>
               <button class="action ghost" type="button" id="printBtn">Imprimer</button>
             </div>
           </div>
-          <div class="hint">Sans API TWINT avancée, la confirmation reste déclarative côté client puis vérifiable manuellement côté admin. La page est néanmoins prête à stocker la commande et son statut dans Supabase.</div>
+          <div class="hint">Sans API TWINT avancée, la confirmation reste déclarative côté client puis vérifiable manuellement côté admin.</div>
         </div>
 
         <div class="label-box" id="labelBox">
@@ -308,7 +372,7 @@
       </div>
     </section>
 
-    <div class="footer">Version dépôt client sérieuse • stockage local immédiat • branchement Supabase prévu • génération d'étiquette conditionnée au paiement</div>
+    <div class="footer">Version dépôt client sérieuse • une étiquette par colis • numéro de suivi individuel</div>
   </div>
 
   <script>
@@ -341,14 +405,10 @@
       pickupAddress: document.getElementById('pickupAddress'),
       dropDate: document.getElementById('dropDate'),
       dropTime: document.getElementById('dropTime'),
-      packages: document.getElementById('packages'),
-      weight: document.getElementById('weight'),
-      format: document.getElementById('format'),
       service: document.getElementById('service'),
       recipient: document.getElementById('recipient'),
       recipientAddress: document.getElementById('recipientAddress'),
       notes: document.getElementById('notes'),
-      fragileExtra: document.getElementById('fragileExtra'),
       nightDrop: document.getElementById('nightDrop'),
       terms: document.getElementById('terms')
     };
@@ -359,8 +419,8 @@
       priceDisplay: document.getElementById('priceDisplay'),
       detailService: document.getElementById('detailService'),
       detailBase: document.getElementById('detailBase'),
-      detailFormatWeight: document.getElementById('detailFormatWeight'),
-      detailWeightExtra: document.getElementById('detailWeightExtra'),
+      detailExtraPackages: document.getElementById('detailExtraPackages'),
+      detailExtraPackagesRow: document.getElementById('detailExtraPackagesRow'),
       detailExtras: document.getElementById('detailExtras'),
       detailReference: document.getElementById('detailReference'),
       orderStatusBadge: document.getElementById('orderStatusBadge'),
@@ -381,7 +441,9 @@
       currentRefTag: document.getElementById('currentRefTag'),
       currentPayTag: document.getElementById('currentPayTag'),
       storageTag: document.getElementById('storageTag'),
-      labelBox: document.getElementById('labelBox')
+      labelBox: document.getElementById('labelBox'),
+      packagesList: document.getElementById('packagesList'),
+      addPackageBtn: document.getElementById('addPackageBtn')
     };
 
     let sbClient = null;
@@ -400,9 +462,12 @@
       exact_price: 0
     };
 
+    // ── Package rows state ──
+    let pkgCounter = 0;
+    let pkgList = []; // [{ id, format, weight, fragile }]
+
     function todayISO() {
-      const d = new Date();
-      return d.toISOString().slice(0, 10);
+      return new Date().toISOString().slice(0, 10);
     }
 
     fields.dropDate.value = todayISO();
@@ -415,60 +480,145 @@
       const h = String(now.getHours()).padStart(2, '0');
       const min = String(now.getMinutes()).padStart(2, '0');
       const rnd = Math.floor(Math.random() * 9000) + 1000;
-      return `CLX-${y}${m}${d}-${h}${min}-${rnd}`;
+      return 'CLX-' + y + m + d + '-' + h + min + '-' + rnd;
     }
 
     function money(v) {
       return 'CHF ' + Number(v || 0).toFixed(2);
     }
 
-    function calculatePrice() {
-      const packages = Math.max(parseInt(fields.packages.value || '1', 10), 1);
-      const weight = parseFloat(fields.weight.value || '0') || 0;
+    function weightExtra(w) {
+      if (w <= 2) return 0;
+      if (w <= 10) return 1.50;
+      if (w <= 20) return 3.50;
+      if (w <= 30) return 6.50;
+      return 12.00;
+    }
+
+    function calcPackagePrice(pkg, isFirst) {
+      const fmt = formatMap[pkg.format] || formatMap.standard_box;
+      const w = parseFloat(pkg.weight) || 0;
+      let p = fmt.extra + weightExtra(w);
+      if (pkg.fragile) p += 2.00;
+      if (!isFirst) p += 2.50;
+      return Math.round(p * 100) / 100;
+    }
+
+    function calculatePricing() {
       const service = serviceMap[fields.service.value] || serviceMap.priority;
-      const format = formatMap[fields.format.value] || formatMap.standard_box;
       const extras = [];
 
-      let total = service.base + format.extra;
-      let weightExtra = 0;
+      let total = service.base;
+      let extraPkgTotal = 0;
 
-      if (weight > 0 && weight <= 2) weightExtra = 0;
-      else if (weight > 2 && weight <= 10) weightExtra = 1.50;
-      else if (weight > 10 && weight <= 20) weightExtra = 3.50;
-      else if (weight > 20 && weight <= 30) weightExtra = 6.50;
-      else if (weight > 30) weightExtra = 12.00;
+      pkgList.forEach((pkg, i) => {
+        const p = calcPackagePrice(pkg, i === 0);
+        total += p;
+        if (i > 0) extraPkgTotal += 2.50;
+      });
 
-      total += weightExtra;
-
-      if (fields.fragileExtra.checked) {
-        total += 2.00;
-        extras.push('manipulation fragile +CHF 2.00');
-      }
       if (fields.nightDrop.checked) {
         total += 5.00;
-        extras.push('dépôt de nuit +CHF 5.00');
-      }
-      if (packages > 1) {
-        const extraPackages = (packages - 1) * 2.50;
-        total += extraPackages;
-        extras.push(`colis supplémentaires +${money(extraPackages)}`);
+        extras.push('depot de nuit +CHF 5.00');
       }
 
       total = Math.round(total * 100) / 100;
 
       return {
         total,
-        serviceLabel: service.label,
-        formatLabel: format.label,
-        weightLabel: weight ? `${weight} kg` : '0 kg',
-        baseLabel: `${money(service.base)} + ${money(format.extra)}`,
-        weightExtraLabel: money(weightExtra),
+        service,
+        extraPkgTotal,
         extrasLabel: extras.length ? extras.join(' • ') : 'Aucun'
       };
     }
 
+    // ── Package row DOM ──
+    function createPackageRow(id, format, weight, fragile) {
+      const row = document.createElement('div');
+      row.className = 'pkg-row';
+      row.dataset.pkgId = id;
+
+      const n = pkgList.findIndex(p => p.id === id) + 1;
+
+      row.innerHTML =
+        '<div class="pkg-num">Colis ' + n + '</div>' +
+        '<select class="pkg-format">' +
+          '<option value="envelope"' + (format === 'envelope' ? ' selected' : '') + '>Enveloppe</option>' +
+          '<option value="small_box"' + (format === 'small_box' ? ' selected' : '') + '>Petit carton</option>' +
+          '<option value="standard_box"' + (format === 'standard_box' ? ' selected' : '') + '>Carton standard</option>' +
+          '<option value="large_box"' + (format === 'large_box' ? ' selected' : '') + '>Grand carton</option>' +
+          '<option value="fragile"' + (format === 'fragile' ? ' selected' : '') + '>Fragile</option>' +
+          '<option value="palette"' + (format === 'palette' ? ' selected' : '') + '>Palette</option>' +
+        '</select>' +
+        '<input class="pkg-weight" type="number" min="0" step="0.1" placeholder="Poids (kg)" value="' + (weight || '') + '" />' +
+        '<label class="pkg-fragile-label"><input type="checkbox" class="pkg-fragile"' + (fragile ? ' checked' : '') + ' /> Fragile +2.-</label>' +
+        '<div class="pkg-price">CHF 0.00</div>' +
+        '<button type="button" class="pkg-remove" title="Supprimer ce colis">&#215;</button>';
+
+      row.querySelector('.pkg-format').addEventListener('change', onPkgChange.bind(null, id));
+      row.querySelector('.pkg-weight').addEventListener('input', onPkgChange.bind(null, id));
+      row.querySelector('.pkg-fragile').addEventListener('change', onPkgChange.bind(null, id));
+      row.querySelector('.pkg-remove').addEventListener('click', removePackage.bind(null, id));
+
+      return row;
+    }
+
+    function refreshRowNumbers() {
+      const rows = ui.packagesList.querySelectorAll('.pkg-row');
+      rows.forEach((row, i) => {
+        row.querySelector('.pkg-num').textContent = 'Colis ' + (i + 1);
+        const removeBtn = row.querySelector('.pkg-remove');
+        removeBtn.disabled = pkgList.length <= 1;
+      });
+    }
+
+    function onPkgChange(id) {
+      const row = ui.packagesList.querySelector('[data-pkg-id="' + id + '"]');
+      if (!row) return;
+      const pkg = pkgList.find(p => p.id === id);
+      if (!pkg) return;
+      pkg.format = row.querySelector('.pkg-format').value;
+      pkg.weight = parseFloat(row.querySelector('.pkg-weight').value) || 0;
+      pkg.fragile = row.querySelector('.pkg-fragile').checked;
+
+      const idx = pkgList.indexOf(pkg);
+      const price = calcPackagePrice(pkg, idx === 0);
+      row.querySelector('.pkg-price').textContent = money(price);
+
+      updateSummary();
+    }
+
+    function addPackage(format, weight, fragile) {
+      pkgCounter++;
+      const id = pkgCounter;
+      const pkg = { id, format: format || 'standard_box', weight: weight || 0, fragile: !!fragile };
+      pkgList.push(pkg);
+      const row = createPackageRow(id, pkg.format, pkg.weight, pkg.fragile);
+      ui.packagesList.appendChild(row);
+      refreshRowNumbers();
+      // init price display
+      const idx = pkgList.indexOf(pkg);
+      const price = calcPackagePrice(pkg, idx === 0);
+      row.querySelector('.pkg-price').textContent = money(price);
+      updateSummary();
+    }
+
+    function removePackage(id) {
+      if (pkgList.length <= 1) return;
+      pkgList = pkgList.filter(p => p.id !== id);
+      const row = ui.packagesList.querySelector('[data-pkg-id="' + id + '"]');
+      if (row) row.remove();
+      refreshRowNumbers();
+      // recalc remaining prices
+      pkgList.forEach((pkg, idx) => {
+        const r = ui.packagesList.querySelector('[data-pkg-id="' + pkg.id + '"]');
+        if (r) r.querySelector('.pkg-price').textContent = money(calcPackagePrice(pkg, idx === 0));
+      });
+      updateSummary();
+    }
+
     function getOrderPayload() {
-      const pricing = calculatePrice();
+      const pricing = calculatePricing();
       if (!currentOrder.reference) currentOrder.reference = generateReference();
       return {
         reference: currentOrder.reference,
@@ -479,16 +629,14 @@
         pickup_address: fields.pickupAddress.value.trim(),
         drop_date: fields.dropDate.value,
         drop_time: fields.dropTime.value,
-        packages: Math.max(parseInt(fields.packages.value || '1', 10), 1),
-        weight: parseFloat(fields.weight.value || '0') || 0,
-        format_code: fields.format.value,
-        format_label: pricing.formatLabel,
+        packages: pkgList.length,
+        packages_detail: JSON.stringify(pkgList),
+        weight: pkgList.reduce((s, p) => s + (parseFloat(p.weight) || 0), 0),
         service_code: fields.service.value,
-        service_label: pricing.serviceLabel,
+        service_label: pricing.service.label,
         recipient: fields.recipient.value.trim(),
         recipient_address: fields.recipientAddress.value.trim(),
         notes: fields.notes.value.trim(),
-        fragile_extra: fields.fragileExtra.checked,
         night_drop: fields.nightDrop.checked,
         exact_price: pricing.total,
         payment_declared: currentOrder.payment_declared,
@@ -500,7 +648,7 @@
     }
 
     function setMessage(type, text) {
-      ui.formMessage.className = `message show ${type}`;
+      ui.formMessage.className = 'message show ' + type;
       ui.formMessage.textContent = text;
     }
 
@@ -513,43 +661,46 @@
       currentOrder.status = status;
       let className = 'draft';
       let label = 'Brouillon';
-      if (status === 'payment_declared') {
-        className = 'waiting';
-        label = 'Paiement déclaré';
-      } else if (status === 'paid_verified') {
-        className = 'paid';
-        label = 'Payé vérifié';
-      }
-      ui.orderStatusBadge.className = `status-pill ${className}`;
+      if (status === 'payment_declared') { className = 'waiting'; label = 'Paiement déclaré'; }
+      else if (status === 'paid_verified') { className = 'paid'; label = 'Paye verifie'; }
+      ui.orderStatusBadge.className = 'status-pill ' + className;
       ui.orderStatusBadge.textContent = label.toLowerCase();
       ui.sumStatus.textContent = label;
-      ui.currentPayTag.textContent = currentOrder.payment_verified ? 'Paiement : vérifié' : currentOrder.payment_declared ? 'Paiement : déclaré' : 'Paiement : non déclaré';
+      ui.currentPayTag.textContent = currentOrder.payment_verified ? 'Paiement : verifie' : currentOrder.payment_declared ? 'Paiement : declare' : 'Paiement : non declare';
     }
 
     function updateSummary() {
       try {
-      const pricing = calculatePrice();
-      currentOrder.exact_price = pricing.total;
-      if (!currentOrder.reference) currentOrder.reference = generateReference();
+        const pricing = calculatePricing();
+        currentOrder.exact_price = pricing.total;
+        if (!currentOrder.reference) currentOrder.reference = generateReference();
 
-      ui.priceDisplay.textContent = money(pricing.total);
-      ui.sumPrice.textContent = money(pricing.total);
-      ui.detailService.textContent = pricing.serviceLabel;
-      ui.detailBase.textContent = pricing.baseLabel;
-      ui.detailFormatWeight.textContent = `${pricing.formatLabel} • ${pricing.weightLabel}`;
-      ui.detailWeightExtra.textContent = pricing.weightExtraLabel;
-      ui.detailExtras.textContent = pricing.extrasLabel;
-      ui.detailReference.textContent = currentOrder.reference;
-      ui.currentRefTag.textContent = `Référence : ${currentOrder.reference}`;
-      ui.sumClient.textContent = fields.company.value.trim() || '—';
-      ui.sumContact.textContent = fields.contact.value.trim() || '—';
-      ui.sumPackages.textContent = fields.packages.value || '1';
-      ui.sumService.textContent = pricing.serviceLabel;
-      const date = fields.dropDate.value;
-      const time = fields.dropTime.value;
-      ui.sumDateTime.textContent = date ? (time ? `${date} à ${time}` : date) : '—';
-      setStatus(currentOrder.status || 'draft');
-      } catch(e) { console.error('updateSummary error:', e); }
+        ui.priceDisplay.textContent = money(pricing.total);
+        ui.sumPrice.textContent = money(pricing.total);
+        ui.detailService.textContent = pricing.service.label;
+        ui.detailBase.textContent = money(pricing.service.base);
+
+        if (pricing.extraPkgTotal > 0) {
+          ui.detailExtraPackagesRow.style.display = '';
+          ui.detailExtraPackages.textContent = money(pricing.extraPkgTotal);
+        } else {
+          ui.detailExtraPackagesRow.style.display = 'none';
+        }
+
+        ui.detailExtras.textContent = pricing.extrasLabel;
+        ui.detailReference.textContent = currentOrder.reference;
+        ui.currentRefTag.textContent = 'Reference : ' + currentOrder.reference;
+        ui.sumClient.textContent = fields.company.value.trim() || '—';
+        ui.sumContact.textContent = fields.contact.value.trim() || '—';
+        ui.sumPackages.textContent = pkgList.length;
+        ui.sumService.textContent = pricing.service.label;
+        const date = fields.dropDate.value;
+        const time = fields.dropTime.value;
+        ui.sumDateTime.textContent = date ? (time ? date + ' a ' + time : date) : '—';
+        setStatus(currentOrder.status || 'draft');
+      } catch (e) {
+        console.error('updateSummary error:', e);
+      }
     }
 
     async function saveOrder() {
@@ -568,70 +719,71 @@
         return { mode: 'supabase', data: result.data };
       } catch (error) {
         console.error(error);
-        setMessage('warn', 'Enregistrement distant impossible. La commande reste sauvegardée localement dans ce navigateur.');
+        setMessage('warn', 'Enregistrement distant impossible. La commande reste sauvegardee localement dans ce navigateur.');
         return { mode: 'local-fallback', data: payload, error };
       }
     }
 
     function buildQrUrl(reference, amount) {
-      const payload = ['COLIXO', reference, fields.company.value.trim(), fields.contact.value.trim(), fields.phone.value.trim(), fields.recipient.value.trim(), fields.recipientAddress.value.trim(), amount.toFixed(2)].join('|');
+      const payload = [
+        'COLIXO', reference,
+        fields.company.value.trim(), fields.contact.value.trim(),
+        fields.phone.value.trim(), fields.recipient.value.trim(),
+        fields.recipientAddress.value.trim(), amount.toFixed(2)
+      ].join('|');
       return 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(payload);
     }
 
     function generateTracking(base, index, total) {
-      return total > 1 ? `${base}-${index}` : base;
+      return total > 1 ? base + '-' + index : base;
     }
 
-    function buildLabelHtml(tracking, index, total, pricing) {
-      const weightPerColis = (parseFloat(fields.weight.value || '0') / total).toFixed(2);
-      const pricePerColis = (pricing.total / total).toFixed(2);
-      const qrUrl = buildQrUrl(tracking, Number(pricePerColis));
-      return `
-        <div class="label-sheet" style="margin-bottom:18px; page-break-after: always;">
-          <div class="label-head">
-            <div><div class="label-logo">COLIXO</div><div style="font-size:12px;color:#444;">Colis ${index} / ${total}</div></div>
-            <div style="text-align:right;">
-              <div class="label-muted">N° de suivi</div>
-              <div style="font-size:20px;font-weight:900;">${tracking}</div>
-            </div>
-          </div>
-          <div class="label-grid">
-            <div class="label-card">
-              <div class="label-muted">Expéditeur / dépôt</div>
-              <div style="font-weight:800;">${fields.company.value.trim() || '—'}</div>
-              <div>${fields.contact.value.trim() || ''}</div>
-              <div>${fields.phone.value.trim() || ''}</div>
-              <div>${fields.pickupAddress.value.trim() || '—'}</div>
-            </div>
-            <div class="label-card">
-              <div class="label-muted">Destinataire</div>
-              <div style="font-weight:800;">${fields.recipient.value.trim() || '—'}</div>
-              <div>${fields.recipientAddress.value.trim() || '—'}</div>
-            </div>
-          </div>
-          <div class="label-info-grid">
-            <div class="label-kpi"><div class="label-muted">Service</div><div>${pricing.serviceLabel}</div></div>
-            <div class="label-kpi"><div class="label-muted">Colis</div><div>${index} / ${total}</div></div>
-            <div class="label-kpi"><div class="label-muted">Poids</div><div>${weightPerColis} kg</div></div>
-            <div class="label-kpi"><div class="label-muted">Montant</div><div style="font-weight:900;">CHF ${pricePerColis}</div></div>
-          </div>
-          <div class="label-bottom">
-            <div style="flex:1;"><div class="label-muted">Consignes</div><div class="label-notes">${fields.notes.value.trim() || 'Aucune consigne'}</div></div>
-            <div class="qr-box"><img src="${qrUrl}" alt="QR" style="width:120px;height:120px;border:1px solid #ddd;border-radius:8px;background:#fff;padding:4px;"/><div style="font-size:10px;color:#666;margin-top:6px;">Scan interne Colixo</div></div>
-          </div>
-        </div>`;
+    function buildLabelHtml(tracking, index, total, pkg, priceForPkg) {
+      const w = (parseFloat(pkg.weight) || 0).toFixed(2);
+      const fmt = formatMap[pkg.format] || formatMap.standard_box;
+      const qrUrl = buildQrUrl(tracking, priceForPkg);
+      return '<div class="label-sheet" style="margin-bottom:18px; page-break-after: always;">' +
+        '<div class="label-head">' +
+          '<div><div class="label-logo">COLIXO</div><div style="font-size:12px;color:#444;">Colis ' + index + ' / ' + total + '</div></div>' +
+          '<div style="text-align:right;"><div class="label-muted">N de suivi</div><div style="font-size:20px;font-weight:900;">' + tracking + '</div></div>' +
+        '</div>' +
+        '<div class="label-grid">' +
+          '<div class="label-card">' +
+            '<div class="label-muted">Expediteur / depot</div>' +
+            '<div style="font-weight:800;">' + (fields.company.value.trim() || '—') + '</div>' +
+            '<div>' + (fields.contact.value.trim() || '') + '</div>' +
+            '<div>' + (fields.phone.value.trim() || '') + '</div>' +
+            '<div>' + (fields.pickupAddress.value.trim() || '—') + '</div>' +
+          '</div>' +
+          '<div class="label-card">' +
+            '<div class="label-muted">Destinataire</div>' +
+            '<div style="font-weight:800;">' + (fields.recipient.value.trim() || '—') + '</div>' +
+            '<div>' + (fields.recipientAddress.value.trim() || '—') + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="label-info-grid">' +
+          '<div class="label-kpi"><div class="label-muted">Service</div><div>' + (serviceMap[fields.service.value] || serviceMap.priority).label + '</div></div>' +
+          '<div class="label-kpi"><div class="label-muted">Colis</div><div>' + index + ' / ' + total + '</div></div>' +
+          '<div class="label-kpi"><div class="label-muted">Format</div><div>' + fmt.label + '</div></div>' +
+          '<div class="label-kpi"><div class="label-muted">Poids</div><div>' + w + ' kg</div></div>' +
+        '</div>' +
+        '<div class="label-bottom">' +
+          '<div style="flex:1;"><div class="label-muted">Consignes</div><div class="label-notes">' + (fields.notes.value.trim() || 'Aucune consigne') + '</div></div>' +
+          '<div class="qr-box"><img src="' + qrUrl + '" alt="QR" style="width:120px;height:120px;border:1px solid #ddd;border-radius:8px;background:#fff;padding:4px;"/><div style="font-size:10px;color:#666;margin-top:6px;">Scan interne Colixo</div></div>' +
+        '</div>' +
+      '</div>';
     }
 
     function populateLabels() {
       if (!currentOrder.reference) currentOrder.reference = generateReference();
-      const pricing = calculatePrice();
-      const total = Math.max(parseInt(fields.packages.value || '1', 10), 1);
+      const total = pkgList.length;
       const container = document.getElementById('labelsContainer');
       container.innerHTML = '';
-      for (let i = 1; i <= total; i++) {
-        const tracking = generateTracking(currentOrder.reference, i, total);
-        container.innerHTML += buildLabelHtml(tracking, i, total, pricing);
-      }
+      pkgList.forEach((pkg, i) => {
+        const tracking = generateTracking(currentOrder.reference, i + 1, total);
+        const price = calcPackagePrice(pkg, i === 0);
+        container.innerHTML += buildLabelHtml(tracking, i + 1, total, pkg, price);
+      });
     }
 
     function canGenerateLabel() {
@@ -640,17 +792,19 @@
 
     async function createDraftOrder() {
       if (!ui.form.reportValidity()) return;
+      if (pkgList.length === 0) { setMessage('warn', 'Ajoutez au moins un colis.'); return; }
       if (!currentOrder.reference) currentOrder.reference = generateReference();
       currentOrder.label_ready = false;
       setStatus(currentOrder.payment_verified ? 'paid_verified' : currentOrder.payment_declared ? 'payment_declared' : 'draft');
       updateSummary();
       const saved = await saveOrder();
-      if (saved.mode === 'supabase') setMessage('ok', 'Commande créée et enregistrée dans Supabase.');
-      else setMessage('info', 'Commande créée et sauvegardée localement dans ce navigateur.');
+      if (saved.mode === 'supabase') setMessage('ok', 'Commande creee et enregistree dans Supabase.');
+      else setMessage('info', 'Commande creee et sauvegardee localement dans ce navigateur.');
     }
 
     async function declarePayment() {
       if (!ui.form.reportValidity()) return;
+      if (pkgList.length === 0) { setMessage('warn', 'Ajoutez au moins un colis.'); return; }
       if (!currentOrder.reference) currentOrder.reference = generateReference();
       currentOrder.payment_declared = true;
       currentOrder.payment_verified = false;
@@ -660,8 +814,8 @@
       populateLabels();
       ui.labelBox.style.display = 'block';
       await saveOrder();
-      const n = Math.max(parseInt(fields.packages.value || '1', 10), 1);
-      setMessage('ok', `Paiement confirmé. ${n} étiquette${n > 1 ? 's générées' : ' générée'} — prête${n > 1 ? 's' : ''} à imprimer.`);
+      const n = pkgList.length;
+      setMessage('ok', 'Paiement confirme. ' + n + ' etiquette' + (n > 1 ? 's generees' : ' generee') + ' — prete' + (n > 1 ? 's' : '') + ' a imprimer.');
     }
 
     async function markVerified() {
@@ -672,26 +826,26 @@
       setStatus('paid_verified');
       updateSummary();
       await saveOrder();
-      setMessage('ok', 'Commande marquée comme payée et vérifiée.');
+      setMessage('ok', 'Commande marquee comme payee et verifiee.');
     }
 
     async function generateLabel() {
       if (!ui.form.reportValidity()) return;
       if (!canGenerateLabel()) {
-        setMessage('warn', 'Les étiquettes restent bloquées tant que le paiement n\'a pas été déclaré.');
+        setMessage('warn', "Les etiquettes restent bloquees tant que le paiement n'a pas ete declare.");
         return;
       }
       currentOrder.label_ready = true;
       populateLabels();
       ui.labelBox.style.display = 'block';
       await saveOrder();
-      const n = Math.max(parseInt(fields.packages.value || '1', 10), 1);
-      setMessage('ok', `${n} étiquette${n > 1 ? 's générées' : ' générée'} — prête${n > 1 ? 's' : ''} à imprimer.`);
+      const n = pkgList.length;
+      setMessage('ok', n + ' etiquette' + (n > 1 ? 's generees' : ' generee') + ' — prete' + (n > 1 ? 's' : '') + ' a imprimer.');
     }
 
     function printLabel() {
       if (ui.labelBox.style.display !== 'block') {
-        setMessage('warn', `Générez d'abord l'étiquette avant impression.`);
+        setMessage('warn', "Generez d'abord les etiquettes avant impression.");
         return;
       }
       window.print();
@@ -702,6 +856,10 @@
       fields.dropDate.value = todayISO();
       fields.pickupAddress.value = 'Impasse des Griottes 3, 1462 Yvonand';
       currentOrder = { id: null, reference: '', status: 'draft', payment_declared: false, payment_verified: false, label_ready: false, exact_price: 0 };
+      pkgList = [];
+      pkgCounter = 0;
+      ui.packagesList.innerHTML = '';
+      addPackage('standard_box', 0, false);
       ui.labelBox.style.display = 'none';
       clearMessage();
       updateSummary();
@@ -720,20 +878,29 @@
         fields.pickupAddress.value = d.pickup_address || 'Impasse des Griottes 3, 1462 Yvonand';
         fields.dropDate.value = d.drop_date || todayISO();
         fields.dropTime.value = d.drop_time || '';
-        fields.packages.value = d.packages || 1;
-        fields.weight.value = d.weight ?? '';
-        fields.format.value = d.format_code || 'standard_box';
         fields.service.value = d.service_code || 'priority';
         fields.recipient.value = d.recipient || '';
         fields.recipientAddress.value = d.recipient_address || '';
         fields.notes.value = d.notes || '';
-        fields.fragileExtra.checked = !!d.fragile_extra;
         fields.nightDrop.checked = !!d.night_drop;
         currentOrder.reference = d.reference || generateReference();
         currentOrder.payment_declared = !!d.payment_declared;
         currentOrder.payment_verified = !!d.payment_verified;
         currentOrder.label_ready = !!d.label_ready;
         currentOrder.status = d.status || 'draft';
+
+        pkgList = [];
+        pkgCounter = 0;
+        ui.packagesList.innerHTML = '';
+
+        let savedPkgs = [];
+        try { savedPkgs = JSON.parse(d.packages_detail || '[]'); } catch (e) { }
+        if (savedPkgs.length > 0) {
+          savedPkgs.forEach(p => addPackage(p.format, p.weight, p.fragile));
+        } else {
+          addPackage('standard_box', 0, false);
+        }
+
         updateSummary();
         if (currentOrder.label_ready && canGenerateLabel()) {
           populateLabels();
@@ -744,10 +911,11 @@
       }
     }
 
+    // ── Events ──
     ui.twintBtn.addEventListener('click', () => {
       updateSummary();
       window.open(TWINT_URL, '_blank');
-      setMessage('info', `TWINT a été ouvert. Après le paiement, revenez ici puis cliquez sur "J'ai effectué le paiement".`);
+      setMessage('info', "TWINT a ete ouvert. Apres le paiement, revenez ici puis cliquez sur \"J'ai effectue le paiement\".");
     });
     ui.form.addEventListener('submit', async (e) => { e.preventDefault(); await createDraftOrder(); });
     ui.confirmPaidBtn.addEventListener('click', declarePayment);
@@ -756,15 +924,19 @@
     ui.generateLabelBtn.addEventListener('click', generateLabel);
     ui.printBtn.addEventListener('click', printLabel);
     ui.resetBtn.addEventListener('click', resetAll);
+    document.getElementById('resetLink').addEventListener('click', resetAll);
+    ui.addPackageBtn.addEventListener('click', () => addPackage('standard_box', 0, false));
     Object.values(fields).forEach((el) => {
       if (!el) return;
       el.addEventListener('input', updateSummary);
       el.addEventListener('change', updateSummary);
     });
-    try { loadLocalDraft(); } catch(e) {
+
+    try { loadLocalDraft(); } catch (e) {
       localStorage.removeItem('colixo_current_deposit');
-      console.warn('Draft corrompu effacé', e);
+      console.warn('Draft corrompu efface', e);
     }
+    if (pkgList.length === 0) addPackage('standard_box', 0, false);
     updateSummary();
   </script>
 </body>
