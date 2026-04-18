@@ -1,635 +1,154 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Colixo — Dépôt de colis</title>
-  <style>
-    :root {
-      --bg: #0b0b0d;
-      --panel: #141418;
-      --panel-2: #1b1b21;
-      --line: #2a2a33;
-      --text: #f4f4f5;
-      --muted: #a7a7b2;
-      --accent: #ff7a00;
-      --accent-2: #ff9d42;
-      --ok: #1db56c;
-      --danger: #d84d4d;
-      --radius: 18px;
-      --shadow: 0 18px 48px rgba(0,0,0,.35);
-    }
+<meta charset="UTF-8">
+<title>Colixo - Dépôt colis</title>
 
-    * { box-sizing: border-box; }
+<style>
+body {
+  font-family: Arial;
+  background: #0a0a0a;
+  color: white;
+  padding: 30px;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(255,122,0,.12), transparent 25%),
-        linear-gradient(180deg, #09090b 0%, #111114 100%);
-      color: var(--text);
-    }
+.card {
+  background: #111;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
 
-    .wrap {
-      max-width: 1220px;
-      margin: 0 auto;
-      padding: 28px;
-    }
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: white;
+}
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      font-weight: 700;
-      letter-spacing: .4px;
-    }
+.twint {
+  background: black;
+}
 
-    .brand-mark {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      display: grid;
-      place-items: center;
-      color: #111;
-      font-weight: 900;
-      box-shadow: var(--shadow);
-    }
+.validate {
+  background: #ff6a00;
+  color: black;
+  font-weight: bold;
+}
 
-    .badge {
-      border: 1px solid rgba(255,122,0,.3);
-      color: var(--accent-2);
-      background: rgba(255,122,0,.08);
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 14px;
-    }
+.print {
+  background: #444;
+  color: white;
+}
 
-    .hero {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 22px;
-      margin-bottom: 24px;
-    }
-
-    .hero-card,
-    .card {
-      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-card {
-      padding: 30px;
-      min-height: 245px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .hero h1 {
-      margin: 0 0 12px;
-      font-size: 42px;
-      line-height: 1.02;
-    }
-
-    .hero p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.55;
-      max-width: 700px;
-    }
-
-    .steps {
-      padding: 24px;
-      display: grid;
-      gap: 14px;
-    }
-
-    .step {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      padding: 12px;
-      background: rgba(255,255,255,.02);
-      border: 1px solid rgba(255,255,255,.04);
-      border-radius: 14px;
-    }
-
-    .step-num {
-      min-width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      background: var(--accent);
-      color: #111;
-      font-weight: 700;
-    }
-
-    .main {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 22px;
-    }
-
-    .form-card { padding: 28px; }
-    .side-card { padding: 22px; }
-
-    h2 {
-      margin: 0 0 6px;
-      font-size: 24px;
-    }
-
-    .sub {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 22px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 16px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .field.full { grid-column: 1 / -1; }
-
-    label {
-      font-size: 14px;
-      color: #e6e6ea;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      background: var(--panel-2);
-      color: var(--text);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px 14px;
-      font-size: 15px;
-      outline: none;
-      transition: .2s ease;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: rgba(255,122,0,.75);
-      box-shadow: 0 0 0 4px rgba(255,122,0,.12);
-    }
-
-    textarea { min-height: 120px; resize: vertical; }
-
-    .inline {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 6px;
-    }
-
-    .inline input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--accent);
-    }
-
-    .btns {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    button {
-      border: 0;
-      border-radius: 12px;
-      padding: 14px 18px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .2s ease;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #111;
-    }
-
-    .btn-primary:hover { transform: translateY(-1px); }
-
-    .btn-secondary {
-      background: #24242c;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    .summary-box {
-      background: rgba(255,255,255,.02);
-      border: 1px solid rgba(255,255,255,.05);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 18px;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      font-size: 14px;
-    }
-
-    .summary-row:last-child { border-bottom: 0; }
-
-    .summary-row span:first-child { color: var(--muted); }
-    .summary-row span:last-child { text-align: right; font-weight: 700; }
-
-    .notice {
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-top: 16px;
-      border: 1px solid rgba(255,255,255,.05);
-      background: rgba(255,255,255,.02);
-      color: var(--muted);
-    }
-
-    .success {
-      display: none;
-      margin-top: 20px;
-      padding: 16px;
-      border-radius: 14px;
-      background: rgba(29,181,108,.12);
-      border: 1px solid rgba(29,181,108,.4);
-      color: #dcffe9;
-    }
-
-    .footer {
-      margin-top: 28px;
-      color: var(--muted);
-      font-size: 13px;
-      text-align: center;
-    }
-
-    @media (max-width: 980px) {
-      .hero, .main { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-      .wrap { padding: 18px; }
-      .hero h1 { font-size: 32px; }
-      .grid { grid-template-columns: 1fr; }
-      .topbar { flex-direction: column; align-items: flex-start; }
-    }
-  </style>
+.label {
+  background: white;
+  color: black;
+  padding: 20px;
+  margin-top: 20px;
+  display: none;
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <div class="brand-mark">C</div>
-        <div>
-          <div style="font-size:18px;">COLIXO</div>
-          <div style="font-size:13px; color: var(--muted);">Page privée de dépôt de colis</div>
-        </div>
-      </div>
-      <div class="badge">Dépôt simple, rapide et traçable</div>
-    </div>
 
-    <section class="hero">
-      <div class="hero-card">
-        <h1>Déposez vos colis<br>en quelques secondes</h1>
-        <p>
-          Cette page permet à vos clients d’annoncer un dépôt de colis, de renseigner les informations utiles
-          et de transmettre immédiatement les consignes à Colixo.
-        </p>
-      </div>
-      <div class="card steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div>
-            <strong>Remplir le formulaire</strong><br>
-            <span style="color: var(--muted);">Coordonnées, nombre de colis, poids, consignes et horaire.</span>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div>
-            <strong>Valider le dépôt</strong><br>
-            <span style="color: var(--muted);">Le récapitulatif se met à jour automatiquement.</span>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div>
-            <strong>Transmission à Colixo</strong><br>
-            <span style="color: var(--muted);">La demande peut ensuite être reliée à Supabase, email ou WhatsApp.</span>
-          </div>
-        </div>
-      </div>
-    </section>
+<h1>📦 Dépôt Colixo</h1>
 
-    <section class="main">
-      <div class="card form-card">
-        <h2>Formulaire de dépôt</h2>
-        <div class="sub">Exemple de page client. Les champs peuvent être adaptés selon votre fonctionnement.</div>
+<div class="card">
+  <input id="client" placeholder="Nom client">
+  <input id="phone" placeholder="Téléphone">
+  <input id="recipient" placeholder="Destinataire">
+  <input id="address" placeholder="Adresse livraison">
+  <input id="weight" type="number" placeholder="Poids (kg)">
+  
+  <select id="service">
+    <option>Eco 48h</option>
+    <option>Priority 24h</option>
+    <option>Express</option>
+  </select>
 
-        <form id="depositForm">
-          <div class="grid">
-            <div class="field">
-              <label for="company">Entreprise / Client</label>
-              <input id="company" name="company" type="text" placeholder="Nom du client ou société" required>
-            </div>
+  <h2 id="price">Prix : CHF 0.00</h2>
 
-            <div class="field">
-              <label for="contact">Personne de contact</label>
-              <input id="contact" name="contact" type="text" placeholder="Nom et prénom" required>
-            </div>
+  <button class="twint" onclick="payer()">
+    <img src="https://go.twint.ch/static/img/button_dark_en.svg" height="40">
+  </button>
 
-            <div class="field">
-              <label for="phone">Téléphone</label>
-              <input id="phone" name="phone" type="tel" placeholder="+41 ..." required>
-            </div>
+  <button class="validate" onclick="apresPaiement()">
+    J’ai effectué le paiement
+  </button>
+</div>
 
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" placeholder="client@email.ch">
-            </div>
+<div id="label" class="label">
+  <h2>Étiquette Colis</h2>
+  <p id="ref"></p>
+  <p id="info"></p>
+  <p id="priceLabel"></p>
 
-            <div class="field full">
-              <label for="address">Adresse de dépôt</label>
-              <input id="address" name="address" type="text" placeholder="Rue, numéro, NPA, ville" required>
-            </div>
+  <img id="qr" width="120">
 
-            <div class="field">
-              <label for="date">Date de dépôt</label>
-              <input id="date" name="date" type="date" required>
-            </div>
+  <button class="print" onclick="window.print()">Imprimer</button>
+</div>
 
-            <div class="field">
-              <label for="time">Heure souhaitée</label>
-              <input id="time" name="time" type="time">
-            </div>
+<script>
 
-            <div class="field">
-              <label for="packages">Nombre de colis</label>
-              <input id="packages" name="packages" type="number" min="1" value="1" required>
-            </div>
+let prix = 0;
 
-            <div class="field">
-              <label for="weight">Poids total estimé (kg)</label>
-              <input id="weight" name="weight" type="number" min="0" step="0.1" placeholder="0.0">
-            </div>
+function calculPrix() {
+  let poids = parseFloat(document.getElementById("weight").value) || 0;
+  let service = document.getElementById("service").value;
 
-            <div class="field">
-              <label for="format">Type de colis</label>
-              <select id="format" name="format">
-                <option value="Envelope">Enveloppe</option>
-                <option value="Small box">Petit carton</option>
-                <option value="Standard box" selected>Carton standard</option>
-                <option value="Large box">Grand carton</option>
-                <option value="Fragile">Fragile</option>
-                <option value="Palette">Palette</option>
-              </select>
-            </div>
+  let base = 7.5;
 
-            <div class="field">
-              <label for="service">Type de service</label>
-              <select id="service" name="service">
-                <option value="Eco 48h">Eco 48h</option>
-                <option value="Priority 24h" selected>Priority 24h</option>
-                <option value="Express">Express</option>
-                <option value="Urgent">Urgent</option>
-              </select>
-            </div>
+  if (service === "Priority 24h") base += 1;
+  if (service === "Express") base += 8;
 
-            <div class="field">
-              <label for="recipient">Destinataire final</label>
-              <input id="recipient" name="recipient" type="text" placeholder="Nom du destinataire">
-            </div>
+  if (poids > 2) base += 2;
+  if (poids > 10) base += 3;
+  if (poids > 20) base += 5;
 
-            <div class="field full">
-              <label for="recipientAddress">Adresse du destinataire</label>
-              <input id="recipientAddress" name="recipientAddress" type="text" placeholder="Adresse complète de livraison">
-            </div>
+  prix = base;
 
-            <div class="field full">
-              <label for="notes">Consignes particulières</label>
-              <textarea id="notes" name="notes" placeholder="Fragile, appeler avant passage, dépôt à la réception, étage, code d’accès, etc."></textarea>
-            </div>
-          </div>
+  document.getElementById("price").innerText =
+    "Prix : CHF " + prix.toFixed(2);
+}
 
-          <label class="inline">
-            <input id="fragile" type="checkbox">
-            <span>Colis fragile</span>
-          </label>
+setInterval(calculPrix, 500);
 
-          <label class="inline">
-            <input id="night" type="checkbox">
-            <span>Autorisation de dépôt de nuit si nécessaire</span>
-          </label>
+function payer() {
+  window.open("https://go.twint.ch/1/e/tw?tw=acq.zY89V9VtQEidHoSlo3GK4kokhK07SfUCxAm9RyoruaIyHLWNEJSvIZsnD7N1FcLk.");
+}
 
-          <label class="inline">
-            <input id="terms" type="checkbox" required>
-            <span>Je confirme que les informations transmises sont exactes.</span>
-          </label>
+function apresPaiement() {
 
-          <div class="btns">
-            <button type="submit" class="btn-primary">Valider le dépôt</button>
-            <button type="reset" class="btn-secondary">Réinitialiser</button>
-          </div>
+  let ref = "CLX-" + Date.now();
 
-          <div id="successMessage" class="success">
-            Votre demande de dépôt a bien été enregistrée. Vous pouvez maintenant relier ce formulaire à une base de données, un email automatique ou un tableau de suivi.
-          </div>
-        
-          <div style="margin-top:30px; padding:20px; border:1px solid rgba(255,122,0,.25); border-radius:14px; background:rgba(255,122,0,.05);">
-            <h3 style="margin-top:0;">Paiement</h3>
-            <p style="color:var(--muted); font-size:14px; line-height:1.6;">
-              Vous pouvez régler votre envoi directement sur place à l’adresse suivante :<br>
-              <strong>Impasse des Griottes 3, 1462 Yvonand</strong><br><br>
-              <strong>Montant estimé :</strong> <span id="paymentAmount">CHF 0.00</span><br><br>
-              Ou payer immédiatement via TWINT :
-            </p>
+  document.getElementById("ref").innerText = "Référence : " + ref;
 
-            <button id="twintBtn" style="width:auto; height:58px; border-radius:6px; display:flex; justify-content:center; cursor:pointer; background-color:transparent; border:none; align-items:center;"
-              onclick="window.open('https://go.twint.ch/1/e/tw?tw=acq.zY89V9VtQEidHoSlo3GK4kokhK07SfUCxAm9RyoruaIyHLWNEJSvIZsnD7N1FcLk.', '_blank')">
-              <img style="width:auto; height:58px" alt="TWINT" src="https://go.twint.ch/static/img/button_dark_en.svg"/>
-            </button>
+  document.getElementById("info").innerText =
+    document.getElementById("client").value + " → " +
+    document.getElementById("recipient").value;
 
-            <p style="color:var(--muted); font-size:12px; margin-top:10px;">
-              Le lien TWINT actuel ouvre votre page de paiement. Pour un vrai montant prérempli automatiquement, il faut un lien TWINT marchand compatible ou une page de paiement dédiée.
-            </p>
-          </div>
+  document.getElementById("priceLabel").innerText =
+    "Montant payé : CHF " + prix.toFixed(2);
 
-        </form>
-      </div>
+  document.getElementById("qr").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=" + ref;
 
-      <div class="card side-card">
-        <h2>Récapitulatif</h2>
-        <div class="sub">Aperçu automatique des informations saisies.</div>
+  document.getElementById("label").style.display = "block";
+}
 
-        <div class="summary-box">
-          <div class="summary-row"><span>Montant estimé</span><span id="sumPrice">CHF 0.00</span></div>
-          <div class="summary-row"><span>Client</span><span id="sumCompany">—</span></div>
-          <div class="summary-row"><span>Contact</span><span id="sumContact">—</span></div>
-          <div class="summary-row"><span>Téléphone</span><span id="sumPhone">—</span></div>
-          <div class="summary-row"><span>Date / heure</span><span id="sumDateTime">—</span></div>
-          <div class="summary-row"><span>Nombre de colis</span><span id="sumPackages">1</span></div>
-          <div class="summary-row"><span>Poids estimé</span><span id="sumWeight">—</span></div>
-          <div class="summary-row"><span>Format</span><span id="sumFormat">Carton standard</span></div>
-          <div class="summary-row"><span>Service</span><span id="sumService">Priority 24h</span></div>
-          <div class="summary-row"><span>Destinataire</span><span id="sumRecipient">—</span></div>
-          <div class="summary-row"><span>Fragile</span><span id="sumFragile">Non</span></div>
-          <div class="summary-row"><span>Dépôt de nuit</span><span id="sumNight">Non</span></div>
-        </div>
+</script>
 
-        <div class="notice">
-          <strong>Utilisation recommandée :</strong><br><br>
-          Cette page peut être mise en ligne sur un sous-domaine privé, par exemple <em>depot.colixo.ch</em>, puis connectée à :<br><br>
-          • Supabase pour enregistrer les demandes<br>
-          • Brevo ou email pour envoyer une confirmation<br>
-          • WhatsApp pour une alerte immédiate<br>
-          • un tableau d’administration Colixo pour le suivi en temps réel
-        </div>
-
-        <div class="notice">
-          <strong>Champs utiles à ajouter ensuite :</strong><br><br>
-          photo du colis, signature client, scan QR, statut du dépôt, calcul automatique du prix, choix du créneau de collecte.
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">
-      Exemple de page Colixo — dépôt client — design noir/orange — prête à intégrer à votre système.
-    </div>
-  </div>
-
-  <script>
-    const fields = {
-      company: document.getElementById('company'),
-      contact: document.getElementById('contact'),
-      phone: document.getElementById('phone'),
-      date: document.getElementById('date'),
-      time: document.getElementById('time'),
-      packages: document.getElementById('packages'),
-      weight: document.getElementById('weight'),
-      format: document.getElementById('format'),
-      service: document.getElementById('service'),
-      recipient: document.getElementById('recipient'),
-      fragile: document.getElementById('fragile'),
-      night: document.getElementById('night')
-    };
-
-    const output = {
-      price: document.getElementById('sumPrice'),
-      company: document.getElementById('sumCompany'),
-      contact: document.getElementById('sumContact'),
-      phone: document.getElementById('sumPhone'),
-      dateTime: document.getElementById('sumDateTime'),
-      packages: document.getElementById('sumPackages'),
-      weight: document.getElementById('sumWeight'),
-      format: document.getElementById('sumFormat'),
-      service: document.getElementById('sumService'),
-      recipient: document.getElementById('sumRecipient'),
-      fragile: document.getElementById('sumFragile'),
-      night: document.getElementById('sumNight')
-    };
-
-    function calculatePrice() {
-      const packages = Math.max(parseInt(fields.packages.value || '1', 10), 1);
-      const weight = parseFloat(fields.weight.value || '0') || 0;
-      const format = fields.format.value;
-      const service = fields.service.value;
-      const fragile = fields.fragile.checked;
-      const night = fields.night.checked;
-
-      let base = 7.50;
-
-      if (service === 'Priority 24h') base += 1.00;
-      if (service === 'Express') base += 8.00;
-      if (service === 'Urgent') base += 18.00;
-
-      if (weight > 2 && weight <= 10) base += 1.50;
-      else if (weight > 10 && weight <= 20) base += 3.50;
-      else if (weight > 20 && weight <= 30) base += 6.50;
-      else if (weight > 30) base += 12.00;
-
-      if (format === 'Large box') base += 2.00;
-      if (format === 'Fragile') base += 3.00;
-      if (format === 'Palette') base += 25.00;
-
-      if (fragile) base += 2.00;
-      if (night) base += 5.00;
-      if (packages > 1) base += (packages - 1) * 2.50;
-
-      return base;
-    }
-
-    function updateSummary() {
-      output.company.textContent = fields.company.value || '—';
-      output.contact.textContent = fields.contact.value || '—';
-      output.phone.textContent = fields.phone.value || '—';
-      output.packages.textContent = fields.packages.value || '1';
-      output.weight.textContent = fields.weight.value ? fields.weight.value + ' kg' : '—';
-      output.format.textContent = fields.format.value || '—';
-      output.service.textContent = fields.service.value || '—';
-      output.recipient.textContent = fields.recipient.value || '—';
-      output.fragile.textContent = fields.fragile.checked ? 'Oui' : 'Non';
-      output.night.textContent = fields.night.checked ? 'Oui' : 'Non';
-
-      const price = calculatePrice();
-      const priceLabel = 'CHF ' + price.toFixed(2);
-      output.price.textContent = priceLabel;
-      const paymentAmount = document.getElementById('paymentAmount');
-      if (paymentAmount) paymentAmount.textContent = priceLabel;
-
-      const d = fields.date.value;
-      const t = fields.time.value;
-      output.dateTime.textContent = d ? (t ? `${d} à ${t}` : d) : '—';
-    }
-
-    Object.values(fields).forEach(el => {
-      el.addEventListener('input', updateSummary);
-      el.addEventListener('change', updateSummary);
-    });
-
-    document.getElementById('depositForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      updateSummary();
-      document.getElementById('successMessage').style.display = 'block';
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    });
-
-    document.getElementById('depositForm').addEventListener('reset', function() {
-      setTimeout(() => {
-        document.getElementById('successMessage').style.display = 'none';
-        updateSummary();
-      }, 50);
-    });
-
-    updateSummary();
-  </script>
 </body>
 </html>
