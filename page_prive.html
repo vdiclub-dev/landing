@@ -857,99 +857,420 @@
 
     <div class="footer">Version dépôt client sérieuse • stockage local immédiat • branchement Supabase prévu • génération d’étiquette conditionnée au paiement</div>
   </div>
+<script>
+  const SUPABASE_URL = window.COLIXO_SUPABASE_URL || '';
+  const SUPABASE_ANON_KEY = window.COLIXO_SUPABASE_ANON_KEY || '';
+  const SUPABASE_TABLE = window.COLIXO_SUPABASE_TABLE || 'parcel_deposits';
 
-  <script>
-    const SUPABASE_URL = window. 'https://iubbsnntcreneakbdkmv.supabase.co';
-    const SUPABASE_ANON_KEY = window. 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1YmJzbm50Y3JlbmVha2Jka212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzI1MDYsImV4cCI6MjA4ODE0ODUwNn0.FzMgCZxNIej1skSIc8UAGiODcZEZW1GCWZwBfonm_1Y';
-    const SUPABASE_TABLE = window.COLIXO_SUPABASE_TABLE || 'parcel_deposits';
+  const TWINT_URL = 'https://go.twint.ch/1/e/tw?tw=acq.zY89V9VtQEidHoSlo3GK4kokhK07SfUCxAm9RyoruaIyHLWNEJSvIZsnD7N1FcLk.';
 
-    const TWINT_URL = 'https://go.twint.ch/1/e/tw?tw=acq.zY89V9VtQEidHoSlo3GK4kokhK07SfUCxAm9RyoruaIyHLWNEJSvIZsnD7N1FcLk.';
+  const serviceMap = {
+    eco: { label: 'Eco 48h', base: 7.50 },
+    priority: { label: 'Priority 24h', base: 8.50 },
+    express: { label: 'Express', base: 15.50 },
+    urgent: { label: 'Urgent', base: 25.50 }
+  };
 
-    const serviceMap = {
-      eco: { label: 'Eco 48h', base: 7.50 },
-      priority: { label: 'Priority 24h', base: 8.50 },
-      express: { label: 'Express', base: 15.50 },
-      urgent: { label: 'Urgent', base: 25.50 }
-    };
+  const formatMap = {
+    envelope: { label: 'Enveloppe', extra: 0 },
+    small_box: { label: 'Petit carton', extra: 1.00 },
+    standard_box: { label: 'Carton standard', extra: 2.00 },
+    large_box: { label: 'Grand carton', extra: 4.00 },
+    fragile: { label: 'Fragile', extra: 5.00 },
+    palette: { label: 'Palette', extra: 25.00 }
+  };
 
-    const formatMap = {
-      envelope: { label: 'Enveloppe', extra: 0 },
-      small_box: { label: 'Petit carton', extra: 1.00 },
-      standard_box: { label: 'Carton standard', extra: 2.00 },
-      large_box: { label: 'Grand carton', extra: 4.00 },
-      fragile: { label: 'Fragile', extra: 5.00 },
-      palette: { label: 'Palette', extra: 25.00 }
-    };
+  const fields = {
+    company: document.getElementById('company'),
+    contact: document.getElementById('contact'),
+    phone: document.getElementById('phone'),
+    email: document.getElementById('email'),
+    pickupAddress: document.getElementById('pickupAddress'),
+    dropDate: document.getElementById('dropDate'),
+    dropTime: document.getElementById('dropTime'),
+    packages: document.getElementById('packages'),
+    weight: document.getElementById('weight'),
+    format: document.getElementById('format'),
+    service: document.getElementById('service'),
+    recipient: document.getElementById('recipient'),
+    recipientAddress: document.getElementById('recipientAddress'),
+    notes: document.getElementById('notes'),
+    fragileExtra: document.getElementById('fragileExtra'),
+    nightDrop: document.getElementById('nightDrop'),
+    terms: document.getElementById('terms')
+  };
 
-    const fields = {
-      company: document.getElementById('company'),
-      contact: document.getElementById('contact'),
-      phone: document.getElementById('phone'),
-      email: document.getElementById('email'),
-      pickupAddress: document.getElementById('pickupAddress'),
-      dropDate: document.getElementById('dropDate'),
-      dropTime: document.getElementById('dropTime'),
-      packages: document.getElementById('packages'),
-      weight: document.getElementById('weight'),
-      format: document.getElementById('format'),
-      service: document.getElementById('service'),
-      recipient: document.getElementById('recipient'),
-      recipientAddress: document.getElementById('recipientAddress'),
-      notes: document.getElementById('notes'),
-      fragileExtra: document.getElementById('fragileExtra'),
-      nightDrop: document.getElementById('nightDrop'),
-      terms: document.getElementById('terms')
-    };
+  const ui = {
+    form: document.getElementById('depositForm'),
+    formMessage: document.getElementById('formMessage'),
+    priceDisplay: document.getElementById('priceDisplay'),
+    detailService: document.getElementById('detailService'),
+    detailFormatWeight: document.getElementById('detailFormatWeight'),
+    detailExtras: document.getElementById('detailExtras'),
+    detailReference: document.getElementById('detailReference'),
+    orderStatusBadge: document.getElementById('orderStatusBadge'),
+    twintBtn: document.getElementById('twintBtn'),
+    confirmPaidBtn: document.getElementById('confirmPaidBtn'),
+    markVerifiedBtn: document.getElementById('markVerifiedBtn'),
+    saveBtn: document.getElementById('saveBtn'),
+    generateLabelBtn: document.getElementById('generateLabelBtn'),
+    printBtn: document.getElementById('printBtn'),
+    resetBtn: document.getElementById('resetBtn'),
+    sumClient: document.getElementById('sumClient'),
+    sumContact: document.getElementById('sumContact'),
+    sumDateTime: document.getElementById('sumDateTime'),
+    sumPackages: document.getElementById('sumPackages'),
+    sumService: document.getElementById('sumService'),
+    sumPrice: document.getElementById('sumPrice'),
+    sumStatus: document.getElementById('sumStatus'),
+    currentRefTag: document.getElementById('currentRefTag'),
+    currentPayTag: document.getElementById('currentPayTag'),
+    storageTag: document.getElementById('storageTag'),
+    labelBox: document.getElementById('labelBox'),
+    labelRef: document.getElementById('labelRef'),
+    labelSenderName: document.getElementById('labelSenderName'),
+    labelSenderContact: document.getElementById('labelSenderContact'),
+    labelSenderPhone: document.getElementById('labelSenderPhone'),
+    labelSenderAddress: document.getElementById('labelSenderAddress'),
+    labelRecipientName: document.getElementById('labelRecipientName'),
+    labelRecipientAddress: document.getElementById('labelRecipientAddress'),
+    labelService: document.getElementById('labelService'),
+    labelPackages: document.getElementById('labelPackages'),
+    labelWeight: document.getElementById('labelWeight'),
+    labelPrice: document.getElementById('labelPrice'),
+    labelNotes: document.getElementById('labelNotes'),
+    labelQr: document.getElementById('labelQr')
+  };
 
-    const ui = {
-      form: document.getElementById('depositForm'),
-      formMessage: document.getElementById('formMessage'),
-      priceDisplay: document.getElementById('priceDisplay'),
-      detailService: document.getElementById('detailService'),
-      detailFormatWeight: document.getElementById('detailFormatWeight'),
-      detailExtras: document.getElementById('detailExtras'),
-      detailReference: document.getElementById('detailReference'),
-      orderStatusBadge: document.getElementById('orderStatusBadge'),
-      twintBtn: document.getElementById('twintBtn'),
-      confirmPaidBtn: document.getElementById('confirmPaidBtn'),
-      markVerifiedBtn: document.getElementById('markVerifiedBtn'),
-      saveBtn: document.getElementById('saveBtn'),
-      generateLabelBtn: document.getElementById('generateLabelBtn'),
-      printBtn: document.getElementById('printBtn'),
-      resetBtn: document.getElementById('resetBtn'),
-      sumClient: document.getElementById('sumClient'),
-      sumContact: document.getElementById('sumContact'),
-      sumDateTime: document.getElementById('sumDateTime'),
-      sumPackages: document.getElementById('sumPackages'),
-      sumService: document.getElementById('sumService'),
-      sumPrice: document.getElementById('sumPrice'),
-      sumStatus: document.getElementById('sumStatus'),
-      currentRefTag: document.getElementById('currentRefTag'),
-      currentPayTag: document.getElementById('currentPayTag'),
-      storageTag: document.getElementById('storageTag'),
-      labelBox: document.getElementById('labelBox'),
-      labelRef: document.getElementById('labelRef'),
-      labelSenderName: document.getElementById('labelSenderName'),
-      labelSenderContact: document.getElementById('labelSenderContact'),
-      labelSenderPhone: document.getElementById('labelSenderPhone'),
-      labelSenderAddress: document.getElementById('labelSenderAddress'),
-      labelRecipientName: document.getElementById('labelRecipientName'),
-      labelRecipientAddress: document.getElementById('labelRecipientAddress'),
-      labelService: document.getElementById('labelService'),
-      labelPackages: document.getElementById('labelPackages'),
-      labelWeight: document.getElementById('labelWeight'),
-      labelPrice: document.getElementById('labelPrice'),
-      labelNotes: document.getElementById('labelNotes'),
-      labelQr: document.getElementById('labelQr')
-    };
+  let supabase = null;
+  if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    ui.storageTag.textContent = 'Stockage : Supabase';
+  }
 
-    let supabase = null;
-    if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-      ui.storageTag.textContent = 'Stockage : Supabase';
+  let currentOrder = {
+    id: null,
+    reference: '',
+    status: 'draft',
+    payment_declared: false,
+    payment_verified: false,
+    label_ready: false,
+    exact_price: 0
+  };
+
+  function todayISO() {
+    const d = new Date();
+    return d.toISOString().slice(0, 10);
+  }
+
+  fields.dropDate.value = todayISO();
+
+  function generateReference() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    const h = String(now.getHours()).padStart(2, '0');
+    const min = String(now.getMinutes()).padStart(2, '0');
+    const rnd = Math.floor(Math.random() * 9000) + 1000;
+    return `CLX-${y}${m}${d}-${h}${min}-${rnd}`;
+  }
+
+  function money(v) {
+    return 'CHF ' + Number(v || 0).toFixed(2);
+  }
+
+  function calculatePrice() {
+    const packages = Math.max(parseInt(fields.packages.value || '1', 10), 1);
+    const weight = parseFloat(fields.weight.value || '0') || 0;
+    const service = serviceMap[fields.service.value] || serviceMap.priority;
+    const format = formatMap[fields.format.value] || formatMap.standard_box;
+
+    let total = service.base + format.extra;
+    const extras = [];
+
+    let weightExtra = 0;
+    if (weight > 0 && weight <= 2) weightExtra = 0;
+    else if (weight > 2 && weight <= 10) weightExtra = 1.50;
+    else if (weight > 10 && weight <= 20) weightExtra = 3.50;
+    else if (weight > 20 && weight <= 30) weightExtra = 6.50;
+    else if (weight > 30) weightExtra = 12.00;
+
+    total += weightExtra;
+
+    if (format.extra > 0) {
+      extras.push(`${format.label} +${money(format.extra)}`);
     }
 
-    let currentOrder = {
+    if (weightExtra > 0) {
+      extras.push(`poids +${money(weightExtra)}`);
+    }
+
+    if (fields.fragileExtra.checked) {
+      total += 2.00;
+      extras.push('manipulation fragile +CHF 2.00');
+    }
+
+    if (fields.nightDrop.checked) {
+      total += 5.00;
+      extras.push('dépôt de nuit +CHF 5.00');
+    }
+
+    if (packages > 1) {
+      const extraPackages = (packages - 1) * 2.50;
+      total += extraPackages;
+      extras.push(`colis supplémentaires +${money(extraPackages)}`);
+    }
+
+    total = Math.round(total * 100) / 100;
+
+    return {
+      total,
+      serviceLabel: service.label,
+      formatLabel: format.label,
+      weightLabel: weight ? `${weight} kg` : '0 kg',
+      extrasLabel: extras.length ? extras.join(' • ') : 'Aucun'
+    };
+  }
+
+  function getOrderPayload() {
+    const pricing = calculatePrice();
+    if (!currentOrder.reference) currentOrder.reference = generateReference();
+
+    return {
+      reference: currentOrder.reference,
+      company: fields.company.value.trim(),
+      contact: fields.contact.value.trim(),
+      phone: fields.phone.value.trim(),
+      email: fields.email.value.trim(),
+      pickup_address: fields.pickupAddress.value.trim(),
+      drop_date: fields.dropDate.value,
+      drop_time: fields.dropTime.value,
+      packages: Math.max(parseInt(fields.packages.value || '1', 10), 1),
+      weight: parseFloat(fields.weight.value || '0') || 0,
+      format_code: fields.format.value,
+      format_label: pricing.formatLabel,
+      service_code: fields.service.value,
+      service_label: pricing.serviceLabel,
+      recipient: fields.recipient.value.trim(),
+      recipient_address: fields.recipientAddress.value.trim(),
+      notes: fields.notes.value.trim(),
+      fragile_extra: fields.fragileExtra.checked,
+      night_drop: fields.nightDrop.checked,
+      exact_price: pricing.total,
+      payment_declared: currentOrder.payment_declared,
+      payment_verified: currentOrder.payment_verified,
+      status: currentOrder.status,
+      label_ready: currentOrder.label_ready,
+      created_at_client: new Date().toISOString()
+    };
+  }
+
+  function setMessage(type, text) {
+    ui.formMessage.className = `message show ${type}`;
+    ui.formMessage.textContent = text;
+  }
+
+  function clearMessage() {
+    ui.formMessage.className = 'message info';
+    ui.formMessage.textContent = '';
+  }
+
+  function setStatus(status) {
+    currentOrder.status = status;
+    let className = 'draft';
+    let label = 'Brouillon';
+
+    if (status === 'payment_declared') {
+      className = 'waiting';
+      label = 'Paiement déclaré';
+    } else if (status === 'paid_verified') {
+      className = 'paid';
+      label = 'Payé vérifié';
+    }
+
+    ui.orderStatusBadge.className = `status-pill ${className}`;
+    ui.orderStatusBadge.textContent = label.toLowerCase();
+    ui.sumStatus.textContent = label;
+    ui.currentPayTag.textContent = currentOrder.payment_verified
+      ? 'Paiement : vérifié'
+      : currentOrder.payment_declared
+        ? 'Paiement : déclaré'
+        : 'Paiement : non déclaré';
+  }
+
+  function updateSummary() {
+    const pricing = calculatePrice();
+    currentOrder.exact_price = pricing.total;
+
+    if (!currentOrder.reference) {
+      currentOrder.reference = generateReference();
+    }
+
+    ui.priceDisplay.textContent = money(pricing.total);
+    ui.sumPrice.textContent = money(pricing.total);
+    ui.detailService.textContent = pricing.serviceLabel;
+    ui.detailFormatWeight.textContent = `${pricing.formatLabel} • ${pricing.weightLabel}`;
+    ui.detailExtras.textContent = pricing.extrasLabel;
+    ui.detailReference.textContent = currentOrder.reference;
+    ui.currentRefTag.textContent = `Référence : ${currentOrder.reference}`;
+
+    ui.sumClient.textContent = fields.company.value.trim() || '—';
+    ui.sumContact.textContent = fields.contact.value.trim() || '—';
+    ui.sumPackages.textContent = fields.packages.value || '1';
+    ui.sumService.textContent = pricing.serviceLabel;
+
+    const date = fields.dropDate.value;
+    const time = fields.dropTime.value;
+    ui.sumDateTime.textContent = date ? (time ? `${date} à ${time}` : date) : '—';
+
+    setStatus(currentOrder.status || 'draft');
+  }
+
+  async function saveOrder() {
+    const payload = getOrderPayload();
+    localStorage.setItem('colixo_current_deposit', JSON.stringify(payload));
+
+    if (!supabase) {
+      return { mode: 'local', data: payload };
+    }
+
+    try {
+      let result;
+      if (currentOrder.id) {
+        result = await supabase
+          .from(SUPABASE_TABLE)
+          .update(payload)
+          .eq('id', currentOrder.id)
+          .select()
+          .single();
+      } else {
+        result = await supabase
+          .from(SUPABASE_TABLE)
+          .insert(payload)
+          .select()
+          .single();
+      }
+
+      if (result.error) throw result.error;
+      if (result.data?.id) currentOrder.id = result.data.id;
+      return { mode: 'supabase', data: result.data };
+    } catch (error) {
+      console.error(error);
+      setMessage('warn', 'Enregistrement distant impossible. La commande reste sauvegardée localement.');
+      return { mode: 'local-fallback', data: payload, error };
+    }
+  }
+
+  function buildQrUrl(reference, amount) {
+    const payload = [
+      'COLIXO',
+      reference,
+      fields.company.value.trim(),
+      fields.contact.value.trim(),
+      fields.phone.value.trim(),
+      fields.recipient.value.trim(),
+      fields.recipientAddress.value.trim(),
+      amount.toFixed(2)
+    ].join('|');
+
+    return 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(payload);
+  }
+
+  function populateLabel() {
+    if (!currentOrder.reference) currentOrder.reference = generateReference();
+    const pricing = calculatePrice();
+
+    ui.labelRef.textContent = currentOrder.reference;
+    ui.labelSenderName.textContent = fields.company.value.trim() || '—';
+    ui.labelSenderContact.textContent = fields.contact.value.trim() || '—';
+    ui.labelSenderPhone.textContent = fields.phone.value.trim() || '—';
+    ui.labelSenderAddress.textContent = fields.pickupAddress.value.trim() || '—';
+    ui.labelRecipientName.textContent = fields.recipient.value.trim() || '—';
+    ui.labelRecipientAddress.textContent = fields.recipientAddress.value.trim() || '—';
+    ui.labelService.textContent = pricing.serviceLabel;
+    ui.labelPackages.textContent = fields.packages.value || '1';
+    ui.labelWeight.textContent = pricing.weightLabel;
+    ui.labelPrice.textContent = money(pricing.total);
+    ui.labelNotes.textContent = fields.notes.value.trim() || 'Aucune consigne';
+    ui.labelQr.src = buildQrUrl(currentOrder.reference, pricing.total);
+  }
+
+  function canGenerateLabel() {
+    return currentOrder.payment_declared || currentOrder.payment_verified;
+  }
+
+  async function createDraftOrder() {
+    if (!ui.form.reportValidity()) return;
+    if (!currentOrder.reference) currentOrder.reference = generateReference();
+    currentOrder.label_ready = false;
+    setStatus(currentOrder.payment_verified ? 'paid_verified' : currentOrder.payment_declared ? 'payment_declared' : 'draft');
+    updateSummary();
+
+    const saved = await saveOrder();
+    if (saved.mode === 'supabase') {
+      setMessage('ok', 'Commande créée et enregistrée dans Supabase.');
+    } else {
+      setMessage('info', 'Commande créée et sauvegardée localement.');
+    }
+  }
+
+  async function declarePayment() {
+    if (!ui.form.reportValidity()) return;
+    if (!currentOrder.reference) currentOrder.reference = generateReference();
+
+    currentOrder.payment_declared = true;
+    currentOrder.payment_verified = false;
+    setStatus('payment_declared');
+    updateSummary();
+    await saveOrder();
+
+    setMessage('ok', 'Paiement déclaré par le client. L’étiquette peut maintenant être générée.');
+  }
+
+  async function markVerified() {
+    if (!ui.form.reportValidity()) return;
+    if (!currentOrder.reference) currentOrder.reference = generateReference();
+
+    currentOrder.payment_declared = true;
+    currentOrder.payment_verified = true;
+    setStatus('paid_verified');
+    updateSummary();
+    await saveOrder();
+
+    setMessage('ok', 'Commande marquée comme payée et vérifiée.');
+  }
+
+  async function generateLabel() {
+    if (!ui.form.reportValidity()) return;
+
+    if (!canGenerateLabel()) {
+      setMessage('warn', 'L’étiquette reste bloquée tant que le paiement n’a pas été déclaré ou vérifié.');
+      return;
+    }
+
+    currentOrder.label_ready = true;
+    populateLabel();
+    ui.labelBox.style.display = 'block';
+    await saveOrder();
+
+    setMessage('ok', 'Étiquette générée. Vous pouvez maintenant l’imprimer.');
+  }
+
+  function printLabel() {
+    if (ui.labelBox.style.display !== 'block') {
+      setMessage('warn', 'Générez d’abord l’étiquette avant impression.');
+      return;
+    }
+    window.print();
+  }
+
+  function resetAll() {
+    ui.form.reset();
+    fields.dropDate.value = todayISO();
+    fields.pickupAddress.value = 'Impasse des Griottes 3, 1462 Yvonand';
+
+    currentOrder = {
       id: null,
       reference: '',
       status: 'draft',
@@ -959,372 +1280,79 @@
       exact_price: 0
     };
 
-    function todayISO() {
-      const d = new Date();
-      return d.toISOString().slice(0, 10);
-    }
-
-    fields.dropDate.value = todayISO();
-
-    function generateReference() {
-      const now = new Date();
-      const y = now.getFullYear();
-      const m = String(now.getMonth() + 1).padStart(2, '0');
-      const d = String(now.getDate()).padStart(2, '0');
-      const h = String(now.getHours()).padStart(2, '0');
-      const min = String(now.getMinutes()).padStart(2, '0');
-      const rnd = Math.floor(Math.random() * 9000) + 1000;
-      return `CLX-${y}${m}${d}-${h}${min}-${rnd}`;
-    }
-
-    function money(v) {
-      return 'CHF ' + Number(v || 0).toFixed(2);
-    }
-
-    function calculatePrice() {
-      const packages = Math.max(parseInt(fields.packages.value || '1', 10), 1);
-      const weight = parseFloat(fields.weight.value || '0') || 0;
-      const service = serviceMap[fields.service.value] || serviceMap.priority;
-      const format = formatMap[fields.format.value] || formatMap.standard_box;
-      const extras = [];
-      let total = service.base + format.extra;
-
-      let weightExtra = 0;
-      if (weight > 0 && weight <= 2) weightExtra = 0;
-      else if (weight <= 10) weightExtra = 1.50;
-      else if (weight <= 20) weightExtra = 3.50;
-      else if (weight <= 30) weightExtra = 6.50;
-      else weightExtra = 12.00;
-
-      total += weightExtra;
-      if (weightExtra > 0) extras.push(`poids +${money(weightExtra)}`);
-      if (format.extra > 0) extras.push(`${format.label.toLowerCase()} +${money(format.extra)}`);
-
-      if (fields.fragileExtra.checked) {
-        total += 2.00;
-        extras.push('manipulation fragile +CHF 2.00');
-      }
-
-      if (fields.nightDrop.checked) {
-        total += 5.00;
-        extras.push('dépôt de nuit +CHF 5.00');
-      }
-
-      if (packages > 1) {
-        const extraPackages = (packages - 1) * 2.50;
-        total += extraPackages;
-        extras.push(`colis supplémentaires +${money(extraPackages)}`);
-      }
-
-      total = Math.round(total * 100) / 100;
-
-      return {
-        total,
-        serviceLabel: service.label,
-        formatLabel: format.label,
-        weightLabel: weight ? `${weight} kg` : '—',
-        extrasLabel: extras.length ? extras.join(' • ') : 'Aucun'
-      };
-    }
-
-    function getOrderPayload() {
-      const pricing = calculatePrice();
-      if (!currentOrder.reference) currentOrder.reference = generateReference();
-
-      return {
-        reference: currentOrder.reference,
-        company: fields.company.value.trim(),
-        contact: fields.contact.value.trim(),
-        phone: fields.phone.value.trim(),
-        email: fields.email.value.trim(),
-        pickup_address: fields.pickupAddress.value.trim(),
-        drop_date: fields.dropDate.value,
-        drop_time: fields.dropTime.value,
-        packages: Math.max(parseInt(fields.packages.value || '1', 10), 1),
-        weight: parseFloat(fields.weight.value || '0') || 0,
-        format_code: fields.format.value,
-        format_label: pricing.formatLabel,
-        service_code: fields.service.value,
-        service_label: pricing.serviceLabel,
-        recipient: fields.recipient.value.trim(),
-        recipient_address: fields.recipientAddress.value.trim(),
-        notes: fields.notes.value.trim(),
-        fragile_extra: fields.fragileExtra.checked,
-        night_drop: fields.nightDrop.checked,
-        exact_price: pricing.total,
-        payment_declared: currentOrder.payment_declared,
-        payment_verified: currentOrder.payment_verified,
-        status: currentOrder.status,
-        label_ready: currentOrder.label_ready,
-        created_at_client: new Date().toISOString()
-      };
-    }
-
-    function setMessage(type, text) {
-      ui.formMessage.className = `message show ${type}`;
-      ui.formMessage.textContent = text;
-    }
-
-    function clearMessage() {
-      ui.formMessage.className = 'message info';
-      ui.formMessage.textContent = '';
-    }
-
-    function setStatus(status) {
-      currentOrder.status = status;
-      let className = 'draft';
-      let label = 'Brouillon';
-
-      if (status === 'payment_declared') {
-        className = 'waiting';
-        label = 'Paiement déclaré';
-      } else if (status === 'paid_verified') {
-        className = 'paid';
-        label = 'Payé vérifié';
-      }
-
-      ui.orderStatusBadge.className = `status-pill ${className}`;
-      ui.orderStatusBadge.textContent = label.toLowerCase();
-      ui.sumStatus.textContent = label;
-      ui.currentPayTag.textContent = currentOrder.payment_verified
-        ? 'Paiement : vérifié'
-        : currentOrder.payment_declared
-          ? 'Paiement : déclaré'
-          : 'Paiement : non déclaré';
-    }
-
-    function updateSummary() {
-      const pricing = calculatePrice();
-      currentOrder.exact_price = pricing.total;
-      if (!currentOrder.reference) currentOrder.reference = generateReference();
-
-      ui.priceDisplay.textContent = money(pricing.total);
-      ui.sumPrice.textContent = money(pricing.total);
-      ui.detailService.textContent = pricing.serviceLabel;
-      ui.detailFormatWeight.textContent = `${pricing.formatLabel} • ${pricing.weightLabel}`;
-      ui.detailExtras.textContent = pricing.extrasLabel;
-      ui.detailReference.textContent = currentOrder.reference;
-      ui.currentRefTag.textContent = `Référence : ${currentOrder.reference}`;
-
-      ui.sumClient.textContent = fields.company.value.trim() || '—';
-      ui.sumContact.textContent = fields.contact.value.trim() || '—';
-      ui.sumPackages.textContent = fields.packages.value || '1';
-      ui.sumService.textContent = pricing.serviceLabel;
-
-      const date = fields.dropDate.value;
-      const time = fields.dropTime.value;
-      ui.sumDateTime.textContent = date ? (time ? `${date} à ${time}` : date) : '—';
-
-      setStatus(currentOrder.status || 'draft');
-    }
-
-    async function saveOrder() {
-      const payload = getOrderPayload();
-      localStorage.setItem('colixo_current_deposit', JSON.stringify(payload));
-
-      if (!supabase) {
-        return { mode: 'local', data: payload };
-      }
-
-      try {
-        let result;
-        if (currentOrder.id) {
-          result = await supabase
-            .from(SUPABASE_TABLE)
-            .update(payload)
-            .eq('id', currentOrder.id)
-            .select()
-            .single();
-        } else {
-          result = await supabase
-            .from(SUPABASE_TABLE)
-            .insert(payload)
-            .select()
-            .single();
-        }
-
-        if (result.error) throw result.error;
-        if (result.data?.id) currentOrder.id = result.data.id;
-        return { mode: 'supabase', data: result.data };
-      } catch (error) {
-        console.error(error);
-        setMessage('warn', 'Enregistrement distant impossible. La commande reste sauvegardée localement dans ce navigateur.');
-        return { mode: 'local-fallback', data: payload, error };
-      }
-    }
-
-    function buildQrUrl(reference, amount) {
-      const payload = [
-        'COLIXO',
-        reference,
-        fields.company.value.trim(),
-        fields.contact.value.trim(),
-        fields.phone.value.trim(),
-        fields.recipient.value.trim(),
-        fields.recipientAddress.value.trim(),
-        amount.toFixed(2)
-      ].join('|');
-      return 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(payload);
-    }
-
-    function populateLabel() {
-      if (!currentOrder.reference) currentOrder.reference = generateReference();
-      const pricing = calculatePrice();
-      ui.labelRef.textContent = currentOrder.reference;
-      ui.labelSenderName.textContent = fields.company.value.trim() || '—';
-      ui.labelSenderContact.textContent = fields.contact.value.trim() || '—';
-      ui.labelSenderPhone.textContent = fields.phone.value.trim() || '—';
-      ui.labelSenderAddress.textContent = fields.pickupAddress.value.trim() || '—';
-      ui.labelRecipientName.textContent = fields.recipient.value.trim() || '—';
-      ui.labelRecipientAddress.textContent = fields.recipientAddress.value.trim() || '—';
-      ui.labelService.textContent = pricing.serviceLabel;
-      ui.labelPackages.textContent = fields.packages.value || '1';
-      ui.labelWeight.textContent = pricing.weightLabel;
-      ui.labelPrice.textContent = money(pricing.total);
-      ui.labelNotes.textContent = fields.notes.value.trim() || 'Aucune consigne';
-      ui.labelQr.src = buildQrUrl(currentOrder.reference, pricing.total);
-    }
-
-    function canGenerateLabel() {
-      return currentOrder.payment_declared || currentOrder.payment_verified;
-    }
-
-    async function createDraftOrder() {
-      if (!ui.form.reportValidity()) return;
-      if (!currentOrder.reference) currentOrder.reference = generateReference();
-      currentOrder.label_ready = false;
-      setStatus(currentOrder.payment_verified ? 'paid_verified' : currentOrder.payment_declared ? 'payment_declared' : 'draft');
-      updateSummary();
-      const saved = await saveOrder();
-      if (saved.mode === 'supabase') {
-        setMessage('ok', 'Commande créée et enregistrée dans Supabase.');
-      } else {
-        setMessage('info', 'Commande créée et sauvegardée localement dans ce navigateur.');
-      }
-    }
-
-    async function declarePayment() {
-      if (!ui.form.reportValidity()) return;
-      if (!currentOrder.reference) currentOrder.reference = generateReference();
-      currentOrder.payment_declared = true;
-      currentOrder.payment_verified = false;
-      setStatus('payment_declared');
-      updateSummary();
-      await saveOrder();
-      setMessage('ok', 'Paiement déclaré par le client. L’étiquette peut maintenant être générée.');
-    }
-
-    async function markVerified() {
-      if (!ui.form.reportValidity()) return;
-      if (!currentOrder.reference) currentOrder.reference = generateReference();
-      currentOrder.payment_declared = true;
-      currentOrder.payment_verified = true;
-      setStatus('paid_verified');
-      updateSummary();
-      await saveOrder();
-      setMessage('ok', 'Commande marquée comme payée et vérifiée.');
-    }
-
-    async function generateLabel() {
-      if (!ui.form.reportValidity()) return;
-      if (!canGenerateLabel()) {
-        setMessage('warn', 'L’étiquette reste bloquée tant que le paiement n’a pas été déclaré ou vérifié.');
-        return;
-      }
-      currentOrder.label_ready = true;
-      populateLabel();
-      ui.labelBox.style.display = 'block';
-      await saveOrder();
-      setMessage('ok', 'Étiquette générée. Vous pouvez maintenant l’imprimer.');
-    }
-
-    function printLabel() {
-      if (ui.labelBox.style.display !== 'block') {
-        setMessage('warn', 'Générez d’abord l’étiquette avant impression.');
-        return;
-      }
-      window.print();
-    }
-
-    function resetAll() {
-      ui.form.reset();
-      fields.dropDate.value = todayISO();
-      fields.pickupAddress.value = 'Impasse des Griottes 3, 1462 Yvonand';
-      currentOrder = {
-        id: null,
-        reference: '',
-        status: 'draft',
-        payment_declared: false,
-        payment_verified: false,
-        label_ready: false,
-        exact_price: 0
-      };
-      ui.labelBox.style.display = 'none';
-      clearMessage();
-      updateSummary();
-      localStorage.removeItem('colixo_current_deposit');
-    }
-
-    function loadLocalDraft() {
-      const raw = localStorage.getItem('colixo_current_deposit');
-      if (!raw) return;
-      try {
-        const d = JSON.parse(raw);
-        fields.company.value = d.company || '';
-        fields.contact.value = d.contact || '';
-        fields.phone.value = d.phone || '';
-        fields.email.value = d.email || '';
-        fields.pickupAddress.value = d.pickup_address || 'Impasse des Griottes 3, 1462 Yvonand';
-        fields.dropDate.value = d.drop_date || todayISO();
-        fields.dropTime.value = d.drop_time || '';
-        fields.packages.value = d.packages || 1;
-        fields.weight.value = d.weight ?? '';
-        fields.format.value = d.format_code || 'standard_box';
-        fields.service.value = d.service_code || 'priority';
-        fields.recipient.value = d.recipient || '';
-        fields.recipientAddress.value = d.recipient_address || '';
-        fields.notes.value = d.notes || '';
-        fields.fragileExtra.checked = !!d.fragile_extra;
-        fields.nightDrop.checked = !!d.night_drop;
-        currentOrder.reference = d.reference || generateReference();
-        currentOrder.payment_declared = !!d.payment_declared;
-        currentOrder.payment_verified = !!d.payment_verified;
-        currentOrder.label_ready = !!d.label_ready;
-        currentOrder.status = d.status || 'draft';
-        updateSummary();
-        if (currentOrder.label_ready && canGenerateLabel()) {
-          populateLabel();
-          ui.labelBox.style.display = 'block';
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    ui.twintBtn.addEventListener('click', () => {
-      window.open(TWINT_URL, '_blank');
-      setMessage('info', 'TWINT a été ouvert. Après le paiement, revenez ici puis cliquez sur “J’ai effectué le paiement”.');
-    });
-
-    ui.form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      await createDraftOrder();
-    });
-
-    ui.confirmPaidBtn.addEventListener('click', declarePayment);
-    ui.markVerifiedBtn.addEventListener('click', markVerified);
-    ui.saveBtn.addEventListener('click', saveOrder);
-    ui.generateLabelBtn.addEventListener('click', generateLabel);
-    ui.printBtn.addEventListener('click', printLabel);
-    ui.resetBtn.addEventListener('click', resetAll);
-
-    Object.values(fields).forEach((el) => {
-      el.addEventListener('input', updateSummary);
-      el.addEventListener('change', updateSummary);
-    });
-
-    loadLocalDraft();
+    ui.labelBox.style.display = 'none';
+    clearMessage();
     updateSummary();
-  </script>
+    localStorage.removeItem('colixo_current_deposit');
+  }
+
+  function loadLocalDraft() {
+    const raw = localStorage.getItem('colixo_current_deposit');
+    if (!raw) return;
+
+    try {
+      const d = JSON.parse(raw);
+      fields.company.value = d.company || '';
+      fields.contact.value = d.contact || '';
+      fields.phone.value = d.phone || '';
+      fields.email.value = d.email || '';
+      fields.pickupAddress.value = d.pickup_address || 'Impasse des Griottes 3, 1462 Yvonand';
+      fields.dropDate.value = d.drop_date || todayISO();
+      fields.dropTime.value = d.drop_time || '';
+      fields.packages.value = d.packages || 1;
+      fields.weight.value = d.weight ?? '';
+      fields.format.value = d.format_code || 'standard_box';
+      fields.service.value = d.service_code || 'priority';
+      fields.recipient.value = d.recipient || '';
+      fields.recipientAddress.value = d.recipient_address || '';
+      fields.notes.value = d.notes || '';
+      fields.fragileExtra.checked = !!d.fragile_extra;
+      fields.nightDrop.checked = !!d.night_drop;
+
+      currentOrder.reference = d.reference || generateReference();
+      currentOrder.payment_declared = !!d.payment_declared;
+      currentOrder.payment_verified = !!d.payment_verified;
+      currentOrder.label_ready = !!d.label_ready;
+      currentOrder.status = d.status || 'draft';
+
+      updateSummary();
+
+      if (currentOrder.label_ready && canGenerateLabel()) {
+        populateLabel();
+        ui.labelBox.style.display = 'block';
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  ui.twintBtn.addEventListener('click', () => {
+    updateSummary();
+    window.open(TWINT_URL, '_blank');
+    setMessage('info', 'TWINT a été ouvert. Après le paiement, revenez ici puis cliquez sur “J’ai effectué le paiement”.');
+  });
+
+  ui.form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await createDraftOrder();
+  });
+
+  ui.confirmPaidBtn.addEventListener('click', declarePayment);
+  ui.markVerifiedBtn.addEventListener('click', markVerified);
+  ui.saveBtn.addEventListener('click', saveOrder);
+  ui.generateLabelBtn.addEventListener('click', generateLabel);
+  ui.printBtn.addEventListener('click', printLabel);
+  ui.resetBtn.addEventListener('click', resetAll);
+
+  Object.values(fields).forEach((el) => {
+    el.addEventListener('input', updateSummary);
+    el.addEventListener('change', updateSummary);
+  });
+
+  loadLocalDraft();
+  updateSummary();
+  setInterval(updateSummary, 800);
+</script>
+ 
 </body>
 </html>
