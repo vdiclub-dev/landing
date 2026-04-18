@@ -466,19 +466,14 @@
     async function loadPricingFromDB() {
       if (!sbClient) return;
       try {
-        const { data, error } = await sbClient.from('tarifs').select('*').eq('actif', true).order('ordre');
+        const { data, error } = await sbClient.from('produits_tarif').select('*').eq('actif', true).order('ordre').order('nom');
         if (error || !data || !data.length) return;
-        const newSvc = {}, newFmt = {}, newWgt = [], newExt = {};
-        data.forEach(t => {
-          if (t.type === 'service') newSvc[t.code] = { label: t.label, base: Number(t.prix) };
-          else if (t.type === 'format') newFmt[t.code] = { label: t.label, extra: Number(t.prix) };
-          else if (t.type === 'weight_range') newWgt.push({ min: (t.metadata||{}).min||0, max: (t.metadata||{}).max||9999, prix: Number(t.prix) });
-          else if (t.type === 'extra') newExt[t.code] = Number(t.prix);
+        // Chaque produit devient une option de service identifiee par son id
+        const newSvc = {};
+        data.forEach(p => {
+          newSvc[p.id] = { label: p.nom + (p.ref ? ' [' + p.ref + ']' : '') + (p.poids_min > 0 ? ' >=' + p.poids_min + 'kg' : ''), base: Number(p.prix), ref: p.ref, poids_min: Number(p.poids_min) };
         });
         if (Object.keys(newSvc).length) serviceMap = newSvc;
-        if (Object.keys(newFmt).length) formatMap = newFmt;
-        if (newWgt.length) { newWgt.sort((a, b) => a.min - b.min); weightRanges = newWgt; }
-        if (Object.keys(newExt).length) extraPrices = Object.assign({}, extraPrices, newExt);
         rebuildServiceSelect();
       } catch (e) {
         console.warn('Tarifs Supabase indisponibles, prix par defaut utilises.', e);
@@ -491,7 +486,7 @@
       sel.innerHTML = Object.entries(serviceMap).map(([code, s]) =>
         '<option value="' + code + '"' + (code === current ? ' selected' : '') + '>' + s.label + '</option>'
       ).join('');
-      if (!sel.value) sel.value = Object.keys(serviceMap)[1] || Object.keys(serviceMap)[0] || 'priority';
+      if (!sel.value && Object.keys(serviceMap).length) sel.value = Object.keys(serviceMap)[0];
     }
 
     let currentOrder = {
