@@ -173,7 +173,7 @@
     <section class="hero">
       <div class="card hero-main">
         <span class="eyebrow">dépôt client privé</span>
-        <h2>Payez d’abord, générez l’étiquette ensuite.</h2>
+        <h2>Payez d'abord, générez l'étiquette ensuite.</h2>
         <p>
           Cette version est pensée pour une exploitation sérieuse : prix exact calculé, enregistrement du dépôt,
           statut de paiement distinct, référence Colixo unique, et étiquette imprimable uniquement après validation client.
@@ -182,7 +182,7 @@
       </div>
       <div class="card hero-side">
         <div class="mini-step"><div class="n">1</div><div><strong>Saisie du dépôt</strong><span style="color:var(--muted);">Informations expéditeur, destinataire, service et poids.</span></div></div>
-        <div class="mini-step"><div class="n">2</div><div><strong>Montant exact affiché</strong><span style="color:var(--muted);">Le client voit clairement le prix avant l’ouverture de TWINT.</span></div></div>
+        <div class="mini-step"><div class="n">2</div><div><strong>Montant exact affiché</strong><span style="color:var(--muted);">Le client voit clairement le prix avant l'ouverture de TWINT.</span></div></div>
         <div class="mini-step"><div class="n">3</div><div><strong>Étiquette après paiement</strong><span style="color:var(--muted);">Référence unique, QR interne et impression propres.</span></div></div>
       </div>
     </section>
@@ -191,7 +191,7 @@
       <div class="left-col">
         <div class="card panel">
           <h3 class="section-title">Demande de dépôt</h3>
-          <p class="section-sub">La commande est d’abord créée en statut <strong>brouillon</strong>. Le prix se calcule immédiatement. L’étiquette reste bloquée tant que le client n’a pas indiqué avoir payé.</p>
+          <p class="section-sub">La commande est d'abord créée en statut <strong>brouillon</strong>. Le prix se calcule immédiatement. L'étiquette reste bloquée tant que le client n'a pas indiqué avoir payé.</p>
 
           <form id="depositForm">
             <div class="grid">
@@ -224,18 +224,18 @@
               </div>
               <div class="field"><label for="recipient">Destinataire</label><input id="recipient" type="text" placeholder="Nom du destinataire" required /></div>
               <div class="field full"><label for="recipientAddress">Adresse du destinataire</label><input id="recipientAddress" type="text" placeholder="Rue, numéro, NPA, ville" required /></div>
-              <div class="field full"><label for="notes">Consignes</label><textarea id="notes" placeholder="Fragile, appeler avant passage, dépôt à la réception, étage, code d’accès, etc."></textarea></div>
+              <div class="field full"><label for="notes">Consignes</label><textarea id="notes" placeholder="Fragile, appeler avant passage, dépôt à la réception, étage, code d'accès, etc."></textarea></div>
             </div>
 
             <div class="switches">
               <label class="check"><input id="fragileExtra" type="checkbox" /> <span>Manipulation fragile</span></label>
               <label class="check"><input id="nightDrop" type="checkbox" /> <span>Autorisation de dépôt de nuit</span></label>
-              <label class="check"><input id="terms" type="checkbox" required /> <span>Je confirme l’exactitude des informations transmises.</span></label>
+              <label class="check"><input id="terms" type="checkbox" required /> <span>Je confirme l'exactitude des informations transmises.</span></label>
             </div>
 
             <div class="pricing-box">
               <div class="pricing-top">
-                <div><div class="label">Montant à payer avant génération de l’étiquette</div><div class="amount" id="priceDisplay">CHF 0.00</div></div>
+                <div><div class="label">Montant à payer avant génération de l'étiquette</div><div class="amount" id="priceDisplay">CHF 0.00</div></div>
                 <div><span class="status-pill draft" id="orderStatusBadge">brouillon</span></div>
               </div>
               <div class="pricing-list">
@@ -250,14 +250,14 @@
 
             <div class="payment-box">
               <h3>Paiement TWINT</h3>
-              <div class="payment-note">Le client doit payer le montant affiché ci-dessus. Ensuite, il clique sur <strong>J’ai effectué le paiement</strong>. Cela passe la commande en <strong>paiement déclaré</strong> et débloque la génération de l’étiquette.</div>
+              <div class="payment-note">Le client doit payer le montant affiché ci-dessus. Ensuite, il clique sur <strong>J'ai effectué le paiement</strong>. Cela passe la commande en <strong>paiement déclaré</strong> et débloque la génération de l'étiquette.</div>
               <div class="twint-wrap">
                 <button class="twint-button" type="button" id="twintBtn"><img alt="TWINT" src="https://go.twint.ch/static/img/button_dark_en.svg" /></button>
                 <span class="tag">Adresse dépôt : Impasse des Griottes 3, 1462 Yvonand</span>
               </div>
               <div class="btns">
                 <button class="action primary" type="submit">Créer la commande</button>
-                <button class="action dark" type="button" id="confirmPaidBtn">J’ai effectué le paiement</button>
+                <button class="action dark" type="button" id="confirmPaidBtn">J'ai effectué le paiement</button>
                 <button class="action ghost" type="button" id="resetBtn">Réinitialiser</button>
               </div>
             </div>
@@ -278,7 +278,7 @@
             <div class="summary-row"><span>Montant</span><span id="sumPrice">CHF 0.00</span></div>
             <div class="summary-row"><span>Statut</span><span id="sumStatus">Brouillon</span></div>
           </div>
-          <div class="hint">Le prix visible ici est celui qui doit être payé avant de produire l’étiquette finale.</div>
+          <div class="hint">Le prix visible ici est celui qui doit être payé avant de produire l'étiquette finale.</div>
         </div>
 
         <div class="admin-box">
@@ -294,7 +294,7 @@
               <button class="action ghost" type="button" id="saveBtn">Enregistrer / mettre à jour</button>
             </div>
             <div class="row">
-              <button class="action dark" type="button" id="generateLabelBtn">Générer l’étiquette</button>
+              <button class="action dark" type="button" id="generateLabelBtn">Générer l'étiquette</button>
               <button class="action ghost" type="button" id="printBtn">Imprimer</button>
             </div>
           </div>
@@ -308,7 +308,7 @@
       </div>
     </section>
 
-    <div class="footer">Version dépôt client sérieuse • stockage local immédiat • branchement Supabase prévu • génération d’étiquette conditionnée au paiement</div>
+    <div class="footer">Version dépôt client sérieuse • stockage local immédiat • branchement Supabase prévu • génération d'étiquette conditionnée au paiement</div>
   </div>
 
   <script>
@@ -655,13 +655,13 @@
       currentOrder.payment_declared = true;
       currentOrder.payment_verified = false;
       currentOrder.label_ready = true;
-      setStatus(‘payment_declared’);
+      setStatus('payment_declared');
       updateSummary();
       populateLabels();
-      ui.labelBox.style.display = ‘block’;
+      ui.labelBox.style.display = 'block';
       await saveOrder();
-      const n = Math.max(parseInt(fields.packages.value || ‘1’, 10), 1);
-      setMessage(‘ok’, `Paiement confirmé. ${n} étiquette${n > 1 ? ‘s générées’ : ‘ générée’} — prête${n > 1 ? ‘s’ : ‘’} à imprimer.`);
+      const n = Math.max(parseInt(fields.packages.value || '1', 10), 1);
+      setMessage('ok', `Paiement confirmé. ${n} étiquette${n > 1 ? 's générées' : ' générée'} — prête${n > 1 ? 's' : ''} à imprimer.`);
     }
 
     async function markVerified() {
@@ -678,20 +678,20 @@
     async function generateLabel() {
       if (!ui.form.reportValidity()) return;
       if (!canGenerateLabel()) {
-        setMessage(‘warn’, ‘Les étiquettes restent bloquées tant que le paiement n\’a pas été déclaré.’);
+        setMessage('warn', 'Les étiquettes restent bloquées tant que le paiement n\'a pas été déclaré.');
         return;
       }
       currentOrder.label_ready = true;
       populateLabels();
-      ui.labelBox.style.display = ‘block’;
+      ui.labelBox.style.display = 'block';
       await saveOrder();
-      const n = Math.max(parseInt(fields.packages.value || ‘1’, 10), 1);
-      setMessage(‘ok’, `${n} étiquette${n > 1 ? ‘s générées’ : ‘ générée’} — prête${n > 1 ? ‘s’ : ‘’} à imprimer.`);
+      const n = Math.max(parseInt(fields.packages.value || '1', 10), 1);
+      setMessage('ok', `${n} étiquette${n > 1 ? 's générées' : ' générée'} — prête${n > 1 ? 's' : ''} à imprimer.`);
     }
 
     function printLabel() {
       if (ui.labelBox.style.display !== 'block') {
-        setMessage('warn', 'Générez d’abord l’étiquette avant impression.');
+        setMessage('warn', `Générez d'abord l'étiquette avant impression.`);
         return;
       }
       window.print();
@@ -747,7 +747,7 @@
     ui.twintBtn.addEventListener('click', () => {
       updateSummary();
       window.open(TWINT_URL, '_blank');
-      setMessage('info', 'TWINT a été ouvert. Après le paiement, revenez ici puis cliquez sur “J’ai effectué le paiement”.');
+      setMessage('info', `TWINT a été ouvert. Après le paiement, revenez ici puis cliquez sur "J'ai effectué le paiement".`);
     });
     ui.form.addEventListener('submit', async (e) => { e.preventDefault(); await createDraftOrder(); });
     ui.confirmPaidBtn.addEventListener('click', declarePayment);
