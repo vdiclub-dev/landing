@@ -381,14 +381,15 @@
     const SUPABASE_TABLE = 'parcel_deposits';
     const TWINT_URL = 'https://go.twint.ch/1/e/tw?tw=acq.zY89V9VtQEidHoSlo3GK4kokhK07SfUCxAm9RyoruaIyHLWNEJSvIZsnD7N1FcLk.';
 
-    const serviceMap = {
+    // Fallback prices — overridden by Supabase tarifs table on init
+    let serviceMap = {
       eco: { label: 'Eco 48h', base: 7.50 },
       priority: { label: 'Priority 24h', base: 8.50 },
       express: { label: 'Express', base: 15.50 },
       urgent: { label: 'Urgent', base: 25.50 }
     };
 
-    const formatMap = {
+    let formatMap = {
       envelope: { label: 'Enveloppe', extra: 0 },
       small_box: { label: 'Petit carton', extra: 1.00 },
       standard_box: { label: 'Carton standard', extra: 2.00 },
@@ -396,6 +397,16 @@
       fragile: { label: 'Fragile', extra: 5.00 },
       palette: { label: 'Palette', extra: 25.00 }
     };
+
+    let weightRanges = [
+      { min: 0, max: 2, prix: 0 },
+      { min: 2, max: 10, prix: 1.50 },
+      { min: 10, max: 20, prix: 3.50 },
+      { min: 20, max: 30, prix: 6.50 },
+      { min: 30, max: 9999, prix: 12.00 }
+    ];
+
+    let extraPrices = { fragile_handling: 2.00, night_drop: 5.00, extra_package: 2.50 };
 
     const fields = {
       company: document.getElementById('company'),
@@ -452,6 +463,37 @@
       ui.storageTag.textContent = 'Stockage : Supabase';
     }
 
+    async function loadPricingFromDB() {
+      if (!sbClient) return;
+      try {
+        const { data, error } = await sbClient.from('tarifs').select('*').eq('actif', true).order('ordre');
+        if (error || !data || !data.length) return;
+        const newSvc = {}, newFmt = {}, newWgt = [], newExt = {};
+        data.forEach(t => {
+          if (t.type === 'service') newSvc[t.code] = { label: t.label, base: Number(t.prix) };
+          else if (t.type === 'format') newFmt[t.code] = { label: t.label, extra: Number(t.prix) };
+          else if (t.type === 'weight_range') newWgt.push({ min: (t.metadata||{}).min||0, max: (t.metadata||{}).max||9999, prix: Number(t.prix) });
+          else if (t.type === 'extra') newExt[t.code] = Number(t.prix);
+        });
+        if (Object.keys(newSvc).length) serviceMap = newSvc;
+        if (Object.keys(newFmt).length) formatMap = newFmt;
+        if (newWgt.length) { newWgt.sort((a, b) => a.min - b.min); weightRanges = newWgt; }
+        if (Object.keys(newExt).length) extraPrices = Object.assign({}, extraPrices, newExt);
+        rebuildServiceSelect();
+      } catch (e) {
+        console.warn('Tarifs Supabase indisponibles, prix par defaut utilises.', e);
+      }
+    }
+
+    function rebuildServiceSelect() {
+      const sel = fields.service;
+      const current = sel.value;
+      sel.innerHTML = Object.entries(serviceMap).map(([code, s]) =>
+        '<option value="' + code + '"' + (code === current ? ' selected' : '') + '>' + s.label + '</option>'
+      ).join('');
+      if (!sel.value) sel.value = Object.keys(serviceMap)[1] || Object.keys(serviceMap)[0] || 'priority';
+    }
+
     let currentOrder = {
       id: null,
       reference: '',
@@ -488,19 +530,19 @@
     }
 
     function weightExtra(w) {
-      if (w <= 2) return 0;
-      if (w <= 10) return 1.50;
-      if (w <= 20) return 3.50;
-      if (w <= 30) return 6.50;
-      return 12.00;
+      if (w <= 0) return 0;
+      for (const r of weightRanges) {
+        if (w > r.min && w <= r.max) return r.prix;
+      }
+      return weightRanges.length ? weightRanges[weightRanges.length - 1].prix : 0;
     }
 
     function calcPackagePrice(pkg, isFirst) {
-      const fmt = formatMap[pkg.format] || formatMap.standard_box;
+      const fmt = formatMap[pkg.format] || { extra: 2.00 };
       const w = parseFloat(pkg.weight) || 0;
       let p = fmt.extra + weightExtra(w);
-      if (pkg.fragile) p += 2.00;
-      if (!isFirst) p += 2.50;
+      if (pkg.fragile) p += extraPrices.fragile_handling;
+      if (!isFirst) p += extraPrices.extra_package;
       return Math.round(p * 100) / 100;
     }
 
@@ -518,8 +560,8 @@
       });
 
       if (fields.nightDrop.checked) {
-        total += 5.00;
-        extras.push('depot de nuit +CHF 5.00');
+        total += extraPrices.night_drop;
+        extras.push('depot de nuit +CHF ' + extraPrices.night_drop.toFixed(2));
       }
 
       total = Math.round(total * 100) / 100;
@@ -540,16 +582,12 @@
 
       const n = pkgList.findIndex(p => p.id === id) + 1;
 
+      const fmtOptions = Object.entries(formatMap).map(([code, f]) =>
+        '<option value="' + code + '"' + (format === code ? ' selected' : '') + '>' + f.label + '</option>'
+      ).join('');
       row.innerHTML =
         '<div class="pkg-num">Colis ' + n + '</div>' +
-        '<select class="pkg-format">' +
-          '<option value="envelope"' + (format === 'envelope' ? ' selected' : '') + '>Enveloppe</option>' +
-          '<option value="small_box"' + (format === 'small_box' ? ' selected' : '') + '>Petit carton</option>' +
-          '<option value="standard_box"' + (format === 'standard_box' ? ' selected' : '') + '>Carton standard</option>' +
-          '<option value="large_box"' + (format === 'large_box' ? ' selected' : '') + '>Grand carton</option>' +
-          '<option value="fragile"' + (format === 'fragile' ? ' selected' : '') + '>Fragile</option>' +
-          '<option value="palette"' + (format === 'palette' ? ' selected' : '') + '>Palette</option>' +
-        '</select>' +
+        '<select class="pkg-format">' + fmtOptions + '</select>' +
         '<input class="pkg-weight" type="number" min="0" step="0.1" placeholder="Poids (kg)" value="' + (weight || '') + '" />' +
         '<label class="pkg-fragile-label"><input type="checkbox" class="pkg-fragile"' + (fragile ? ' checked' : '') + ' /> Fragile +2.-</label>' +
         '<div class="pkg-price">CHF 0.00</div>' +
@@ -932,12 +970,15 @@
       el.addEventListener('change', updateSummary);
     });
 
-    try { loadLocalDraft(); } catch (e) {
-      localStorage.removeItem('colixo_current_deposit');
-      console.warn('Draft corrompu efface', e);
-    }
-    if (pkgList.length === 0) addPackage('standard_box', 0, false);
-    updateSummary();
+    (async function init() {
+      if (sbClient) await loadPricingFromDB();
+      try { loadLocalDraft(); } catch (e) {
+        localStorage.removeItem('colixo_current_deposit');
+        console.warn('Draft corrompu efface', e);
+      }
+      if (pkgList.length === 0) addPackage(Object.keys(formatMap)[2] || 'standard_box', 0, false);
+      updateSummary();
+    })();
   </script>
 </body>
 </html>
