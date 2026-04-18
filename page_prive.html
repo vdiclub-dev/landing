@@ -559,6 +559,7 @@
     }
 
     function updateSummary() {
+      try {
       const pricing = calculatePrice();
       currentOrder.exact_price = pricing.total;
       if (!currentOrder.reference) currentOrder.reference = generateReference();
@@ -580,6 +581,7 @@
       const time = fields.dropTime.value;
       ui.sumDateTime.textContent = date ? (time ? `${date} à ${time}` : date) : '—';
       setStatus(currentOrder.status || 'draft');
+      } catch(e) { console.error('updateSummary error:', e); }
     }
 
     async function saveOrder() {
@@ -744,10 +746,14 @@
     ui.printBtn.addEventListener('click', printLabel);
     ui.resetBtn.addEventListener('click', resetAll);
     Object.values(fields).forEach((el) => {
+      if (!el) return;
       el.addEventListener('input', updateSummary);
       el.addEventListener('change', updateSummary);
     });
-    loadLocalDraft();
+    try { loadLocalDraft(); } catch(e) {
+      localStorage.removeItem('colixo_current_deposit');
+      console.warn('Draft corrompu effacé', e);
+    }
     updateSummary();
   </script>
 </body>
