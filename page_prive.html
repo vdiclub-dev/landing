@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Colixo — Dépôt de colis privé</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    window.SUPABASE_CONFIG = {
+      url: "https://iubbsnntcreneakbdkmv.supabase.co",
+      anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1YmJzbm50Y3JlbmVha2Jka212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzI1MDYsImV4cCI6MjA4ODE0ODUwNn0.FzMgCZxNIej1skSIc8UAGiODcZEZW1GCWZwBfonm_1Y"
+    };
+  </script>
   <style>
     :root {
       --bg: #090909;
@@ -325,9 +331,9 @@
   </div>
 
   <script>
-    const SUPABASE_URL = window.COLIXO_SUPABASE_URL || '';
-    const SUPABASE_ANON_KEY = window.COLIXO_SUPABASE_ANON_KEY || '';
-    const SUPABASE_TABLE = window.COLIXO_SUPABASE_TABLE || 'parcel_deposits';
+    const SUPABASE_URL = window.SUPABASE_CONFIG?.url || '';
+    const SUPABASE_ANON_KEY = window.SUPABASE_CONFIG?.anonKey || '';
+    const SUPABASE_TABLE = 'parcel_deposits';
     const TWINT_URL = 'https://go.twint.ch/1/e/tw?tw=acq.zY89V9VtQEidHoSlo3GK4kokhK07SfUCxAm9RyoruaIyHLWNEJSvIZsnD7N1FcLk.';
 
     const serviceMap = {
