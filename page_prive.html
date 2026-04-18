@@ -416,9 +416,9 @@
       labelQr: document.getElementById('labelQr')
     };
 
-    let supabase = null;
+    let sbClient = null;
     if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
-      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       ui.storageTag.textContent = 'Stockage : Supabase';
     }
 
@@ -587,13 +587,13 @@
     async function saveOrder() {
       const payload = getOrderPayload();
       localStorage.setItem('colixo_current_deposit', JSON.stringify(payload));
-      if (!supabase) return { mode: 'local', data: payload };
+      if (!sbClient) return { mode: 'local', data: payload };
       try {
         let result;
         if (currentOrder.id) {
-          result = await supabase.from(SUPABASE_TABLE).update(payload).eq('id', currentOrder.id).select().single();
+          result = await sbClient.from(SUPABASE_TABLE).update(payload).eq('id', currentOrder.id).select().single();
         } else {
-          result = await supabase.from(SUPABASE_TABLE).insert(payload).select().single();
+          result = await sbClient.from(SUPABASE_TABLE).insert(payload).select().single();
         }
         if (result.error) throw result.error;
         if (result.data?.id) currentOrder.id = result.data.id;
