@@ -463,6 +463,26 @@
           <div id="successMessage" class="success">
             Votre demande de dépôt a bien été enregistrée. Vous pouvez maintenant relier ce formulaire à une base de données, un email automatique ou un tableau de suivi.
           </div>
+        
+          <div style="margin-top:30px; padding:20px; border:1px solid rgba(255,122,0,.25); border-radius:14px; background:rgba(255,122,0,.05);">
+            <h3 style="margin-top:0;">Paiement</h3>
+            <p style="color:var(--muted); font-size:14px; line-height:1.6;">
+              Vous pouvez régler votre envoi directement sur place à l’adresse suivante :<br>
+              <strong>Impasse des Griottes 3, 1462 Yvonand</strong><br><br>
+              <strong>Montant estimé :</strong> <span id="paymentAmount">CHF 0.00</span><br><br>
+              Ou payer immédiatement via TWINT :
+            </p>
+
+            <button id="twintBtn" style="width:auto; height:58px; border-radius:6px; display:flex; justify-content:center; cursor:pointer; background-color:transparent; border:none; align-items:center;"
+              onclick="window.open('https://go.twint.ch/1/e/tw?tw=acq.zY89V9VtQEidHoSlo3GK4kokhK07SfUCxAm9RyoruaIyHLWNEJSvIZsnD7N1FcLk.', '_blank')">
+              <img style="width:auto; height:58px" alt="TWINT" src="https://go.twint.ch/static/img/button_dark_en.svg"/>
+            </button>
+
+            <p style="color:var(--muted); font-size:12px; margin-top:10px;">
+              Le lien TWINT actuel ouvre votre page de paiement. Pour un vrai montant prérempli automatiquement, il faut un lien TWINT marchand compatible ou une page de paiement dédiée.
+            </p>
+          </div>
+
         </form>
       </div>
 
@@ -471,6 +491,7 @@
         <div class="sub">Aperçu automatique des informations saisies.</div>
 
         <div class="summary-box">
+          <div class="summary-row"><span>Montant estimé</span><span id="sumPrice">CHF 0.00</span></div>
           <div class="summary-row"><span>Client</span><span id="sumCompany">—</span></div>
           <div class="summary-row"><span>Contact</span><span id="sumContact">—</span></div>
           <div class="summary-row"><span>Téléphone</span><span id="sumPhone">—</span></div>
@@ -522,6 +543,7 @@
     };
 
     const output = {
+      price: document.getElementById('sumPrice'),
       company: document.getElementById('sumCompany'),
       contact: document.getElementById('sumContact'),
       phone: document.getElementById('sumPhone'),
@@ -535,6 +557,36 @@
       night: document.getElementById('sumNight')
     };
 
+    function calculatePrice() {
+      const packages = Math.max(parseInt(fields.packages.value || '1', 10), 1);
+      const weight = parseFloat(fields.weight.value || '0') || 0;
+      const format = fields.format.value;
+      const service = fields.service.value;
+      const fragile = fields.fragile.checked;
+      const night = fields.night.checked;
+
+      let base = 7.50;
+
+      if (service === 'Priority 24h') base += 1.00;
+      if (service === 'Express') base += 8.00;
+      if (service === 'Urgent') base += 18.00;
+
+      if (weight > 2 && weight <= 10) base += 1.50;
+      else if (weight > 10 && weight <= 20) base += 3.50;
+      else if (weight > 20 && weight <= 30) base += 6.50;
+      else if (weight > 30) base += 12.00;
+
+      if (format === 'Large box') base += 2.00;
+      if (format === 'Fragile') base += 3.00;
+      if (format === 'Palette') base += 25.00;
+
+      if (fragile) base += 2.00;
+      if (night) base += 5.00;
+      if (packages > 1) base += (packages - 1) * 2.50;
+
+      return base;
+    }
+
     function updateSummary() {
       output.company.textContent = fields.company.value || '—';
       output.contact.textContent = fields.contact.value || '—';
@@ -546,6 +598,12 @@
       output.recipient.textContent = fields.recipient.value || '—';
       output.fragile.textContent = fields.fragile.checked ? 'Oui' : 'Non';
       output.night.textContent = fields.night.checked ? 'Oui' : 'Non';
+
+      const price = calculatePrice();
+      const priceLabel = 'CHF ' + price.toFixed(2);
+      output.price.textContent = priceLabel;
+      const paymentAmount = document.getElementById('paymentAmount');
+      if (paymentAmount) paymentAmount.textContent = priceLabel;
 
       const d = fields.date.value;
       const t = fields.time.value;
