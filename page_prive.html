@@ -12,7 +12,6 @@
       --panel: #141414;
       --panel-2: #1b1b1b;
       --line: rgba(255,255,255,.08);
-      --line-strong: rgba(255,122,0,.35);
       --text: #f5f5f5;
       --muted: #a3a3a3;
       --accent: #ff6a00;
@@ -23,9 +22,7 @@
       --shadow: 0 20px 60px rgba(0,0,0,.38);
       --radius: 18px;
     }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       font-family: Inter, Arial, Helvetica, sans-serif;
@@ -34,547 +31,116 @@
         radial-gradient(circle at top right, rgba(255,106,0,.14), transparent 22%),
         linear-gradient(180deg, #050505 0%, #0d0d0f 100%);
     }
-
-    .shell {
-      max-width: 1360px;
-      margin: 0 auto;
-      padding: 28px;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
+    .shell { max-width: 1360px; margin: 0 auto; padding: 28px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 24px; }
+    .brand { display: flex; align-items: center; gap: 14px; }
     .brand-mark {
-      width: 50px;
-      height: 50px;
-      border-radius: 16px;
+      width: 50px; height: 50px; border-radius: 16px;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      display: grid;
-      place-items: center;
-      color: #111;
-      font-weight: 900;
-      letter-spacing: .5px;
-      box-shadow: var(--shadow);
+      display: grid; place-items: center; color: #111; font-weight: 900; box-shadow: var(--shadow);
     }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: .4px;
-    }
-
-    .brand p {
-      margin: 3px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
+    .brand h1 { margin: 0; font-size: 20px; letter-spacing: .4px; }
+    .brand p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
     .status-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,122,0,.08);
-      border: 1px solid rgba(255,122,0,.24);
-      color: #ffb06f;
-      font-size: 13px;
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 999px;
+      background: rgba(255,122,0,.08); border: 1px solid rgba(255,122,0,.24); color: #ffb06f; font-size: 13px;
     }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 22px;
-      margin-bottom: 22px;
-    }
-
+    .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 22px; margin-bottom: 22px; }
     .card {
       background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
     }
-
-    .hero-main {
-      padding: 32px;
-      min-height: 250px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 12px;
-      color: #ffb06f;
-      font-size: 12px;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-    }
-
-    .hero-main h2 {
-      margin: 0 0 12px;
-      font-size: 44px;
-      line-height: 1.02;
-      max-width: 760px;
-    }
-
-    .hero-main p {
-      margin: 0;
-      max-width: 720px;
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 16px;
-    }
-
-    .hero-side {
-      padding: 24px;
-      display: grid;
-      gap: 12px;
-      align-content: center;
-    }
-
-    .mini-step {
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.05);
-      background: rgba(255,255,255,.02);
-      display: flex;
-      gap: 12px;
-    }
-
-    .mini-step strong {
-      display: block;
-      margin-bottom: 4px;
-    }
-
+    .hero-main { padding: 32px; min-height: 250px; display: flex; flex-direction: column; justify-content: center; }
+    .eyebrow { display: inline-block; margin-bottom: 12px; color: #ffb06f; font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
+    .hero-main h2 { margin: 0 0 12px; font-size: 44px; line-height: 1.02; max-width: 760px; }
+    .hero-main p { margin: 0; max-width: 720px; color: var(--muted); line-height: 1.65; font-size: 16px; }
+    .hero-side { padding: 24px; display: grid; gap: 12px; align-content: center; }
+    .mini-step { padding: 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,.05); background: rgba(255,255,255,.02); display: flex; gap: 12px; }
+    .mini-step strong { display: block; margin-bottom: 4px; }
     .mini-step .n {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #111;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      flex: 0 0 auto;
+      width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #111;
+      display: grid; place-items: center; font-weight: 800; flex: 0 0 auto;
     }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 22px;
-      align-items: start;
-    }
-
-    .panel {
-      padding: 28px;
-    }
-
-    .section-title {
-      margin: 0 0 6px;
-      font-size: 24px;
-    }
-
-    .section-sub {
-      margin: 0 0 20px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
+    .layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 22px; align-items: start; }
+    .panel { padding: 28px; }
+    .section-title { margin: 0 0 6px; font-size: 24px; }
+    .section-sub { margin: 0 0 20px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
     .field.full { grid-column: 1 / -1; }
-
-    label {
-      font-size: 13px;
-      color: #ededed;
-    }
-
+    label { font-size: 13px; color: #ededed; }
     input, select, textarea {
-      width: 100%;
-      border: 1px solid var(--line);
-      background: var(--panel-2);
-      color: var(--text);
-      border-radius: 12px;
-      padding: 14px 14px;
-      font-size: 15px;
-      outline: none;
-      transition: .2s ease;
+      width: 100%; border: 1px solid var(--line); background: var(--panel-2); color: var(--text);
+      border-radius: 12px; padding: 14px 14px; font-size: 15px; outline: none; transition: .2s ease;
     }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: rgba(255,122,0,.75);
-      box-shadow: 0 0 0 4px rgba(255,122,0,.12);
-    }
-
+    input:focus, select:focus, textarea:focus { border-color: rgba(255,122,0,.75); box-shadow: 0 0 0 4px rgba(255,122,0,.12); }
     textarea { min-height: 110px; resize: vertical; }
-
-    .switches {
-      display: grid;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .check {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .check input {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--accent);
-    }
-
+    .switches { display: grid; gap: 10px; margin-top: 4px; }
+    .check { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; }
+    .check input { width: 18px; height: 18px; accent-color: var(--accent); }
     .pricing-box {
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,122,0,.22);
+      margin-top: 18px; padding: 18px; border-radius: 16px; border: 1px solid rgba(255,122,0,.22);
       background: linear-gradient(180deg, rgba(255,122,0,.1), rgba(255,122,0,.04));
     }
-
-    .pricing-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 16px;
-      margin-bottom: 14px;
+    .pricing-top { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 14px; }
+    .pricing-top .label { color: #ffb06f; font-size: 13px; }
+    .pricing-top .amount { font-size: 34px; font-weight: 900; letter-spacing: .4px; }
+    .pricing-list { display: grid; gap: 10px; font-size: 14px; }
+    .pricing-row { display: flex; justify-content: space-between; gap: 16px; color: var(--muted); padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.06); }
+    .pricing-row strong { color: var(--text); text-align: right; }
+    .payment-box, .summary-box, .admin-box, .label-box {
+      margin-top: 18px; padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,.06); background: rgba(255,255,255,.02);
     }
-
-    .pricing-top .label {
-      color: #ffb06f;
-      font-size: 13px;
-    }
-
-    .pricing-top .amount {
-      font-size: 34px;
-      font-weight: 900;
-      letter-spacing: .4px;
-    }
-
-    .pricing-list {
-      display: grid;
-      gap: 10px;
-      font-size: 14px;
-    }
-
-    .pricing-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      color: var(--muted);
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-
-    .pricing-row strong { color: var(--text); }
-
-    .payment-box {
-      margin-top: 18px;
-      padding: 18px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.02);
-    }
-
-    .payment-box h3,
-    .summary-box h3,
-    .admin-box h3,
-    .label-box h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
-    }
-
-    .payment-note {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
-      margin-bottom: 14px;
-    }
-
-    .twint-wrap {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .twint-button {
-      width: auto;
-      height: 58px;
-      border-radius: 6px;
-      display: flex;
-      justify-content: center;
-      cursor: pointer;
-      background: transparent;
-      border: none;
-      align-items: center;
-      padding: 0;
-    }
-
+    .payment-box h3, .summary-box h3, .admin-box h3, .label-box h3 { margin: 0 0 10px; font-size: 18px; }
+    .payment-note, .hint { color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .twint-wrap { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+    .twint-button { width: auto; height: 58px; border-radius: 6px; display: flex; justify-content: center; cursor: pointer; background: transparent; border: none; align-items: center; padding: 0; }
     .twint-button img { height: 58px; width: auto; }
-
-    .btns {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    button.action {
-      border: 0;
-      border-radius: 12px;
-      padding: 14px 18px;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: .2s ease;
-    }
-
-    .primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: #111;
-    }
-
-    .dark {
-      background: #242424;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    .ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
+    .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    button.action { border: 0; border-radius: 12px; padding: 14px 18px; font-size: 14px; font-weight: 800; cursor: pointer; transition: .2s ease; }
+    .primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #111; }
+    .dark { background: #242424; color: var(--text); border: 1px solid var(--line); }
+    .ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
     .primary:hover, .dark:hover, .ghost:hover { transform: translateY(-1px); }
-
-    .summary-box, .admin-box, .label-box {
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.06);
-      background: rgba(255,255,255,.02);
-      margin-bottom: 16px;
-    }
-
-    .summary-grid {
-      display: grid;
-      gap: 10px;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      font-size: 14px;
-    }
-
+    .summary-grid { display: grid; gap: 10px; }
+    .summary-row { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.06); font-size: 14px; }
     .summary-row:last-child { border-bottom: 0; padding-bottom: 0; }
     .summary-row span:first-child { color: var(--muted); }
     .summary-row span:last-child { text-align: right; font-weight: 700; }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 12px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      border: 1px solid transparent;
-    }
-
+    .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 12px; border-radius: 999px; font-size: 12px; font-weight: 800; text-transform: uppercase; border: 1px solid transparent; }
     .waiting { background: rgba(224,161,0,.12); color: #ffd267; border-color: rgba(224,161,0,.3); }
     .paid { background: rgba(31,157,97,.12); color: #92efba; border-color: rgba(31,157,97,.3); }
     .draft { background: rgba(255,255,255,.06); color: #ddd; border-color: rgba(255,255,255,.08); }
-
-    .hint {
-      margin-top: 12px;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .admin-actions {
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .admin-actions .row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .tag {
-      display: inline-flex;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      font-size: 12px;
-      border: 1px solid rgba(255,255,255,.08);
-      margin-right: 6px;
-      margin-bottom: 6px;
-    }
-
-    .label-box {
-      display: none;
-      background: #fff;
-      color: #111;
-    }
-
-    .label-sheet {
-      border: 2px solid #111;
-      border-radius: 14px;
-      padding: 20px;
-      background: #fff;
-    }
-
-    .label-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: start;
-      margin-bottom: 16px;
-    }
-
-    .label-logo {
-      font-size: 30px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
-    .label-muted {
-      color: #555;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 6px;
-    }
-
-    .label-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-
-    .label-card {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 12px;
-    }
-
-    .label-info-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .label-kpi {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 10px;
-      text-align: center;
-    }
-
-    .label-bottom {
-      display: flex;
-      justify-content: space-between;
-      gap: 18px;
-      align-items: flex-end;
-    }
-
-    .label-notes {
-      flex: 1;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 10px;
-      min-height: 70px;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
+    .admin-actions { display: grid; gap: 10px; margin-top: 14px; }
+    .admin-actions .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .tag { display: inline-flex; padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,.06); color: var(--text); font-size: 12px; border: 1px solid rgba(255,255,255,.08); margin-right: 6px; margin-bottom: 6px; }
+    .label-box { display: none; background: #fff; color: #111; }
+    .label-sheet { border: 2px solid #111; border-radius: 14px; padding: 20px; background: #fff; }
+    .label-head { display: flex; justify-content: space-between; gap: 16px; align-items: start; margin-bottom: 16px; }
+    .label-logo { font-size: 30px; font-weight: 900; letter-spacing: 1px; }
+    .label-muted { color: #555; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+    .label-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .label-card { border: 1px solid #ccc; border-radius: 10px; padding: 12px; }
+    .label-info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+    .label-kpi { border: 1px solid #ccc; border-radius: 10px; padding: 10px; text-align: center; }
+    .label-bottom { display: flex; justify-content: space-between; gap: 18px; align-items: flex-end; }
+    .label-notes { flex: 1; border: 1px solid #ccc; border-radius: 10px; padding: 10px; min-height: 70px; font-size: 13px; line-height: 1.45; }
     .qr-box { width: 132px; text-align: center; }
-    .qr-box img {
-      width: 120px;
-      height: 120px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background: #fff;
-      padding: 4px;
-    }
-
-    .message {
-      display: none;
-      margin-top: 16px;
-      padding: 14px 16px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
+    .qr-box img { width: 120px; height: 120px; border: 1px solid #ddd; border-radius: 8px; background: #fff; padding: 4px; }
+    .message { display: none; margin-top: 16px; padding: 14px 16px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
     .message.show { display: block; }
     .message.ok { background: rgba(31,157,97,.12); border: 1px solid rgba(31,157,97,.28); color: #baf6d2; }
     .message.info { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); color: #ddd; }
     .message.warn { background: rgba(224,161,0,.12); border: 1px solid rgba(224,161,0,.28); color: #ffe19a; }
     .message.error { background: rgba(196,75,75,.12); border: 1px solid rgba(196,75,75,.28); color: #ffc9c9; }
-
-    .footer {
-      margin-top: 22px;
-      color: var(--muted);
-      font-size: 12px;
-      text-align: center;
-    }
-
+    .footer { margin-top: 22px; color: var(--muted); font-size: 12px; text-align: center; }
     @media print {
       body { background: #fff; }
       .shell > *:not(.layout), .layout > :not(.right-col), .right-col > :not(.label-box) { display: none !important; }
       .label-box { display: block !important; border: 0; padding: 0; margin: 0; }
       .label-sheet { border: 2px solid #111; }
     }
-
-    @media (max-width: 1080px) {
-      .hero, .layout { grid-template-columns: 1fr; }
-    }
-
+    @media (max-width: 1080px) { .hero, .layout { grid-template-columns: 1fr; } }
     @media (max-width: 680px) {
       .shell { padding: 18px; }
       .grid { grid-template-columns: 1fr; }
@@ -609,18 +175,9 @@
         </p>
       </div>
       <div class="card hero-side">
-        <div class="mini-step">
-          <div class="n">1</div>
-          <div><strong>Saisie du dépôt</strong><span style="color:var(--muted);">Informations expéditeur, destinataire, service et poids.</span></div>
-        </div>
-        <div class="mini-step">
-          <div class="n">2</div>
-          <div><strong>Montant exact affiché</strong><span style="color:var(--muted);">Le client voit clairement le prix avant l’ouverture de TWINT.</span></div>
-        </div>
-        <div class="mini-step">
-          <div class="n">3</div>
-          <div><strong>Étiquette après paiement</strong><span style="color:var(--muted);">Référence unique, QR interne et impression propres.</span></div>
-        </div>
+        <div class="mini-step"><div class="n">1</div><div><strong>Saisie du dépôt</strong><span style="color:var(--muted);">Informations expéditeur, destinataire, service et poids.</span></div></div>
+        <div class="mini-step"><div class="n">2</div><div><strong>Montant exact affiché</strong><span style="color:var(--muted);">Le client voit clairement le prix avant l’ouverture de TWINT.</span></div></div>
+        <div class="mini-step"><div class="n">3</div><div><strong>Étiquette après paiement</strong><span style="color:var(--muted);">Référence unique, QR interne et impression propres.</span></div></div>
       </div>
     </section>
 
@@ -632,53 +189,16 @@
 
           <form id="depositForm">
             <div class="grid">
-              <div class="field">
-                <label for="company">Entreprise / client</label>
-                <input id="company" type="text" placeholder="Nom du client ou de la société" required />
-              </div>
-
-              <div class="field">
-                <label for="contact">Personne de contact</label>
-                <input id="contact" type="text" placeholder="Nom et prénom" required />
-              </div>
-
-              <div class="field">
-                <label for="phone">Téléphone</label>
-                <input id="phone" type="tel" placeholder="+41 ..." required />
-              </div>
-
-              <div class="field">
-                <label for="email">Email</label>
-                <input id="email" type="email" placeholder="nom@email.ch" />
-              </div>
-
-              <div class="field full">
-                <label for="pickupAddress">Adresse de dépôt</label>
-                <input id="pickupAddress" type="text" value="Impasse des Griottes 3, 1462 Yvonand" required />
-              </div>
-
-              <div class="field">
-                <label for="dropDate">Date de dépôt</label>
-                <input id="dropDate" type="date" required />
-              </div>
-
-              <div class="field">
-                <label for="dropTime">Heure souhaitée</label>
-                <input id="dropTime" type="time" />
-              </div>
-
-              <div class="field">
-                <label for="packages">Nombre de colis</label>
-                <input id="packages" type="number" min="1" value="1" required />
-              </div>
-
-              <div class="field">
-                <label for="weight">Poids total (kg)</label>
-                <input id="weight" type="number" min="0" step="0.1" placeholder="0.0" required />
-              </div>
-
-              <div class="field">
-                <label for="format">Format</label>
+              <div class="field"><label for="company">Entreprise / client</label><input id="company" type="text" placeholder="Nom du client ou de la société" required /></div>
+              <div class="field"><label for="contact">Personne de contact</label><input id="contact" type="text" placeholder="Nom et prénom" required /></div>
+              <div class="field"><label for="phone">Téléphone</label><input id="phone" type="tel" placeholder="+41 ..." required /></div>
+              <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="nom@email.ch" /></div>
+              <div class="field full"><label for="pickupAddress">Adresse de dépôt</label><input id="pickupAddress" type="text" value="Impasse des Griottes 3, 1462 Yvonand" required /></div>
+              <div class="field"><label for="dropDate">Date de dépôt</label><input id="dropDate" type="date" required /></div>
+              <div class="field"><label for="dropTime">Heure souhaitée</label><input id="dropTime" type="time" /></div>
+              <div class="field"><label for="packages">Nombre de colis</label><input id="packages" type="number" min="1" value="1" required /></div>
+              <div class="field"><label for="weight">Poids total (kg)</label><input id="weight" type="number" min="0" step="0.1" placeholder="0.0" required /></div>
+              <div class="field"><label for="format">Format</label>
                 <select id="format">
                   <option value="envelope">Enveloppe</option>
                   <option value="small_box">Petit carton</option>
@@ -688,9 +208,7 @@
                   <option value="palette">Palette</option>
                 </select>
               </div>
-
-              <div class="field">
-                <label for="service">Service</label>
+              <div class="field"><label for="service">Service</label>
                 <select id="service">
                   <option value="eco">Eco 48h</option>
                   <option value="priority" selected>Priority 24h</option>
@@ -698,21 +216,9 @@
                   <option value="urgent">Urgent</option>
                 </select>
               </div>
-
-              <div class="field">
-                <label for="recipient">Destinataire</label>
-                <input id="recipient" type="text" placeholder="Nom du destinataire" required />
-              </div>
-
-              <div class="field full">
-                <label for="recipientAddress">Adresse du destinataire</label>
-                <input id="recipientAddress" type="text" placeholder="Rue, numéro, NPA, ville" required />
-              </div>
-
-              <div class="field full">
-                <label for="notes">Consignes</label>
-                <textarea id="notes" placeholder="Fragile, appeler avant passage, dépôt à la réception, étage, code d’accès, etc."></textarea>
-              </div>
+              <div class="field"><label for="recipient">Destinataire</label><input id="recipient" type="text" placeholder="Nom du destinataire" required /></div>
+              <div class="field full"><label for="recipientAddress">Adresse du destinataire</label><input id="recipientAddress" type="text" placeholder="Rue, numéro, NPA, ville" required /></div>
+              <div class="field full"><label for="notes">Consignes</label><textarea id="notes" placeholder="Fragile, appeler avant passage, dépôt à la réception, étage, code d’accès, etc."></textarea></div>
             </div>
 
             <div class="switches">
@@ -723,18 +229,14 @@
 
             <div class="pricing-box">
               <div class="pricing-top">
-                <div>
-                  <div class="label">Montant à payer avant génération de l’étiquette</div>
-                  <div class="amount" id="priceDisplay">CHF 0.00</div>
-                </div>
-                <div>
-                  <span class="status-pill draft" id="orderStatusBadge">brouillon</span>
-                </div>
+                <div><div class="label">Montant à payer avant génération de l’étiquette</div><div class="amount" id="priceDisplay">CHF 0.00</div></div>
+                <div><span class="status-pill draft" id="orderStatusBadge">brouillon</span></div>
               </div>
-
               <div class="pricing-list">
                 <div class="pricing-row"><span>Service</span><strong id="detailService">Priority 24h</strong></div>
-                <div class="pricing-row"><span>Format / poids</span><strong id="detailFormatWeight">Carton standard • —</strong></div>
+                <div class="pricing-row"><span>Base tarifaire</span><strong id="detailBase">CHF 0.00</strong></div>
+                <div class="pricing-row"><span>Format / poids</span><strong id="detailFormatWeight">Carton standard • 0 kg</strong></div>
+                <div class="pricing-row"><span>Supplément poids</span><strong id="detailWeightExtra">CHF 0.00</strong></div>
                 <div class="pricing-row"><span>Suppléments</span><strong id="detailExtras">Aucun</strong></div>
                 <div class="pricing-row"><span>Référence provisoire</span><strong id="detailReference">—</strong></div>
               </div>
@@ -742,14 +244,9 @@
 
             <div class="payment-box">
               <h3>Paiement TWINT</h3>
-              <div class="payment-note">
-                Le client doit payer le montant affiché ci-dessus. Ensuite, il clique sur <strong>J’ai effectué le paiement</strong>.
-                Cela passe la commande en <strong>paiement déclaré</strong> et débloque la génération de l’étiquette. La vérification bancaire finale peut rester manuelle dans votre interface.
-              </div>
+              <div class="payment-note">Le client doit payer le montant affiché ci-dessus. Ensuite, il clique sur <strong>J’ai effectué le paiement</strong>. Cela passe la commande en <strong>paiement déclaré</strong> et débloque la génération de l’étiquette.</div>
               <div class="twint-wrap">
-                <button class="twint-button" type="button" id="twintBtn">
-                  <img alt="TWINT" src="https://go.twint.ch/static/img/button_dark_en.svg" />
-                </button>
+                <button class="twint-button" type="button" id="twintBtn"><img alt="TWINT" src="https://go.twint.ch/static/img/button_dark_en.svg" /></button>
                 <span class="tag">Adresse dépôt : Impasse des Griottes 3, 1462 Yvonand</span>
               </div>
               <div class="btns">
@@ -758,7 +255,6 @@
                 <button class="action ghost" type="button" id="resetBtn">Réinitialiser</button>
               </div>
             </div>
-
             <div id="formMessage" class="message info"></div>
           </form>
         </div>
@@ -786,7 +282,6 @@
             <span class="tag" id="currentPayTag">Paiement : non déclaré</span>
             <span class="tag" id="storageTag">Stockage : local</span>
           </div>
-
           <div class="admin-actions">
             <div class="row">
               <button class="action dark" type="button" id="markVerifiedBtn">Marquer comme payé (admin)</button>
@@ -797,58 +292,29 @@
               <button class="action ghost" type="button" id="printBtn">Imprimer</button>
             </div>
           </div>
-
-          <div class="hint">
-            Sans API TWINT avancée, la confirmation reste déclarative côté client puis vérifiable manuellement côté admin.
-            La page est néanmoins prête à stocker la commande et son statut dans Supabase.
-          </div>
+          <div class="hint">Sans API TWINT avancée, la confirmation reste déclarative côté client puis vérifiable manuellement côté admin. La page est néanmoins prête à stocker la commande et son statut dans Supabase.</div>
         </div>
 
         <div class="label-box" id="labelBox">
           <h3>Étiquette imprimable</h3>
           <div class="label-sheet" id="labelSheet">
             <div class="label-head">
-              <div>
-                <div class="label-logo">COLIXO</div>
-                <div style="font-size:12px; color:#444;">Étiquette de dépôt colis</div>
-              </div>
-              <div style="text-align:right;">
-                <div class="label-muted">Référence</div>
-                <div id="labelRef" style="font-size:22px; font-weight:900;">—</div>
-              </div>
+              <div><div class="label-logo">COLIXO</div><div style="font-size:12px; color:#444;">Étiquette de dépôt colis</div></div>
+              <div style="text-align:right;"><div class="label-muted">Référence</div><div id="labelRef" style="font-size:22px; font-weight:900;">—</div></div>
             </div>
-
             <div class="label-grid">
-              <div class="label-card">
-                <div class="label-muted">Expéditeur / dépôt</div>
-                <div id="labelSenderName" style="font-weight:800;">—</div>
-                <div id="labelSenderContact">—</div>
-                <div id="labelSenderPhone">—</div>
-                <div id="labelSenderAddress">—</div>
-              </div>
-              <div class="label-card">
-                <div class="label-muted">Destinataire</div>
-                <div id="labelRecipientName" style="font-weight:800;">—</div>
-                <div id="labelRecipientAddress">—</div>
-              </div>
+              <div class="label-card"><div class="label-muted">Expéditeur / dépôt</div><div id="labelSenderName" style="font-weight:800;">—</div><div id="labelSenderContact">—</div><div id="labelSenderPhone">—</div><div id="labelSenderAddress">—</div></div>
+              <div class="label-card"><div class="label-muted">Destinataire</div><div id="labelRecipientName" style="font-weight:800;">—</div><div id="labelRecipientAddress">—</div></div>
             </div>
-
             <div class="label-info-grid">
               <div class="label-kpi"><div class="label-muted">Service</div><div id="labelService">—</div></div>
               <div class="label-kpi"><div class="label-muted">Colis</div><div id="labelPackages">—</div></div>
               <div class="label-kpi"><div class="label-muted">Poids</div><div id="labelWeight">—</div></div>
               <div class="label-kpi"><div class="label-muted">Montant</div><div id="labelPrice" style="font-weight:900;">—</div></div>
             </div>
-
             <div class="label-bottom">
-              <div style="flex:1;">
-                <div class="label-muted">Consignes</div>
-                <div class="label-notes" id="labelNotes">—</div>
-              </div>
-              <div class="qr-box">
-                <img id="labelQr" alt="QR Colixo" />
-                <div style="font-size:10px; color:#666; margin-top:6px;">Scan interne Colixo</div>
-              </div>
+              <div style="flex:1;"><div class="label-muted">Consignes</div><div class="label-notes" id="labelNotes">—</div></div>
+              <div class="qr-box"><img id="labelQr" alt="QR Colixo" /><div style="font-size:10px; color:#666; margin-top:6px;">Scan interne Colixo</div></div>
             </div>
           </div>
         </div>
@@ -857,420 +323,100 @@
 
     <div class="footer">Version dépôt client sérieuse • stockage local immédiat • branchement Supabase prévu • génération d’étiquette conditionnée au paiement</div>
   </div>
-<script>
-  const SUPABASE_URL = window.COLIXO_SUPABASE_URL || '';
-  const SUPABASE_ANON_KEY = window.COLIXO_SUPABASE_ANON_KEY || '';
-  const SUPABASE_TABLE = window.COLIXO_SUPABASE_TABLE || 'parcel_deposits';
 
-  const TWINT_URL = 'https://go.twint.ch/1/e/tw?tw=acq.zY89V9VtQEidHoSlo3GK4kokhK07SfUCxAm9RyoruaIyHLWNEJSvIZsnD7N1FcLk.';
+  <script>
+    const SUPABASE_URL = window.COLIXO_SUPABASE_URL || '';
+    const SUPABASE_ANON_KEY = window.COLIXO_SUPABASE_ANON_KEY || '';
+    const SUPABASE_TABLE = window.COLIXO_SUPABASE_TABLE || 'parcel_deposits';
+    const TWINT_URL = 'https://go.twint.ch/1/e/tw?tw=acq.zY89V9VtQEidHoSlo3GK4kokhK07SfUCxAm9RyoruaIyHLWNEJSvIZsnD7N1FcLk.';
 
-  const serviceMap = {
-    eco: { label: 'Eco 48h', base: 7.50 },
-    priority: { label: 'Priority 24h', base: 8.50 },
-    express: { label: 'Express', base: 15.50 },
-    urgent: { label: 'Urgent', base: 25.50 }
-  };
-
-  const formatMap = {
-    envelope: { label: 'Enveloppe', extra: 0 },
-    small_box: { label: 'Petit carton', extra: 1.00 },
-    standard_box: { label: 'Carton standard', extra: 2.00 },
-    large_box: { label: 'Grand carton', extra: 4.00 },
-    fragile: { label: 'Fragile', extra: 5.00 },
-    palette: { label: 'Palette', extra: 25.00 }
-  };
-
-  const fields = {
-    company: document.getElementById('company'),
-    contact: document.getElementById('contact'),
-    phone: document.getElementById('phone'),
-    email: document.getElementById('email'),
-    pickupAddress: document.getElementById('pickupAddress'),
-    dropDate: document.getElementById('dropDate'),
-    dropTime: document.getElementById('dropTime'),
-    packages: document.getElementById('packages'),
-    weight: document.getElementById('weight'),
-    format: document.getElementById('format'),
-    service: document.getElementById('service'),
-    recipient: document.getElementById('recipient'),
-    recipientAddress: document.getElementById('recipientAddress'),
-    notes: document.getElementById('notes'),
-    fragileExtra: document.getElementById('fragileExtra'),
-    nightDrop: document.getElementById('nightDrop'),
-    terms: document.getElementById('terms')
-  };
-
-  const ui = {
-    form: document.getElementById('depositForm'),
-    formMessage: document.getElementById('formMessage'),
-    priceDisplay: document.getElementById('priceDisplay'),
-    detailService: document.getElementById('detailService'),
-    detailFormatWeight: document.getElementById('detailFormatWeight'),
-    detailExtras: document.getElementById('detailExtras'),
-    detailReference: document.getElementById('detailReference'),
-    orderStatusBadge: document.getElementById('orderStatusBadge'),
-    twintBtn: document.getElementById('twintBtn'),
-    confirmPaidBtn: document.getElementById('confirmPaidBtn'),
-    markVerifiedBtn: document.getElementById('markVerifiedBtn'),
-    saveBtn: document.getElementById('saveBtn'),
-    generateLabelBtn: document.getElementById('generateLabelBtn'),
-    printBtn: document.getElementById('printBtn'),
-    resetBtn: document.getElementById('resetBtn'),
-    sumClient: document.getElementById('sumClient'),
-    sumContact: document.getElementById('sumContact'),
-    sumDateTime: document.getElementById('sumDateTime'),
-    sumPackages: document.getElementById('sumPackages'),
-    sumService: document.getElementById('sumService'),
-    sumPrice: document.getElementById('sumPrice'),
-    sumStatus: document.getElementById('sumStatus'),
-    currentRefTag: document.getElementById('currentRefTag'),
-    currentPayTag: document.getElementById('currentPayTag'),
-    storageTag: document.getElementById('storageTag'),
-    labelBox: document.getElementById('labelBox'),
-    labelRef: document.getElementById('labelRef'),
-    labelSenderName: document.getElementById('labelSenderName'),
-    labelSenderContact: document.getElementById('labelSenderContact'),
-    labelSenderPhone: document.getElementById('labelSenderPhone'),
-    labelSenderAddress: document.getElementById('labelSenderAddress'),
-    labelRecipientName: document.getElementById('labelRecipientName'),
-    labelRecipientAddress: document.getElementById('labelRecipientAddress'),
-    labelService: document.getElementById('labelService'),
-    labelPackages: document.getElementById('labelPackages'),
-    labelWeight: document.getElementById('labelWeight'),
-    labelPrice: document.getElementById('labelPrice'),
-    labelNotes: document.getElementById('labelNotes'),
-    labelQr: document.getElementById('labelQr')
-  };
-
-  let supabase = null;
-  if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    ui.storageTag.textContent = 'Stockage : Supabase';
-  }
-
-  let currentOrder = {
-    id: null,
-    reference: '',
-    status: 'draft',
-    payment_declared: false,
-    payment_verified: false,
-    label_ready: false,
-    exact_price: 0
-  };
-
-  function todayISO() {
-    const d = new Date();
-    return d.toISOString().slice(0, 10);
-  }
-
-  fields.dropDate.value = todayISO();
-
-  function generateReference() {
-    const now = new Date();
-    const y = now.getFullYear();
-    const m = String(now.getMonth() + 1).padStart(2, '0');
-    const d = String(now.getDate()).padStart(2, '0');
-    const h = String(now.getHours()).padStart(2, '0');
-    const min = String(now.getMinutes()).padStart(2, '0');
-    const rnd = Math.floor(Math.random() * 9000) + 1000;
-    return `CLX-${y}${m}${d}-${h}${min}-${rnd}`;
-  }
-
-  function money(v) {
-    return 'CHF ' + Number(v || 0).toFixed(2);
-  }
-
-  function calculatePrice() {
-    const packages = Math.max(parseInt(fields.packages.value || '1', 10), 1);
-    const weight = parseFloat(fields.weight.value || '0') || 0;
-    const service = serviceMap[fields.service.value] || serviceMap.priority;
-    const format = formatMap[fields.format.value] || formatMap.standard_box;
-
-    let total = service.base + format.extra;
-    const extras = [];
-
-    let weightExtra = 0;
-    if (weight > 0 && weight <= 2) weightExtra = 0;
-    else if (weight > 2 && weight <= 10) weightExtra = 1.50;
-    else if (weight > 10 && weight <= 20) weightExtra = 3.50;
-    else if (weight > 20 && weight <= 30) weightExtra = 6.50;
-    else if (weight > 30) weightExtra = 12.00;
-
-    total += weightExtra;
-
-    if (format.extra > 0) {
-      extras.push(`${format.label} +${money(format.extra)}`);
-    }
-
-    if (weightExtra > 0) {
-      extras.push(`poids +${money(weightExtra)}`);
-    }
-
-    if (fields.fragileExtra.checked) {
-      total += 2.00;
-      extras.push('manipulation fragile +CHF 2.00');
-    }
-
-    if (fields.nightDrop.checked) {
-      total += 5.00;
-      extras.push('dépôt de nuit +CHF 5.00');
-    }
-
-    if (packages > 1) {
-      const extraPackages = (packages - 1) * 2.50;
-      total += extraPackages;
-      extras.push(`colis supplémentaires +${money(extraPackages)}`);
-    }
-
-    total = Math.round(total * 100) / 100;
-
-    return {
-      total,
-      serviceLabel: service.label,
-      formatLabel: format.label,
-      weightLabel: weight ? `${weight} kg` : '0 kg',
-      extrasLabel: extras.length ? extras.join(' • ') : 'Aucun'
+    const serviceMap = {
+      eco: { label: 'Eco 48h', base: 7.50 },
+      priority: { label: 'Priority 24h', base: 8.50 },
+      express: { label: 'Express', base: 15.50 },
+      urgent: { label: 'Urgent', base: 25.50 }
     };
-  }
 
-  function getOrderPayload() {
-    const pricing = calculatePrice();
-    if (!currentOrder.reference) currentOrder.reference = generateReference();
-
-    return {
-      reference: currentOrder.reference,
-      company: fields.company.value.trim(),
-      contact: fields.contact.value.trim(),
-      phone: fields.phone.value.trim(),
-      email: fields.email.value.trim(),
-      pickup_address: fields.pickupAddress.value.trim(),
-      drop_date: fields.dropDate.value,
-      drop_time: fields.dropTime.value,
-      packages: Math.max(parseInt(fields.packages.value || '1', 10), 1),
-      weight: parseFloat(fields.weight.value || '0') || 0,
-      format_code: fields.format.value,
-      format_label: pricing.formatLabel,
-      service_code: fields.service.value,
-      service_label: pricing.serviceLabel,
-      recipient: fields.recipient.value.trim(),
-      recipient_address: fields.recipientAddress.value.trim(),
-      notes: fields.notes.value.trim(),
-      fragile_extra: fields.fragileExtra.checked,
-      night_drop: fields.nightDrop.checked,
-      exact_price: pricing.total,
-      payment_declared: currentOrder.payment_declared,
-      payment_verified: currentOrder.payment_verified,
-      status: currentOrder.status,
-      label_ready: currentOrder.label_ready,
-      created_at_client: new Date().toISOString()
+    const formatMap = {
+      envelope: { label: 'Enveloppe', extra: 0 },
+      small_box: { label: 'Petit carton', extra: 1.00 },
+      standard_box: { label: 'Carton standard', extra: 2.00 },
+      large_box: { label: 'Grand carton', extra: 4.00 },
+      fragile: { label: 'Fragile', extra: 5.00 },
+      palette: { label: 'Palette', extra: 25.00 }
     };
-  }
 
-  function setMessage(type, text) {
-    ui.formMessage.className = `message show ${type}`;
-    ui.formMessage.textContent = text;
-  }
+    const fields = {
+      company: document.getElementById('company'),
+      contact: document.getElementById('contact'),
+      phone: document.getElementById('phone'),
+      email: document.getElementById('email'),
+      pickupAddress: document.getElementById('pickupAddress'),
+      dropDate: document.getElementById('dropDate'),
+      dropTime: document.getElementById('dropTime'),
+      packages: document.getElementById('packages'),
+      weight: document.getElementById('weight'),
+      format: document.getElementById('format'),
+      service: document.getElementById('service'),
+      recipient: document.getElementById('recipient'),
+      recipientAddress: document.getElementById('recipientAddress'),
+      notes: document.getElementById('notes'),
+      fragileExtra: document.getElementById('fragileExtra'),
+      nightDrop: document.getElementById('nightDrop'),
+      terms: document.getElementById('terms')
+    };
 
-  function clearMessage() {
-    ui.formMessage.className = 'message info';
-    ui.formMessage.textContent = '';
-  }
+    const ui = {
+      form: document.getElementById('depositForm'),
+      formMessage: document.getElementById('formMessage'),
+      priceDisplay: document.getElementById('priceDisplay'),
+      detailService: document.getElementById('detailService'),
+      detailBase: document.getElementById('detailBase'),
+      detailFormatWeight: document.getElementById('detailFormatWeight'),
+      detailWeightExtra: document.getElementById('detailWeightExtra'),
+      detailExtras: document.getElementById('detailExtras'),
+      detailReference: document.getElementById('detailReference'),
+      orderStatusBadge: document.getElementById('orderStatusBadge'),
+      twintBtn: document.getElementById('twintBtn'),
+      confirmPaidBtn: document.getElementById('confirmPaidBtn'),
+      markVerifiedBtn: document.getElementById('markVerifiedBtn'),
+      saveBtn: document.getElementById('saveBtn'),
+      generateLabelBtn: document.getElementById('generateLabelBtn'),
+      printBtn: document.getElementById('printBtn'),
+      resetBtn: document.getElementById('resetBtn'),
+      sumClient: document.getElementById('sumClient'),
+      sumContact: document.getElementById('sumContact'),
+      sumDateTime: document.getElementById('sumDateTime'),
+      sumPackages: document.getElementById('sumPackages'),
+      sumService: document.getElementById('sumService'),
+      sumPrice: document.getElementById('sumPrice'),
+      sumStatus: document.getElementById('sumStatus'),
+      currentRefTag: document.getElementById('currentRefTag'),
+      currentPayTag: document.getElementById('currentPayTag'),
+      storageTag: document.getElementById('storageTag'),
+      labelBox: document.getElementById('labelBox'),
+      labelRef: document.getElementById('labelRef'),
+      labelSenderName: document.getElementById('labelSenderName'),
+      labelSenderContact: document.getElementById('labelSenderContact'),
+      labelSenderPhone: document.getElementById('labelSenderPhone'),
+      labelSenderAddress: document.getElementById('labelSenderAddress'),
+      labelRecipientName: document.getElementById('labelRecipientName'),
+      labelRecipientAddress: document.getElementById('labelRecipientAddress'),
+      labelService: document.getElementById('labelService'),
+      labelPackages: document.getElementById('labelPackages'),
+      labelWeight: document.getElementById('labelWeight'),
+      labelPrice: document.getElementById('labelPrice'),
+      labelNotes: document.getElementById('labelNotes'),
+      labelQr: document.getElementById('labelQr')
+    };
 
-  function setStatus(status) {
-    currentOrder.status = status;
-    let className = 'draft';
-    let label = 'Brouillon';
-
-    if (status === 'payment_declared') {
-      className = 'waiting';
-      label = 'Paiement déclaré';
-    } else if (status === 'paid_verified') {
-      className = 'paid';
-      label = 'Payé vérifié';
+    let supabase = null;
+    if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
+      supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      ui.storageTag.textContent = 'Stockage : Supabase';
     }
 
-    ui.orderStatusBadge.className = `status-pill ${className}`;
-    ui.orderStatusBadge.textContent = label.toLowerCase();
-    ui.sumStatus.textContent = label;
-    ui.currentPayTag.textContent = currentOrder.payment_verified
-      ? 'Paiement : vérifié'
-      : currentOrder.payment_declared
-        ? 'Paiement : déclaré'
-        : 'Paiement : non déclaré';
-  }
-
-  function updateSummary() {
-    const pricing = calculatePrice();
-    currentOrder.exact_price = pricing.total;
-
-    if (!currentOrder.reference) {
-      currentOrder.reference = generateReference();
-    }
-
-    ui.priceDisplay.textContent = money(pricing.total);
-    ui.sumPrice.textContent = money(pricing.total);
-    ui.detailService.textContent = pricing.serviceLabel;
-    ui.detailFormatWeight.textContent = `${pricing.formatLabel} • ${pricing.weightLabel}`;
-    ui.detailExtras.textContent = pricing.extrasLabel;
-    ui.detailReference.textContent = currentOrder.reference;
-    ui.currentRefTag.textContent = `Référence : ${currentOrder.reference}`;
-
-    ui.sumClient.textContent = fields.company.value.trim() || '—';
-    ui.sumContact.textContent = fields.contact.value.trim() || '—';
-    ui.sumPackages.textContent = fields.packages.value || '1';
-    ui.sumService.textContent = pricing.serviceLabel;
-
-    const date = fields.dropDate.value;
-    const time = fields.dropTime.value;
-    ui.sumDateTime.textContent = date ? (time ? `${date} à ${time}` : date) : '—';
-
-    setStatus(currentOrder.status || 'draft');
-  }
-
-  async function saveOrder() {
-    const payload = getOrderPayload();
-    localStorage.setItem('colixo_current_deposit', JSON.stringify(payload));
-
-    if (!supabase) {
-      return { mode: 'local', data: payload };
-    }
-
-    try {
-      let result;
-      if (currentOrder.id) {
-        result = await supabase
-          .from(SUPABASE_TABLE)
-          .update(payload)
-          .eq('id', currentOrder.id)
-          .select()
-          .single();
-      } else {
-        result = await supabase
-          .from(SUPABASE_TABLE)
-          .insert(payload)
-          .select()
-          .single();
-      }
-
-      if (result.error) throw result.error;
-      if (result.data?.id) currentOrder.id = result.data.id;
-      return { mode: 'supabase', data: result.data };
-    } catch (error) {
-      console.error(error);
-      setMessage('warn', 'Enregistrement distant impossible. La commande reste sauvegardée localement.');
-      return { mode: 'local-fallback', data: payload, error };
-    }
-  }
-
-  function buildQrUrl(reference, amount) {
-    const payload = [
-      'COLIXO',
-      reference,
-      fields.company.value.trim(),
-      fields.contact.value.trim(),
-      fields.phone.value.trim(),
-      fields.recipient.value.trim(),
-      fields.recipientAddress.value.trim(),
-      amount.toFixed(2)
-    ].join('|');
-
-    return 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(payload);
-  }
-
-  function populateLabel() {
-    if (!currentOrder.reference) currentOrder.reference = generateReference();
-    const pricing = calculatePrice();
-
-    ui.labelRef.textContent = currentOrder.reference;
-    ui.labelSenderName.textContent = fields.company.value.trim() || '—';
-    ui.labelSenderContact.textContent = fields.contact.value.trim() || '—';
-    ui.labelSenderPhone.textContent = fields.phone.value.trim() || '—';
-    ui.labelSenderAddress.textContent = fields.pickupAddress.value.trim() || '—';
-    ui.labelRecipientName.textContent = fields.recipient.value.trim() || '—';
-    ui.labelRecipientAddress.textContent = fields.recipientAddress.value.trim() || '—';
-    ui.labelService.textContent = pricing.serviceLabel;
-    ui.labelPackages.textContent = fields.packages.value || '1';
-    ui.labelWeight.textContent = pricing.weightLabel;
-    ui.labelPrice.textContent = money(pricing.total);
-    ui.labelNotes.textContent = fields.notes.value.trim() || 'Aucune consigne';
-    ui.labelQr.src = buildQrUrl(currentOrder.reference, pricing.total);
-  }
-
-  function canGenerateLabel() {
-    return currentOrder.payment_declared || currentOrder.payment_verified;
-  }
-
-  async function createDraftOrder() {
-    if (!ui.form.reportValidity()) return;
-    if (!currentOrder.reference) currentOrder.reference = generateReference();
-    currentOrder.label_ready = false;
-    setStatus(currentOrder.payment_verified ? 'paid_verified' : currentOrder.payment_declared ? 'payment_declared' : 'draft');
-    updateSummary();
-
-    const saved = await saveOrder();
-    if (saved.mode === 'supabase') {
-      setMessage('ok', 'Commande créée et enregistrée dans Supabase.');
-    } else {
-      setMessage('info', 'Commande créée et sauvegardée localement.');
-    }
-  }
-
-  async function declarePayment() {
-    if (!ui.form.reportValidity()) return;
-    if (!currentOrder.reference) currentOrder.reference = generateReference();
-
-    currentOrder.payment_declared = true;
-    currentOrder.payment_verified = false;
-    setStatus('payment_declared');
-    updateSummary();
-    await saveOrder();
-
-    setMessage('ok', 'Paiement déclaré par le client. L’étiquette peut maintenant être générée.');
-  }
-
-  async function markVerified() {
-    if (!ui.form.reportValidity()) return;
-    if (!currentOrder.reference) currentOrder.reference = generateReference();
-
-    currentOrder.payment_declared = true;
-    currentOrder.payment_verified = true;
-    setStatus('paid_verified');
-    updateSummary();
-    await saveOrder();
-
-    setMessage('ok', 'Commande marquée comme payée et vérifiée.');
-  }
-
-  async function generateLabel() {
-    if (!ui.form.reportValidity()) return;
-
-    if (!canGenerateLabel()) {
-      setMessage('warn', 'L’étiquette reste bloquée tant que le paiement n’a pas été déclaré ou vérifié.');
-      return;
-    }
-
-    currentOrder.label_ready = true;
-    populateLabel();
-    ui.labelBox.style.display = 'block';
-    await saveOrder();
-
-    setMessage('ok', 'Étiquette générée. Vous pouvez maintenant l’imprimer.');
-  }
-
-  function printLabel() {
-    if (ui.labelBox.style.display !== 'block') {
-      setMessage('warn', 'Générez d’abord l’étiquette avant impression.');
-      return;
-    }
-    window.print();
-  }
-
-  function resetAll() {
-    ui.form.reset();
-    fields.dropDate.value = todayISO();
-    fields.pickupAddress.value = 'Impasse des Griottes 3, 1462 Yvonand';
-
-    currentOrder = {
+    let currentOrder = {
       id: null,
       reference: '',
       status: 'draft',
@@ -1280,79 +426,323 @@
       exact_price: 0
     };
 
-    ui.labelBox.style.display = 'none';
-    clearMessage();
-    updateSummary();
-    localStorage.removeItem('colixo_current_deposit');
-  }
-
-  function loadLocalDraft() {
-    const raw = localStorage.getItem('colixo_current_deposit');
-    if (!raw) return;
-
-    try {
-      const d = JSON.parse(raw);
-      fields.company.value = d.company || '';
-      fields.contact.value = d.contact || '';
-      fields.phone.value = d.phone || '';
-      fields.email.value = d.email || '';
-      fields.pickupAddress.value = d.pickup_address || 'Impasse des Griottes 3, 1462 Yvonand';
-      fields.dropDate.value = d.drop_date || todayISO();
-      fields.dropTime.value = d.drop_time || '';
-      fields.packages.value = d.packages || 1;
-      fields.weight.value = d.weight ?? '';
-      fields.format.value = d.format_code || 'standard_box';
-      fields.service.value = d.service_code || 'priority';
-      fields.recipient.value = d.recipient || '';
-      fields.recipientAddress.value = d.recipient_address || '';
-      fields.notes.value = d.notes || '';
-      fields.fragileExtra.checked = !!d.fragile_extra;
-      fields.nightDrop.checked = !!d.night_drop;
-
-      currentOrder.reference = d.reference || generateReference();
-      currentOrder.payment_declared = !!d.payment_declared;
-      currentOrder.payment_verified = !!d.payment_verified;
-      currentOrder.label_ready = !!d.label_ready;
-      currentOrder.status = d.status || 'draft';
-
-      updateSummary();
-
-      if (currentOrder.label_ready && canGenerateLabel()) {
-        populateLabel();
-        ui.labelBox.style.display = 'block';
-      }
-    } catch (e) {
-      console.error(e);
+    function todayISO() {
+      const d = new Date();
+      return d.toISOString().slice(0, 10);
     }
-  }
 
-  ui.twintBtn.addEventListener('click', () => {
+    fields.dropDate.value = todayISO();
+
+    function generateReference() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      const h = String(now.getHours()).padStart(2, '0');
+      const min = String(now.getMinutes()).padStart(2, '0');
+      const rnd = Math.floor(Math.random() * 9000) + 1000;
+      return `CLX-${y}${m}${d}-${h}${min}-${rnd}`;
+    }
+
+    function money(v) {
+      return 'CHF ' + Number(v || 0).toFixed(2);
+    }
+
+    function calculatePrice() {
+      const packages = Math.max(parseInt(fields.packages.value || '1', 10), 1);
+      const weight = parseFloat(fields.weight.value || '0') || 0;
+      const service = serviceMap[fields.service.value] || serviceMap.priority;
+      const format = formatMap[fields.format.value] || formatMap.standard_box;
+      const extras = [];
+
+      let total = service.base + format.extra;
+      let weightExtra = 0;
+
+      if (weight > 0 && weight <= 2) weightExtra = 0;
+      else if (weight > 2 && weight <= 10) weightExtra = 1.50;
+      else if (weight > 10 && weight <= 20) weightExtra = 3.50;
+      else if (weight > 20 && weight <= 30) weightExtra = 6.50;
+      else if (weight > 30) weightExtra = 12.00;
+
+      total += weightExtra;
+
+      if (fields.fragileExtra.checked) {
+        total += 2.00;
+        extras.push('manipulation fragile +CHF 2.00');
+      }
+      if (fields.nightDrop.checked) {
+        total += 5.00;
+        extras.push('dépôt de nuit +CHF 5.00');
+      }
+      if (packages > 1) {
+        const extraPackages = (packages - 1) * 2.50;
+        total += extraPackages;
+        extras.push(`colis supplémentaires +${money(extraPackages)}`);
+      }
+
+      total = Math.round(total * 100) / 100;
+
+      return {
+        total,
+        serviceLabel: service.label,
+        formatLabel: format.label,
+        weightLabel: weight ? `${weight} kg` : '0 kg',
+        baseLabel: `${money(service.base)} + ${money(format.extra)}`,
+        weightExtraLabel: money(weightExtra),
+        extrasLabel: extras.length ? extras.join(' • ') : 'Aucun'
+      };
+    }
+
+    function getOrderPayload() {
+      const pricing = calculatePrice();
+      if (!currentOrder.reference) currentOrder.reference = generateReference();
+      return {
+        reference: currentOrder.reference,
+        company: fields.company.value.trim(),
+        contact: fields.contact.value.trim(),
+        phone: fields.phone.value.trim(),
+        email: fields.email.value.trim(),
+        pickup_address: fields.pickupAddress.value.trim(),
+        drop_date: fields.dropDate.value,
+        drop_time: fields.dropTime.value,
+        packages: Math.max(parseInt(fields.packages.value || '1', 10), 1),
+        weight: parseFloat(fields.weight.value || '0') || 0,
+        format_code: fields.format.value,
+        format_label: pricing.formatLabel,
+        service_code: fields.service.value,
+        service_label: pricing.serviceLabel,
+        recipient: fields.recipient.value.trim(),
+        recipient_address: fields.recipientAddress.value.trim(),
+        notes: fields.notes.value.trim(),
+        fragile_extra: fields.fragileExtra.checked,
+        night_drop: fields.nightDrop.checked,
+        exact_price: pricing.total,
+        payment_declared: currentOrder.payment_declared,
+        payment_verified: currentOrder.payment_verified,
+        status: currentOrder.status,
+        label_ready: currentOrder.label_ready,
+        created_at_client: new Date().toISOString()
+      };
+    }
+
+    function setMessage(type, text) {
+      ui.formMessage.className = `message show ${type}`;
+      ui.formMessage.textContent = text;
+    }
+
+    function clearMessage() {
+      ui.formMessage.className = 'message info';
+      ui.formMessage.textContent = '';
+    }
+
+    function setStatus(status) {
+      currentOrder.status = status;
+      let className = 'draft';
+      let label = 'Brouillon';
+      if (status === 'payment_declared') {
+        className = 'waiting';
+        label = 'Paiement déclaré';
+      } else if (status === 'paid_verified') {
+        className = 'paid';
+        label = 'Payé vérifié';
+      }
+      ui.orderStatusBadge.className = `status-pill ${className}`;
+      ui.orderStatusBadge.textContent = label.toLowerCase();
+      ui.sumStatus.textContent = label;
+      ui.currentPayTag.textContent = currentOrder.payment_verified ? 'Paiement : vérifié' : currentOrder.payment_declared ? 'Paiement : déclaré' : 'Paiement : non déclaré';
+    }
+
+    function updateSummary() {
+      const pricing = calculatePrice();
+      currentOrder.exact_price = pricing.total;
+      if (!currentOrder.reference) currentOrder.reference = generateReference();
+
+      ui.priceDisplay.textContent = money(pricing.total);
+      ui.sumPrice.textContent = money(pricing.total);
+      ui.detailService.textContent = pricing.serviceLabel;
+      ui.detailBase.textContent = pricing.baseLabel;
+      ui.detailFormatWeight.textContent = `${pricing.formatLabel} • ${pricing.weightLabel}`;
+      ui.detailWeightExtra.textContent = pricing.weightExtraLabel;
+      ui.detailExtras.textContent = pricing.extrasLabel;
+      ui.detailReference.textContent = currentOrder.reference;
+      ui.currentRefTag.textContent = `Référence : ${currentOrder.reference}`;
+      ui.sumClient.textContent = fields.company.value.trim() || '—';
+      ui.sumContact.textContent = fields.contact.value.trim() || '—';
+      ui.sumPackages.textContent = fields.packages.value || '1';
+      ui.sumService.textContent = pricing.serviceLabel;
+      const date = fields.dropDate.value;
+      const time = fields.dropTime.value;
+      ui.sumDateTime.textContent = date ? (time ? `${date} à ${time}` : date) : '—';
+      setStatus(currentOrder.status || 'draft');
+    }
+
+    async function saveOrder() {
+      const payload = getOrderPayload();
+      localStorage.setItem('colixo_current_deposit', JSON.stringify(payload));
+      if (!supabase) return { mode: 'local', data: payload };
+      try {
+        let result;
+        if (currentOrder.id) {
+          result = await supabase.from(SUPABASE_TABLE).update(payload).eq('id', currentOrder.id).select().single();
+        } else {
+          result = await supabase.from(SUPABASE_TABLE).insert(payload).select().single();
+        }
+        if (result.error) throw result.error;
+        if (result.data?.id) currentOrder.id = result.data.id;
+        return { mode: 'supabase', data: result.data };
+      } catch (error) {
+        console.error(error);
+        setMessage('warn', 'Enregistrement distant impossible. La commande reste sauvegardée localement dans ce navigateur.');
+        return { mode: 'local-fallback', data: payload, error };
+      }
+    }
+
+    function buildQrUrl(reference, amount) {
+      const payload = ['COLIXO', reference, fields.company.value.trim(), fields.contact.value.trim(), fields.phone.value.trim(), fields.recipient.value.trim(), fields.recipientAddress.value.trim(), amount.toFixed(2)].join('|');
+      return 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(payload);
+    }
+
+    function populateLabel() {
+      if (!currentOrder.reference) currentOrder.reference = generateReference();
+      const pricing = calculatePrice();
+      ui.labelRef.textContent = currentOrder.reference;
+      ui.labelSenderName.textContent = fields.company.value.trim() || '—';
+      ui.labelSenderContact.textContent = fields.contact.value.trim() || '—';
+      ui.labelSenderPhone.textContent = fields.phone.value.trim() || '—';
+      ui.labelSenderAddress.textContent = fields.pickupAddress.value.trim() || '—';
+      ui.labelRecipientName.textContent = fields.recipient.value.trim() || '—';
+      ui.labelRecipientAddress.textContent = fields.recipientAddress.value.trim() || '—';
+      ui.labelService.textContent = pricing.serviceLabel;
+      ui.labelPackages.textContent = fields.packages.value || '1';
+      ui.labelWeight.textContent = pricing.weightLabel;
+      ui.labelPrice.textContent = money(pricing.total);
+      ui.labelNotes.textContent = fields.notes.value.trim() || 'Aucune consigne';
+      ui.labelQr.src = buildQrUrl(currentOrder.reference, pricing.total);
+    }
+
+    function canGenerateLabel() {
+      return currentOrder.payment_declared || currentOrder.payment_verified;
+    }
+
+    async function createDraftOrder() {
+      if (!ui.form.reportValidity()) return;
+      if (!currentOrder.reference) currentOrder.reference = generateReference();
+      currentOrder.label_ready = false;
+      setStatus(currentOrder.payment_verified ? 'paid_verified' : currentOrder.payment_declared ? 'payment_declared' : 'draft');
+      updateSummary();
+      const saved = await saveOrder();
+      if (saved.mode === 'supabase') setMessage('ok', 'Commande créée et enregistrée dans Supabase.');
+      else setMessage('info', 'Commande créée et sauvegardée localement dans ce navigateur.');
+    }
+
+    async function declarePayment() {
+      if (!ui.form.reportValidity()) return;
+      if (!currentOrder.reference) currentOrder.reference = generateReference();
+      currentOrder.payment_declared = true;
+      currentOrder.payment_verified = false;
+      setStatus('payment_declared');
+      updateSummary();
+      await saveOrder();
+      setMessage('ok', 'Paiement déclaré par le client. L’étiquette peut maintenant être générée.');
+    }
+
+    async function markVerified() {
+      if (!ui.form.reportValidity()) return;
+      if (!currentOrder.reference) currentOrder.reference = generateReference();
+      currentOrder.payment_declared = true;
+      currentOrder.payment_verified = true;
+      setStatus('paid_verified');
+      updateSummary();
+      await saveOrder();
+      setMessage('ok', 'Commande marquée comme payée et vérifiée.');
+    }
+
+    async function generateLabel() {
+      if (!ui.form.reportValidity()) return;
+      if (!canGenerateLabel()) {
+        setMessage('warn', 'L’étiquette reste bloquée tant que le paiement n’a pas été déclaré ou vérifié.');
+        return;
+      }
+      currentOrder.label_ready = true;
+      populateLabel();
+      ui.labelBox.style.display = 'block';
+      await saveOrder();
+      setMessage('ok', 'Étiquette générée. Vous pouvez maintenant l’imprimer.');
+    }
+
+    function printLabel() {
+      if (ui.labelBox.style.display !== 'block') {
+        setMessage('warn', 'Générez d’abord l’étiquette avant impression.');
+        return;
+      }
+      window.print();
+    }
+
+    function resetAll() {
+      ui.form.reset();
+      fields.dropDate.value = todayISO();
+      fields.pickupAddress.value = 'Impasse des Griottes 3, 1462 Yvonand';
+      currentOrder = { id: null, reference: '', status: 'draft', payment_declared: false, payment_verified: false, label_ready: false, exact_price: 0 };
+      ui.labelBox.style.display = 'none';
+      clearMessage();
+      updateSummary();
+      localStorage.removeItem('colixo_current_deposit');
+    }
+
+    function loadLocalDraft() {
+      const raw = localStorage.getItem('colixo_current_deposit');
+      if (!raw) return;
+      try {
+        const d = JSON.parse(raw);
+        fields.company.value = d.company || '';
+        fields.contact.value = d.contact || '';
+        fields.phone.value = d.phone || '';
+        fields.email.value = d.email || '';
+        fields.pickupAddress.value = d.pickup_address || 'Impasse des Griottes 3, 1462 Yvonand';
+        fields.dropDate.value = d.drop_date || todayISO();
+        fields.dropTime.value = d.drop_time || '';
+        fields.packages.value = d.packages || 1;
+        fields.weight.value = d.weight ?? '';
+        fields.format.value = d.format_code || 'standard_box';
+        fields.service.value = d.service_code || 'priority';
+        fields.recipient.value = d.recipient || '';
+        fields.recipientAddress.value = d.recipient_address || '';
+        fields.notes.value = d.notes || '';
+        fields.fragileExtra.checked = !!d.fragile_extra;
+        fields.nightDrop.checked = !!d.night_drop;
+        currentOrder.reference = d.reference || generateReference();
+        currentOrder.payment_declared = !!d.payment_declared;
+        currentOrder.payment_verified = !!d.payment_verified;
+        currentOrder.label_ready = !!d.label_ready;
+        currentOrder.status = d.status || 'draft';
+        updateSummary();
+        if (currentOrder.label_ready && canGenerateLabel()) {
+          populateLabel();
+          ui.labelBox.style.display = 'block';
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    ui.twintBtn.addEventListener('click', () => {
+      updateSummary();
+      window.open(TWINT_URL, '_blank');
+      setMessage('info', 'TWINT a été ouvert. Après le paiement, revenez ici puis cliquez sur “J’ai effectué le paiement”.');
+    });
+    ui.form.addEventListener('submit', async (e) => { e.preventDefault(); await createDraftOrder(); });
+    ui.confirmPaidBtn.addEventListener('click', declarePayment);
+    ui.markVerifiedBtn.addEventListener('click', markVerified);
+    ui.saveBtn.addEventListener('click', saveOrder);
+    ui.generateLabelBtn.addEventListener('click', generateLabel);
+    ui.printBtn.addEventListener('click', printLabel);
+    ui.resetBtn.addEventListener('click', resetAll);
+    Object.values(fields).forEach((el) => {
+      el.addEventListener('input', updateSummary);
+      el.addEventListener('change', updateSummary);
+    });
+    loadLocalDraft();
     updateSummary();
-    window.open(TWINT_URL, '_blank');
-    setMessage('info', 'TWINT a été ouvert. Après le paiement, revenez ici puis cliquez sur “J’ai effectué le paiement”.');
-  });
-
-  ui.form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    await createDraftOrder();
-  });
-
-  ui.confirmPaidBtn.addEventListener('click', declarePayment);
-  ui.markVerifiedBtn.addEventListener('click', markVerified);
-  ui.saveBtn.addEventListener('click', saveOrder);
-  ui.generateLabelBtn.addEventListener('click', generateLabel);
-  ui.printBtn.addEventListener('click', printLabel);
-  ui.resetBtn.addEventListener('click', resetAll);
-
-  Object.values(fields).forEach((el) => {
-    el.addEventListener('input', updateSummary);
-    el.addEventListener('change', updateSummary);
-  });
-
-  loadLocalDraft();
-  updateSummary();
-  setInterval(updateSummary, 800);
-</script>
- 
+  </script>
 </body>
 </html>
