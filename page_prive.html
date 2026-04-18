@@ -302,27 +302,8 @@
         </div>
 
         <div class="label-box" id="labelBox">
-          <h3>Étiquette imprimable</h3>
-          <div class="label-sheet" id="labelSheet">
-            <div class="label-head">
-              <div><div class="label-logo">COLIXO</div><div style="font-size:12px; color:#444;">Étiquette de dépôt colis</div></div>
-              <div style="text-align:right;"><div class="label-muted">Référence</div><div id="labelRef" style="font-size:22px; font-weight:900;">—</div></div>
-            </div>
-            <div class="label-grid">
-              <div class="label-card"><div class="label-muted">Expéditeur / dépôt</div><div id="labelSenderName" style="font-weight:800;">—</div><div id="labelSenderContact">—</div><div id="labelSenderPhone">—</div><div id="labelSenderAddress">—</div></div>
-              <div class="label-card"><div class="label-muted">Destinataire</div><div id="labelRecipientName" style="font-weight:800;">—</div><div id="labelRecipientAddress">—</div></div>
-            </div>
-            <div class="label-info-grid">
-              <div class="label-kpi"><div class="label-muted">Service</div><div id="labelService">—</div></div>
-              <div class="label-kpi"><div class="label-muted">Colis</div><div id="labelPackages">—</div></div>
-              <div class="label-kpi"><div class="label-muted">Poids</div><div id="labelWeight">—</div></div>
-              <div class="label-kpi"><div class="label-muted">Montant</div><div id="labelPrice" style="font-weight:900;">—</div></div>
-            </div>
-            <div class="label-bottom">
-              <div style="flex:1;"><div class="label-muted">Consignes</div><div class="label-notes" id="labelNotes">—</div></div>
-              <div class="qr-box"><img id="labelQr" alt="QR Colixo" /><div style="font-size:10px; color:#666; margin-top:6px;">Scan interne Colixo</div></div>
-            </div>
-          </div>
+          <h3>Étiquettes imprimables</h3>
+          <div id="labelsContainer"></div>
         </div>
       </div>
     </section>
@@ -400,20 +381,7 @@
       currentRefTag: document.getElementById('currentRefTag'),
       currentPayTag: document.getElementById('currentPayTag'),
       storageTag: document.getElementById('storageTag'),
-      labelBox: document.getElementById('labelBox'),
-      labelRef: document.getElementById('labelRef'),
-      labelSenderName: document.getElementById('labelSenderName'),
-      labelSenderContact: document.getElementById('labelSenderContact'),
-      labelSenderPhone: document.getElementById('labelSenderPhone'),
-      labelSenderAddress: document.getElementById('labelSenderAddress'),
-      labelRecipientName: document.getElementById('labelRecipientName'),
-      labelRecipientAddress: document.getElementById('labelRecipientAddress'),
-      labelService: document.getElementById('labelService'),
-      labelPackages: document.getElementById('labelPackages'),
-      labelWeight: document.getElementById('labelWeight'),
-      labelPrice: document.getElementById('labelPrice'),
-      labelNotes: document.getElementById('labelNotes'),
-      labelQr: document.getElementById('labelQr')
+      labelBox: document.getElementById('labelBox')
     };
 
     let sbClient = null;
@@ -610,22 +578,60 @@
       return 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(payload);
     }
 
-    function populateLabel() {
+    function generateTracking(base, index, total) {
+      return total > 1 ? `${base}-${index}` : base;
+    }
+
+    function buildLabelHtml(tracking, index, total, pricing) {
+      const weightPerColis = (parseFloat(fields.weight.value || '0') / total).toFixed(2);
+      const pricePerColis = (pricing.total / total).toFixed(2);
+      const qrUrl = buildQrUrl(tracking, Number(pricePerColis));
+      return `
+        <div class="label-sheet" style="margin-bottom:18px; page-break-after: always;">
+          <div class="label-head">
+            <div><div class="label-logo">COLIXO</div><div style="font-size:12px;color:#444;">Colis ${index} / ${total}</div></div>
+            <div style="text-align:right;">
+              <div class="label-muted">N° de suivi</div>
+              <div style="font-size:20px;font-weight:900;">${tracking}</div>
+            </div>
+          </div>
+          <div class="label-grid">
+            <div class="label-card">
+              <div class="label-muted">Expéditeur / dépôt</div>
+              <div style="font-weight:800;">${fields.company.value.trim() || '—'}</div>
+              <div>${fields.contact.value.trim() || ''}</div>
+              <div>${fields.phone.value.trim() || ''}</div>
+              <div>${fields.pickupAddress.value.trim() || '—'}</div>
+            </div>
+            <div class="label-card">
+              <div class="label-muted">Destinataire</div>
+              <div style="font-weight:800;">${fields.recipient.value.trim() || '—'}</div>
+              <div>${fields.recipientAddress.value.trim() || '—'}</div>
+            </div>
+          </div>
+          <div class="label-info-grid">
+            <div class="label-kpi"><div class="label-muted">Service</div><div>${pricing.serviceLabel}</div></div>
+            <div class="label-kpi"><div class="label-muted">Colis</div><div>${index} / ${total}</div></div>
+            <div class="label-kpi"><div class="label-muted">Poids</div><div>${weightPerColis} kg</div></div>
+            <div class="label-kpi"><div class="label-muted">Montant</div><div style="font-weight:900;">CHF ${pricePerColis}</div></div>
+          </div>
+          <div class="label-bottom">
+            <div style="flex:1;"><div class="label-muted">Consignes</div><div class="label-notes">${fields.notes.value.trim() || 'Aucune consigne'}</div></div>
+            <div class="qr-box"><img src="${qrUrl}" alt="QR" style="width:120px;height:120px;border:1px solid #ddd;border-radius:8px;background:#fff;padding:4px;"/><div style="font-size:10px;color:#666;margin-top:6px;">Scan interne Colixo</div></div>
+          </div>
+        </div>`;
+    }
+
+    function populateLabels() {
       if (!currentOrder.reference) currentOrder.reference = generateReference();
       const pricing = calculatePrice();
-      ui.labelRef.textContent = currentOrder.reference;
-      ui.labelSenderName.textContent = fields.company.value.trim() || '—';
-      ui.labelSenderContact.textContent = fields.contact.value.trim() || '—';
-      ui.labelSenderPhone.textContent = fields.phone.value.trim() || '—';
-      ui.labelSenderAddress.textContent = fields.pickupAddress.value.trim() || '—';
-      ui.labelRecipientName.textContent = fields.recipient.value.trim() || '—';
-      ui.labelRecipientAddress.textContent = fields.recipientAddress.value.trim() || '—';
-      ui.labelService.textContent = pricing.serviceLabel;
-      ui.labelPackages.textContent = fields.packages.value || '1';
-      ui.labelWeight.textContent = pricing.weightLabel;
-      ui.labelPrice.textContent = money(pricing.total);
-      ui.labelNotes.textContent = fields.notes.value.trim() || 'Aucune consigne';
-      ui.labelQr.src = buildQrUrl(currentOrder.reference, pricing.total);
+      const total = Math.max(parseInt(fields.packages.value || '1', 10), 1);
+      const container = document.getElementById('labelsContainer');
+      container.innerHTML = '';
+      for (let i = 1; i <= total; i++) {
+        const tracking = generateTracking(currentOrder.reference, i, total);
+        container.innerHTML += buildLabelHtml(tracking, i, total, pricing);
+      }
     }
 
     function canGenerateLabel() {
@@ -648,10 +654,14 @@
       if (!currentOrder.reference) currentOrder.reference = generateReference();
       currentOrder.payment_declared = true;
       currentOrder.payment_verified = false;
-      setStatus('payment_declared');
+      currentOrder.label_ready = true;
+      setStatus(‘payment_declared’);
       updateSummary();
+      populateLabels();
+      ui.labelBox.style.display = ‘block’;
       await saveOrder();
-      setMessage('ok', 'Paiement déclaré par le client. L’étiquette peut maintenant être générée.');
+      const n = Math.max(parseInt(fields.packages.value || ‘1’, 10), 1);
+      setMessage(‘ok’, `Paiement confirmé. ${n} étiquette${n > 1 ? ‘s générées’ : ‘ générée’} — prête${n > 1 ? ‘s’ : ‘’} à imprimer.`);
     }
 
     async function markVerified() {
@@ -668,14 +678,15 @@
     async function generateLabel() {
       if (!ui.form.reportValidity()) return;
       if (!canGenerateLabel()) {
-        setMessage('warn', 'L’étiquette reste bloquée tant que le paiement n’a pas été déclaré ou vérifié.');
+        setMessage(‘warn’, ‘Les étiquettes restent bloquées tant que le paiement n\’a pas été déclaré.’);
         return;
       }
       currentOrder.label_ready = true;
-      populateLabel();
-      ui.labelBox.style.display = 'block';
+      populateLabels();
+      ui.labelBox.style.display = ‘block’;
       await saveOrder();
-      setMessage('ok', 'Étiquette générée. Vous pouvez maintenant l’imprimer.');
+      const n = Math.max(parseInt(fields.packages.value || ‘1’, 10), 1);
+      setMessage(‘ok’, `${n} étiquette${n > 1 ? ‘s générées’ : ‘ générée’} — prête${n > 1 ? ‘s’ : ‘’} à imprimer.`);
     }
 
     function printLabel() {
@@ -725,7 +736,7 @@
         currentOrder.status = d.status || 'draft';
         updateSummary();
         if (currentOrder.label_ready && canGenerateLabel()) {
-          populateLabel();
+          populateLabels();
           ui.labelBox.style.display = 'block';
         }
       } catch (e) {
