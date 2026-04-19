@@ -5,130 +5,173 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Colixo — Livraisons B2B en Suisse</title>
   <meta name="description" content="Colixo simplifie vos livraisons en Suisse avec calcul automatique, abonnements mensuels et demande de devis instantanée." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #07070a;
-      --panel: #11131a;
-      --panel-2: #161922;
-      --line: rgba(255,255,255,.08);
-      --text: #f5f7fb;
-      --muted: #aab2c5;
+      --bg: #05050a;
+      --panel: #0e0f18;
+      --panel-2: #13151f;
+      --panel-3: #1a1d2b;
+      --line: rgba(255,255,255,.07);
+      --line-2: rgba(255,255,255,.04);
+      --text: #eef0f8;
+      --muted: #7e8aaa;
+      --muted-2: #b0bacf;
       --accent: #ff6a00;
-      --accent-2: #ff8c32;
-      --success: #2fd67a;
-      --danger: #ff5c5c;
-      --shadow: 0 18px 50px rgba(0,0,0,.35);
-      --radius: 22px;
-      --radius-sm: 14px;
-      --max: 1220px;
+      --accent-2: #ff9040;
+      --accent-glow: rgba(255,106,0,.18);
+      --success: #22d17a;
+      --danger: #ff4d4d;
+      --blue: #4f80ff;
+      --shadow-lg: 0 24px 64px rgba(0,0,0,.55);
+      --shadow-sm: 0 4px 20px rgba(0,0,0,.3);
+      --radius: 20px;
+      --radius-sm: 12px;
+      --max: 1200px;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+
     body {
-      margin: 0;
-      font-family: Inter, Arial, Helvetica, sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(255,106,0,.14), transparent 28%),
-        radial-gradient(circle at top left, rgba(255,255,255,.04), transparent 22%),
-        var(--bg);
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
       color: var(--text);
-      line-height: 1.5;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
     }
 
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
-    .container { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
-    .section { padding: 84px 0; }
+
+    .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .section { padding: 100px 0; position: relative; }
+
+    /* ── EYEBROW ── */
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid rgba(255,106,0,.25);
+      padding: 6px 14px 6px 10px;
+      border: 1px solid rgba(255,106,0,.2);
       border-radius: 999px;
-      color: #ffd2b3;
-      font-size: 12px;
-      letter-spacing: .08em;
+      color: #ffb580;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
       text-transform: uppercase;
-      background: rgba(255,106,0,.08);
+      background: rgba(255,106,0,.07);
     }
     .eyebrow::before {
       content: "";
-      width: 8px;
-      height: 8px;
+      width: 7px; height: 7px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 14px rgba(255,106,0,.65);
+      box-shadow: 0 0 12px var(--accent), 0 0 24px rgba(255,106,0,.4);
+      animation: pulse 2s ease infinite;
     }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
 
-    h1,h2,h3,p { margin: 0; }
+    /* ── TYPOGRAPHY ── */
     h1 {
-      font-size: clamp(36px, 6vw, 70px);
-      line-height: .98;
+      font-size: clamp(38px, 5.5vw, 72px);
+      line-height: .96;
       letter-spacing: -0.04em;
       font-weight: 900;
     }
     h2 {
-      font-size: clamp(28px, 4vw, 44px);
-      line-height: 1.03;
-      letter-spacing: -0.03em;
-      font-weight: 850;
-      margin-bottom: 16px;
+      font-size: clamp(28px, 3.5vw, 48px);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      font-weight: 900;
     }
     h3 {
-      font-size: 22px;
-      line-height: 1.1;
+      font-size: 18px;
+      line-height: 1.2;
       font-weight: 800;
+      letter-spacing: -.02em;
     }
     .lead {
-      color: var(--muted);
-      font-size: clamp(16px, 2vw, 20px);
-      max-width: 760px;
+      color: var(--muted-2);
+      font-size: clamp(15px, 1.8vw, 18px);
+      line-height: 1.65;
+      max-width: 680px;
     }
     .muted { color: var(--muted); }
 
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 28px;
+    /* ── GRADIENT TEXT ── */
+    .grad {
+      background: linear-gradient(135deg, #fff 30%, var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+
+    /* ── BUTTONS ── */
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      min-height: 52px;
-      padding: 0 20px;
+      gap: 8px;
+      min-height: 50px;
+      padding: 0 24px;
       border-radius: 14px;
       font-weight: 800;
+      font-size: 14px;
       cursor: pointer;
-      transition: .18s ease;
+      transition: all .2s ease;
       border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
     }
-    .btn:hover { transform: translateY(-1px); }
+    .btn::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,.08);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .btn:hover::after { opacity: 1; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
       color: white;
-      box-shadow: 0 14px 30px rgba(255,106,0,.22);
+      box-shadow: 0 8px 24px rgba(255,106,0,.3), inset 0 1px 0 rgba(255,255,255,.15);
     }
     .btn-secondary {
-      background: rgba(255,255,255,.03);
-      border-color: rgba(255,255,255,.10);
-      color: var(--text);
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.09);
+      color: var(--muted-2);
     }
+    .btn-secondary:hover { color: var(--text); border-color: rgba(255,255,255,.18); }
 
+    /* ── HEADER ── */
     header {
       position: sticky;
       top: 0;
-      z-index: 30;
-      backdrop-filter: blur(12px);
-      background: rgba(7,7,10,.78);
+      z-index: 100;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      background: rgba(5,5,10,.82);
       border-bottom: 1px solid rgba(255,255,255,.05);
     }
     .nav {
-      height: 76px;
+      height: 72px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -137,365 +180,493 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       font-weight: 900;
-      letter-spacing: -.03em;
-      font-size: 22px;
+      letter-spacing: -.04em;
+      font-size: 21px;
     }
     .brand-mark {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), #ff9247);
+      width: 38px; height: 38px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
       display: grid;
       place-items: center;
       color: #fff;
-      box-shadow: 0 10px 25px rgba(255,106,0,.24);
       font-weight: 900;
+      font-size: 16px;
+      box-shadow: 0 6px 20px rgba(255,106,0,.35);
     }
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 18px;
-      color: var(--muted);
-      font-weight: 700;
+      gap: 6px;
       font-size: 14px;
+      font-weight: 600;
     }
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: 10px;
+      color: var(--muted);
+      transition: all .2s;
+    }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,.04); }
+    .nav-links .btn { margin-left: 8px; }
 
-    .hero {
-      padding: 74px 0 36px;
+    /* ── HERO ── */
+    .hero { padding: 80px 0 48px; overflow: hidden; }
+
+    /* Orb background */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
     }
+    .hero-orb-1 {
+      width: 600px; height: 600px;
+      top: -200px; right: -100px;
+      background: radial-gradient(circle, rgba(255,106,0,.16), transparent 70%);
+    }
+    .hero-orb-2 {
+      width: 400px; height: 400px;
+      bottom: -100px; left: -80px;
+      background: radial-gradient(circle, rgba(79,128,255,.08), transparent 70%);
+    }
+
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 24px;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 20px;
       align-items: stretch;
+      position: relative;
     }
-    .hero-copy,
-    .hero-card,
-    .panel,
-    .price-card,
-    .feature-card,
-    .step,
-    .quote-card,
-    .form-card {
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+
+    /* ── CARD BASE ── */
+    .card {
+      background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-sm);
     }
-    .hero-copy {
-      padding: 34px;
+    .card-glow {
       position: relative;
       overflow: hidden;
     }
-    .hero-copy::after {
+    .card-glow::before {
       content: "";
       position: absolute;
-      inset: auto -60px -60px auto;
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle, rgba(255,106,0,.18), transparent 65%);
-      pointer-events: none;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,106,0,.4), transparent);
     }
+
+    .hero-copy {
+      padding: 36px;
+    }
+    .hero-tag { margin-bottom: 20px; }
+
     .hero-points {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 28px;
+      gap: 10px;
+      margin-top: 32px;
     }
     .hero-point {
-      padding: 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.06);
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.055);
     }
-    .hero-point strong { display: block; font-size: 18px; margin-bottom: 6px; }
-    .hero-point span { color: var(--muted); font-size: 13px; }
+    .hero-point strong {
+      display: block;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    .hero-point span { color: var(--muted); font-size: 12px; line-height: 1.4; }
 
-    .hero-card {
-      padding: 22px;
-      display: grid;
+    .hero-aside {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
       gap: 14px;
     }
-    .metric-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+
+    .metric-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .metric {
       padding: 16px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 14px;
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.055);
     }
     .metric small {
       display: block;
       color: var(--muted);
-      margin-bottom: 8px;
-      font-size: 12px;
+      font-size: 11px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: .07em;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
     }
-    .metric strong { font-size: 28px; letter-spacing: -.04em; }
+    .metric strong {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
 
-    .bullet-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 8px;
+    /* ── STATS BAR ── */
+    .stats-bar {
+      padding: 28px 0;
+      border-top: 1px solid rgba(255,255,255,.05);
+      border-bottom: 1px solid rgba(255,255,255,.05);
     }
+    .stats-inner {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      padding: 12px 16px;
+      border-right: 1px solid rgba(255,255,255,.06);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      background: linear-gradient(135deg, var(--text), var(--muted-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { color: var(--muted); font-size: 12px; font-weight: 600; margin-top: 2px; }
+
+    /* ── BULLET LIST ── */
+    .bullet-list { display: grid; gap: 8px; }
     .bullet {
       display: flex;
       gap: 10px;
       align-items: flex-start;
-      color: var(--muted);
-      font-size: 15px;
+      color: var(--muted-2);
+      font-size: 14px;
     }
-    .bullet::before {
-      content: "•";
-      color: var(--accent);
-      font-size: 18px;
-      line-height: 1;
+    .bullet-dot {
+      width: 18px; height: 18px;
+      border-radius: 6px;
+      background: rgba(255,106,0,.12);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
       margin-top: 1px;
     }
+    .bullet-dot svg { width: 10px; height: 10px; fill: var(--accent); }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-    .feature-card {
-      padding: 22px;
-    }
-    .feature-card p { margin-top: 10px; color: var(--muted); }
-
+    /* ── SECTION HEAD ── */
     .section-head {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      margin-bottom: 28px;
+      gap: 16px;
+      margin-bottom: 40px;
+      max-width: 680px;
     }
 
+    /* ── FEATURES ── */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature-card { padding: 24px; }
+    .feature-icon {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      background: rgba(255,106,0,.1);
+      border: 1px solid rgba(255,106,0,.2);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
+    .feature-card p { margin-top: 8px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    /* ── CALCULATOR ── */
     .calculator-grid {
       display: grid;
-      grid-template-columns: 1fr 400px;
-      gap: 22px;
+      grid-template-columns: 1fr 380px;
+      gap: 20px;
       align-items: start;
     }
     .panel { padding: 24px; }
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-    .field { display: grid; gap: 8px; }
+
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .field { display: grid; gap: 7px; }
     .field label {
-      color: #d8dfef;
-      font-size: 13px;
+      color: var(--muted-2);
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: .02em;
+      letter-spacing: .04em;
+      text-transform: uppercase;
     }
     .field input,
     .field select,
     .field textarea {
       width: 100%;
       background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 14px;
-      min-height: 48px;
-      padding: 12px 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      min-height: 46px;
+      padding: 11px 14px;
       color: var(--text);
       font: inherit;
+      font-size: 14px;
       outline: none;
+      transition: border-color .2s, box-shadow .2s;
     }
-    .field textarea { min-height: 108px; resize: vertical; }
+    .field select { appearance: none; cursor: pointer; }
+    .field textarea { min-height: 110px; resize: vertical; }
     .field input:focus,
     .field select:focus,
     .field textarea:focus {
-      border-color: rgba(255,106,0,.6);
-      box-shadow: 0 0 0 4px rgba(255,106,0,.12);
+      border-color: rgba(255,106,0,.5);
+      box-shadow: 0 0 0 3px rgba(255,106,0,.1);
     }
     .span-2 { grid-column: span 2; }
 
-    .options-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 8px;
+    .options-label {
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
+    .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .check {
       display: flex;
       align-items: center;
       gap: 10px;
-      min-height: 50px;
-      border-radius: 14px;
+      min-height: 46px;
+      border-radius: 12px;
       padding: 0 14px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
-      color: #dce3f2;
-      font-size: 14px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.025);
+      color: var(--muted-2);
+      font-size: 13px;
       font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none;
     }
-    .check input { width: 18px; height: 18px; accent-color: var(--accent); }
+    .check:hover { border-color: rgba(255,106,0,.3); color: var(--text); }
+    .check input { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+    .check.exclusive { border-color: rgba(255,106,0,.15); }
 
-    .quote-card { padding: 24px; position: sticky; top: 98px; }
-    .quote-top {
+    /* ── QUOTE CARD ── */
+    .quote-card { padding: 24px; position: sticky; top: 90px; }
+
+    .quote-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 18px;
+      gap: 12px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .quote-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 8px;
     }
     .quote-value {
-      font-size: clamp(34px, 5vw, 52px);
-      line-height: .95;
+      font-size: clamp(36px, 4vw, 52px);
+      line-height: .9;
       font-weight: 900;
       letter-spacing: -.05em;
+      background: linear-gradient(135deg, #fff, var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .quote-badge {
       display: inline-flex;
-      padding: 8px 12px;
+      padding: 6px 12px;
       border-radius: 999px;
-      background: rgba(47,214,122,.12);
-      border: 1px solid rgba(47,214,122,.28);
-      color: #9cf1c2;
-      font-size: 12px;
+      background: rgba(34,209,122,.1);
+      border: 1px solid rgba(34,209,122,.25);
+      color: #6fefb0;
+      font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: .08em;
+      white-space: nowrap;
     }
-    .quote-breakdown {
-      display: grid;
-      gap: 10px;
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(255,255,255,.08);
-    }
+    .quote-breakdown { display: grid; gap: 8px; padding: 16px 0; }
     .line-item {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       color: var(--muted);
-      font-size: 14px;
-    }
-    .line-item strong { color: var(--text); }
-    .quote-note {
-      margin-top: 18px;
       font-size: 13px;
+    }
+    .line-item strong { color: var(--muted-2); font-weight: 600; }
+    .line-item.total {
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      color: var(--text);
+      font-weight: 700;
+    }
+    .line-item.total strong { color: var(--accent-2); }
+
+    .quote-note {
+      font-size: 12px;
       color: var(--muted);
+      line-height: 1.5;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,.06);
     }
     .status {
-      margin-top: 16px;
-      min-height: 24px;
-      font-size: 14px;
+      min-height: 20px;
+      font-size: 13px;
       font-weight: 700;
+      margin-top: 12px;
     }
     .status.ok { color: var(--success); }
     .status.error { color: var(--danger); }
 
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-    .price-card {
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-    }
+    /* ── PRICING ── */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .price-card { padding: 28px; position: relative; overflow: hidden; }
     .price-card.featured {
-      border-color: rgba(255,106,0,.35);
-      box-shadow: 0 22px 60px rgba(255,106,0,.16);
+      border-color: rgba(255,106,0,.3);
+      box-shadow: 0 0 0 1px rgba(255,106,0,.1), 0 24px 60px rgba(255,106,0,.15);
     }
-    .price-card.featured::before {
-      content: "Offre recommandée";
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      padding: 7px 10px;
+    .price-badge {
+      display: inline-flex;
+      padding: 5px 12px;
       border-radius: 999px;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
       color: #fff;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 14px;
     }
     .price-amount {
-      margin: 16px 0 18px;
-      font-size: 46px;
-      line-height: .95;
+      margin: 16px 0 20px;
+      font-size: 52px;
+      line-height: .9;
       font-weight: 900;
       letter-spacing: -.05em;
     }
     .price-amount span {
-      font-size: 16px;
+      font-size: 14px;
       color: var(--muted);
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: 0;
     }
-    .price-list {
-      display: grid;
-      gap: 10px;
-      margin: 18px 0 24px;
-      color: var(--muted);
-    }
+    .price-list { display: grid; gap: 10px; margin: 20px 0 28px; }
     .price-list div {
       display: flex;
       gap: 10px;
-      align-items: flex-start;
-    }
-    .price-list div::before {
-      content: "✓";
-      color: var(--accent);
-      font-weight: 900;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-    .step { padding: 22px; }
-    .step-no {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 16px;
-      background: rgba(255,106,0,.12);
-      border: 1px solid rgba(255,106,0,.25);
-      color: #ffd2b3;
-      font-weight: 900;
-    }
-    .step p { margin-top: 10px; color: var(--muted); }
-
-    .cta-band {
-      padding: 28px;
-      border-radius: 24px;
-      border: 1px solid rgba(255,106,0,.22);
-      background: linear-gradient(135deg, rgba(255,106,0,.12), rgba(255,255,255,.03));
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
       align-items: center;
-    }
-
-    footer {
-      padding: 28px 0 60px;
-      color: var(--muted);
+      color: var(--muted-2);
       font-size: 14px;
     }
+    .price-check {
+      width: 18px; height: 18px;
+      border-radius: 6px;
+      background: rgba(34,209,122,.12);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      color: var(--success);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    /* ── STEPS ── */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; position: relative; }
+    .steps::before {
+      content: "";
+      position: absolute;
+      top: 34px;
+      left: calc(16.66% + 10px);
+      right: calc(16.66% + 10px);
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,106,0,.3), rgba(255,106,0,.1), rgba(255,106,0,.3));
+    }
+    .step { padding: 26px; text-align: center; }
+    .step-no {
+      width: 48px; height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 18px;
+      background: linear-gradient(135deg, rgba(255,106,0,.15), rgba(255,106,0,.05));
+      border: 1px solid rgba(255,106,0,.25);
+      color: var(--accent-2);
+      font-weight: 900;
+      font-size: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .step p { margin-top: 10px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      padding: 40px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,106,0,.2);
+      background: linear-gradient(135deg, rgba(255,106,0,.1) 0%, rgba(255,255,255,.02) 60%);
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-band::before {
+      content: "";
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,106,0,.12), transparent 70%);
+    }
+    .cta-text { position: relative; }
+    .cta-text p { color: var(--muted-2); margin-top: 8px; max-width: 600px; font-size: 15px; }
+
+    /* ── FOOTER ── */
+    footer { padding: 24px 0 56px; }
     .footer-grid {
       display: flex;
       justify-content: space-between;
-      gap: 18px;
+      align-items: center;
+      gap: 16px;
       flex-wrap: wrap;
-      border-top: 1px solid rgba(255,255,255,.07);
-      padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      padding-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .footer-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--muted);
+      display: inline-block;
+      margin: 0 8px;
+      vertical-align: middle;
     }
 
-    @media (max-width: 1100px) {
+    /* ── FORM CARD ── */
+    .form-card { padding: 32px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1080px) {
       .hero-grid,
       .calculator-grid,
       .pricing-grid,
@@ -505,154 +676,194 @@
       .hero-points,
       .metric-row,
       .form-grid,
-      .options-grid { grid-template-columns: 1fr 1fr; }
+      .options-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps::before { display: none; }
+    }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .container { width: calc(100% - 28px); }
+      .section { padding: 72px 0; }
+      .hero-copy, .hero-aside, .panel, .quote-card,
+      .price-card, .feature-card, .step { padding: 20px; }
+      .hero-points, .metric-row,
+      .form-grid, .options-grid { grid-template-columns: 1fr; }
+      .span-2 { grid-column: span 1; }
+      .cta-band { flex-direction: column; align-items: flex-start; padding: 24px; }
+      .stats-inner { flex-wrap: wrap; }
+      .stat-item { min-width: 50%; border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); }
     }
 
-    @media (max-width: 760px) {
-      .nav-links { display: none; }
-      .hero-copy,
-      .hero-card,
-      .panel,
-      .quote-card,
-      .price-card,
-      .feature-card,
-      .step { padding: 20px; }
-      .hero-points,
-      .metric-row,
-      .form-grid,
-      .options-grid { grid-template-columns: 1fr; }
-      .span-2 { grid-column: span 1; }
-      .cta-band {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .section { padding: 68px 0; }
+    /* ── SCROLL FADE ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .5s ease, transform .5s ease;
     }
+    .fade-up.visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
+
   <header>
     <div class="container nav">
       <a class="brand" href="#top">
         <span class="brand-mark">C</span>
-        <span>Colixo</span>
+        Colixo
       </a>
       <nav class="nav-links">
         <a href="#solution">Solution</a>
         <a href="#calculateur">Calculateur</a>
         <a href="#abonnements">Abonnements</a>
         <a href="#devis">Devis</a>
-        <a class="btn btn-primary" href="#devis">Être contacté</a>
+        <a class="btn btn-primary" href="#devis">Être contacté →</a>
       </nav>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero">
+
+    <!-- ══════════ HERO ══════════ -->
+    <section class="hero" style="position:relative;">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
       <div class="container hero-grid">
-        <div class="hero-copy">
-          <span class="eyebrow">Logistique B2B en Suisse</span>
-          <div style="height:16px"></div>
-          <h1>Livraisons rapides, prix clairs, gestion allégée.</h1>
+
+        <div class="card card-glow hero-copy fade-up">
+          <div class="hero-tag">
+            <span class="eyebrow">Logistique B2B · Suisse</span>
+          </div>
+          <h1>Livraisons <span class="grad">rapides</span>,<br>prix <span class="grad">clairs</span>.</h1>
           <div style="height:18px"></div>
-          <p class="lead">Colixo aide les entreprises à centraliser leurs expéditions avec un calcul automatique, des options métier, et des abonnements mensuels conçus pour les flux réguliers.</p>
+          <p class="lead">Colixo centralise vos expéditions B2B avec calcul automatique, options métier, et abonnements mensuels adaptés aux flux réguliers.</p>
           <div class="btn-row">
-            <a class="btn btn-primary" href="#calculateur">Calculer un prix</a>
-            <a class="btn btn-secondary" href="#abonnements">Voir les abonnements</a>
+            <a class="btn btn-primary" href="#calculateur">Calculer un prix →</a>
+            <a class="btn btn-secondary" href="#abonnements">Voir les offres</a>
           </div>
           <div class="hero-points">
             <div class="hero-point">
               <strong>24h / 48h</strong>
-              <span>Offres standard, priority et express.</span>
+              <span>Eco, Priority, Express, Urgent</span>
             </div>
             <div class="hero-point">
-              <strong>Prix automatiques</strong>
-              <span>Base, poids, distance et options.</span>
+              <strong>Prix auto</strong>
+              <span>Service, poids, distance, options</span>
             </div>
             <div class="hero-point">
-              <strong>B2B souple</strong>
-              <span>Abonnement, devis, tournées, flux récurrents.</span>
+              <strong>100% B2B</strong>
+              <span>Abonnement, devis, tournées</span>
             </div>
           </div>
         </div>
 
-        <aside class="hero-card">
+        <aside class="card card-glow hero-aside fade-up" style="transition-delay:.1s">
           <div class="metric-row">
-            <div class="metric">
-              <small>Délai</small>
-              <strong>24h</strong>
-            </div>
-            <div class="metric">
-              <small>Formule</small>
-              <strong>Abonnement</strong>
-            </div>
+            <div class="metric"><small>Délai</small><strong>24h</strong></div>
+            <div class="metric"><small>Formule</small><strong>Abonnement</strong></div>
           </div>
           <div class="metric-row">
-            <div class="metric">
-              <small>Couverture</small>
-              <strong>Suisse</strong>
-            </div>
-            <div class="metric">
-              <small>Mode</small>
-              <strong>Devis auto</strong>
+            <div class="metric"><small>Couverture</small><strong>Suisse</strong></div>
+            <div class="metric"><small>Devis</small><strong>Instantané</strong></div>
+          </div>
+          <div style="border-top:1px solid var(--line); padding-top:16px;">
+            <h3 style="margin-bottom:14px;">Une solution taillée pour les envois récurrents</h3>
+            <div class="bullet-list">
+              <div class="bullet">
+                <span class="bullet-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#ff6a00" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></span>
+                Prix affiché immédiatement selon le service, le poids, la distance et les options.
+              </div>
+              <div class="bullet">
+                <span class="bullet-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#ff6a00" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></span>
+                Abonnements avec zone incluse et surcoût hors zone pour protéger la marge.
+              </div>
+              <div class="bullet">
+                <span class="bullet-dot"><svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2.5" stroke="#ff6a00" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></span>
+                Simulations et demandes de devis stockées dans Supabase pour pipeline commercial.
+              </div>
             </div>
           </div>
-          <h3>Une solution simple pour les envois récurrents</h3>
-          <div class="bullet-list">
-            <div class="bullet">Affichage immédiat du prix selon le service, le poids, la distance et les options choisies.</div>
-            <div class="bullet">Abonnements mensuels avec zone incluse et surcoût hors zone pour protéger la marge.</div>
-            <div class="bullet">Base prête pour stocker les simulations et les demandes de devis dans Supabase.</div>
-          </div>
-          <div class="btn-row">
-            <a class="btn btn-secondary" href="#devis">Demander un rappel</a>
+          <div class="btn-row" style="margin-top:auto;">
+            <a class="btn btn-secondary" href="#devis" style="width:100%;justify-content:center;">Demander un rappel</a>
           </div>
         </aside>
       </div>
     </section>
 
+    <!-- ══════════ STATS BAR ══════════ -->
+    <div class="stats-bar fade-up">
+      <div class="container">
+        <div class="stats-inner">
+          <div class="stat-item">
+            <div class="stat-value">24h</div>
+            <div class="stat-label">Délai standard</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">5</div>
+            <div class="stat-label">Services disponibles</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Couverture Suisse</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Formules d'abonnement</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">Devis</div>
+            <div class="stat-label">En quelques secondes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ SOLUTION ══════════ -->
     <section id="solution" class="section">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head fade-up">
           <span class="eyebrow">Pourquoi Colixo</span>
-          <h2>Une page d’accueil conçue pour convertir.</h2>
-          <p class="lead">La page présente d’abord l’offre, puis laisse le prospect calculer son prix, comparer les abonnements, et envoyer une demande exploitable directement dans ton système.</p>
+          <h2>Tout ce qu'il faut pour<br>convertir et livrer.</h2>
+          <p class="lead">La page présente l'offre, laisse le prospect calculer son prix, comparer les abonnements, et envoyer une demande exploitable directement dans ton système.</p>
         </div>
         <div class="grid-3">
-          <article class="feature-card">
-            <h3>Positionnement clair</h3>
-            <p>Le visiteur comprend immédiatement qu’il s’agit d’une solution de livraison B2B avec calcul de prix et abonnements mensuels.</p>
+          <article class="card feature-card fade-up">
+            <div class="feature-icon">🎯</div>
+            <h3>Positionnement immédiat</h3>
+            <p>Le visiteur comprend en 3 secondes qu'il s'agit d'une solution de livraison B2B avec tarification automatique.</p>
           </article>
-          <article class="feature-card">
+          <article class="card feature-card fade-up" style="transition-delay:.1s">
+            <div class="feature-icon">⚡</div>
             <h3>Calcul crédible</h3>
-            <p>Le devis tient compte du service, de la distance, du poids, de la tarification au kilo et des options activées.</p>
+            <p>Le devis tient compte du service, de la distance, du poids et des options activées — tout se calcule en temps réel.</p>
           </article>
-          <article class="feature-card">
-            <h3>Exploitation directe</h3>
-            <p>Les simulations et demandes de contact peuvent être envoyées dans Supabase pour construire ensuite un pipeline commercial propre.</p>
+          <article class="card feature-card fade-up" style="transition-delay:.2s">
+            <div class="feature-icon">📊</div>
+            <h3>Pipeline commercial</h3>
+            <p>Simulations et demandes de contact remontent dans Supabase pour construire un pipeline commercial exploitable.</p>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- ══════════ CALCULATEUR ══════════ -->
     <section id="calculateur" class="section">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head fade-up">
           <span class="eyebrow">Calculateur</span>
-          <h2>Estimez un prix immédiatement.</h2>
-          <p class="lead">La logique exclut volontairement les forfaits spéciaux du calcul principal. Le total est construit à partir du service principal, du poids, de la distance et des options.</p>
+          <h2>Estimez un prix en temps réel.</h2>
+          <p class="lead">Service, poids, distance et options — le total se recalcule à chaque frappe.</p>
         </div>
 
         <div class="calculator-grid">
-          <div class="panel">
+          <div class="card panel fade-up">
             <div class="form-grid">
               <div class="field">
                 <label for="service">Service</label>
                 <select id="service">
-                  <option value="ECO">Eco 48h</option>
-                  <option value="PRI">Priority 24h</option>
-                  <option value="EXP">Express</option>
-                  <option value="URG">Urgent</option>
-                  <option value="VIG">Livraison vin</option>
+                  <option value="ECO">🐢 Eco 48h</option>
+                  <option value="PRI">📬 Priority 24h</option>
+                  <option value="EXP">⚡ Express</option>
+                  <option value="URG">🔥 Urgent</option>
+                  <option value="VIG">🍷 Livraison vin</option>
                 </select>
               </div>
 
@@ -672,120 +883,125 @@
               </div>
 
               <div class="field">
-                <label for="pickup">Adresse de collecte</label>
+                <label for="pickup">Collecte</label>
                 <input id="pickup" type="text" placeholder="Ex. Lausanne" />
               </div>
 
               <div class="field">
-                <label for="delivery">Adresse de livraison</label>
+                <label for="delivery">Livraison</label>
                 <input id="delivery" type="text" placeholder="Ex. Genève" />
               </div>
 
-              <div class="field span-2">
-                <label>Options</label>
+              <div class="span-2">
+                <div class="options-label">Options</div>
                 <div class="options-grid">
-                  <label class="check"><input type="checkbox" id="night" /> Livraison de nuit</label>
-                  <label class="check"><input type="checkbox" id="call" /> Appel avant livraison</label>
-                  <label class="check"><input type="checkbox" id="fragile" /> Manipulation fragile</label>
-                  <label class="check"><input type="checkbox" id="cave" /> Descente en cave</label>
-                  <label class="check"><input type="checkbox" id="retreat" /> Retrait en dépôt</label>
-                  <label class="check"><input type="checkbox" id="ins1500" /> Assurance jusqu’à 1500 CHF</label>
-                  <label class="check"><input type="checkbox" id="ins5000" /> Assurance jusqu’à 5000 CHF</label>
+                  <label class="check"><input type="checkbox" id="night" /> 🌙 Livraison de nuit</label>
+                  <label class="check"><input type="checkbox" id="call" /> 📞 Appel avant livraison</label>
+                  <label class="check"><input type="checkbox" id="fragile" /> ⚠️ Manipulation fragile</label>
+                  <label class="check"><input type="checkbox" id="cave" /> 🍷 Descente en cave</label>
+                  <label class="check"><input type="checkbox" id="retreat" /> 🔄 Retrait en dépôt</label>
+                  <label class="check exclusive"><input type="checkbox" id="ins1500" /> 🛡️ Assurance 1 500 CHF</label>
+                  <label class="check exclusive"><input type="checkbox" id="ins5000" /> 🛡️ Assurance 5 000 CHF</label>
                 </div>
               </div>
             </div>
           </div>
 
-          <aside class="quote-card">
-            <div class="quote-top">
+          <aside class="card card-glow quote-card fade-up" style="transition-delay:.1s">
+            <div class="quote-header">
               <div>
-                <div class="muted" style="font-weight:700; margin-bottom:8px;">Estimation immédiate</div>
+                <div class="quote-label">Estimation immédiate</div>
                 <div id="quoteValue" class="quote-value">0.00 CHF</div>
               </div>
               <span class="quote-badge">Devis auto</span>
             </div>
 
             <div class="quote-breakdown" id="quoteBreakdown"></div>
-            <div class="quote-note">Les forfaits spéciaux ne sont pas intégrés au calcul standard. Ils peuvent être ajoutés plus tard comme cas particuliers.</div>
-            <div class="btn-row">
-              <a class="btn btn-primary" href="#devis">Recevoir une offre</a>
-              <button class="btn btn-secondary" type="button" id="saveSimulationBtn">Enregistrer la simulation</button>
+
+            <div class="quote-note">Tarifs indicatifs hors forfaits spéciaux. Valable sous réserve de confirmation.</div>
+
+            <div class="btn-row" style="margin-top:16px;">
+              <a class="btn btn-primary" href="#devis" style="flex:1;justify-content:center;">Recevoir une offre →</a>
             </div>
+            <button class="btn btn-secondary" type="button" id="saveSimulationBtn" style="width:100%;margin-top:8px;">Enregistrer la simulation</button>
             <div id="saveStatus" class="status"></div>
           </aside>
         </div>
       </div>
     </section>
 
+    <!-- ══════════ ABONNEMENTS ══════════ -->
     <section id="abonnements" class="section">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head fade-up">
           <span class="eyebrow">Abonnements</span>
-          <h2>Trois offres pour structurer les flux réguliers.</h2>
-          <p class="lead">La logique commerciale est simple : zone incluse, prix lisible, hors zone facturé séparément, et clause d’usage raisonnable pour éviter les dérives de marge.</p>
+          <h2>Trois offres pour<br>structurer les flux réguliers.</h2>
+          <p class="lead">Zone incluse, prix lisible, hors zone facturé séparément.</p>
         </div>
 
         <div class="pricing-grid">
-          <article class="price-card">
-            <h3>Basic</h3>
-            <p class="muted">Pour petites entreprises et besoins ponctuels réguliers.</p>
-            <div class="price-amount">290<span> CHF / mois</span></div>
+          <article class="card price-card fade-up">
+            <h3 style="color:var(--muted-2);">Basic</h3>
+            <p class="muted" style="margin-top:6px;font-size:14px;">Pour petites entreprises et besoins ponctuels réguliers.</p>
+            <div class="price-amount">290 <span>CHF / mois</span></div>
             <div class="price-list">
-              <div>Jusqu’à 50 livraisons / mois</div>
-              <div>Zone incluse 0–30 km</div>
-              <div>24h à 48h</div>
-              <div>Hors zone à partir de 1.50 CHF/km</div>
+              <div><span class="price-check">✓</span> Jusqu'à 50 livraisons / mois</div>
+              <div><span class="price-check">✓</span> Zone incluse 0–30 km</div>
+              <div><span class="price-check">✓</span> 24h à 48h</div>
+              <div><span class="price-check">✓</span> Hors zone à partir de 1.50 CHF/km</div>
             </div>
-            <a class="btn btn-secondary" href="#devis">Choisir Basic</a>
+            <a class="btn btn-secondary" href="#devis" style="width:100%;justify-content:center;">Choisir Basic</a>
           </article>
 
-          <article class="price-card featured">
+          <article class="card card-glow price-card featured fade-up" style="transition-delay:.1s">
+            <span class="price-badge">⭐ Recommandé</span>
             <h3>Pro</h3>
-            <p class="muted">Pour entreprises actives avec rythme régulier.</p>
-            <div class="price-amount">590<span> CHF / mois</span></div>
+            <p class="muted" style="margin-top:6px;font-size:14px;">Pour entreprises actives avec rythme régulier.</p>
+            <div class="price-amount">590 <span>CHF / mois</span></div>
             <div class="price-list">
-              <div>Jusqu’à 150 livraisons / mois</div>
-              <div>Zone incluse 0–50 km</div>
-              <div>24h</div>
-              <div>Optimisation tournée + priorité</div>
+              <div><span class="price-check">✓</span> Jusqu'à 150 livraisons / mois</div>
+              <div><span class="price-check">✓</span> Zone incluse 0–50 km</div>
+              <div><span class="price-check">✓</span> Délai 24h garanti</div>
+              <div><span class="price-check">✓</span> Optimisation tournée + priorité</div>
             </div>
-            <a class="btn btn-primary" href="#devis">Choisir Pro</a>
+            <a class="btn btn-primary" href="#devis" style="width:100%;justify-content:center;">Choisir Pro →</a>
           </article>
 
-          <article class="price-card">
-            <h3>Premium</h3>
-            <p class="muted">Pour flux importants et besoins prioritaires.</p>
-            <div class="price-amount">990<span> CHF / mois</span></div>
+          <article class="card price-card fade-up" style="transition-delay:.2s">
+            <h3 style="color:var(--muted-2);">Premium</h3>
+            <p class="muted" style="margin-top:6px;font-size:14px;">Pour flux importants et besoins prioritaires.</p>
+            <div class="price-amount">990 <span>CHF / mois</span></div>
             <div class="price-list">
-              <div>Usage intensif sous fair use</div>
-              <div>Zone incluse 0–80 km</div>
-              <div>Priorité haute</div>
-              <div>Support commercial dédié</div>
+              <div><span class="price-check">✓</span> Usage intensif sous fair use</div>
+              <div><span class="price-check">✓</span> Zone incluse 0–80 km</div>
+              <div><span class="price-check">✓</span> Priorité haute</div>
+              <div><span class="price-check">✓</span> Support commercial dédié</div>
             </div>
-            <a class="btn btn-secondary" href="#devis">Choisir Premium</a>
+            <a class="btn btn-secondary" href="#devis" style="width:100%;justify-content:center;">Choisir Premium</a>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- ══════════ ÉTAPES ══════════ -->
     <section class="section">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head fade-up">
           <span class="eyebrow">Fonctionnement</span>
-          <h2>Comment cela marche.</h2>
+          <h2>En 3 étapes.</h2>
         </div>
         <div class="steps">
-          <article class="step">
+          <article class="card step fade-up">
             <div class="step-no">1</div>
             <h3>Le client simule</h3>
-            <p>Il choisit un service, renseigne la distance, le poids et les options. Le prix s’affiche immédiatement.</p>
+            <p>Il choisit un service, renseigne la distance, le poids et les options. Le prix s'affiche immédiatement.</p>
           </article>
-          <article class="step">
+          <article class="card step fade-up" style="transition-delay:.1s">
             <div class="step-no">2</div>
             <h3>Le devis remonte</h3>
             <p>La simulation et la demande commerciale sont enregistrées dans Supabase pour traitement rapide.</p>
           </article>
-          <article class="step">
+          <article class="card step fade-up" style="transition-delay:.2s">
             <div class="step-no">3</div>
             <h3>Tu convertis</h3>
             <p>Tu rappelles le prospect, tu ajustes si besoin, puis tu bascules vers un abonnement ou une mission ponctuelle.</p>
@@ -794,15 +1010,16 @@
       </div>
     </section>
 
+    <!-- ══════════ DEVIS ══════════ -->
     <section id="devis" class="section">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head fade-up">
           <span class="eyebrow">Demande de devis</span>
           <h2>Recevoir une offre commerciale.</h2>
-          <p class="lead">Le formulaire est déjà préparé pour envoyer une demande complète dans Supabase avec le détail du calcul.</p>
+          <p class="lead">Le formulaire envoie une demande complète dans Supabase avec le détail du calcul.</p>
         </div>
 
-        <div class="form-card panel">
+        <div class="card form-card fade-up">
           <div class="form-grid">
             <div class="field">
               <label for="company">Société</label>
@@ -838,9 +1055,8 @@
               <textarea id="message" placeholder="Décrivez vos flux, zones, contraintes, horaires, fréquence..."></textarea>
             </div>
           </div>
-
           <div class="btn-row">
-            <button class="btn btn-primary" type="button" id="sendQuoteBtn">Envoyer la demande</button>
+            <button class="btn btn-primary" type="button" id="sendQuoteBtn">Envoyer la demande →</button>
             <button class="btn btn-secondary" type="button" id="fillFromCalcBtn">Reprendre le calculateur</button>
           </div>
           <div id="quoteStatus" class="status"></div>
@@ -848,83 +1064,99 @@
       </div>
     </section>
 
-    <section class="section">
+    <!-- ══════════ CTA BAND ══════════ -->
+    <section class="section" style="padding-top:0;">
       <div class="container">
-        <div class="cta-band">
-          <div>
-            <h3>Une structure simple, prête à vendre.</h3>
-            <p class="muted" style="margin-top:8px; max-width:720px;">Tu peux utiliser cette page comme homepage principale et brancher ensuite l’espace client, les demandes de transport, et le suivi colis sur des pages séparées.</p>
+        <div class="cta-band fade-up">
+          <div class="cta-text">
+            <h3>Prêt à structurer vos livraisons ?</h3>
+            <p>Utilisez cette page comme homepage principale et branchez l'espace client, les demandes de transport, et le suivi colis sur des pages séparées.</p>
           </div>
-          <a class="btn btn-primary" href="#devis">Demander un contact</a>
+          <a class="btn btn-primary" href="#devis" style="flex-shrink:0;">Demander un contact →</a>
         </div>
       </div>
     </section>
+
   </main>
 
   <footer>
     <div class="container footer-grid">
-      <div>© Colixo — Solution logistique B2B</div>
-      <div>Homepage optimisée + base Supabase prête à brancher</div>
+      <div>© 2025 Colixo<span class="footer-dot"></span>Logistique B2B Suisse</div>
+      <div>Solution clé-en-main · Base Supabase incluse</div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    /* ── SCROLL FADE ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    /* ── INSURANCE EXCLUSIVITY ── */
+    document.getElementById('ins1500').addEventListener('change', function(){
+      if(this.checked) document.getElementById('ins5000').checked = false;
+      renderCalculation();
+    });
+    document.getElementById('ins5000').addEventListener('change', function(){
+      if(this.checked) document.getElementById('ins1500').checked = false;
+      renderCalculation();
+    });
+
+    /* ── PRICE RULES ── */
     const PRICE_RULES = {
       kmRate: 0.5,
       services: {
-        ECO: { label: 'Eco 48h', base: 4.0, perKg: 0.5, minKg: 1 },
-        PRI: { label: 'Priority 24h', base: 5.0, perKg: 0.5, minKg: 1 },
-        EXP: { label: 'Express', base: 6.0, perKg: 0.5, minKg: 1 },
-        URG: { label: 'Urgent', base: 45.0, perKg: 3.0, minKg: 2 },
-        VIG: { label: 'Livraison vin', base: 2.0, perKg: 0.4, minKg: 1 }
+        ECO: { label: 'Eco 48h',       base: 4.0, perKg: 0.5 },
+        PRI: { label: 'Priority 24h',  base: 5.0, perKg: 0.5 },
+        EXP: { label: 'Express',       base: 6.0, perKg: 0.5 },
+        URG: { label: 'Urgent',        base: 45.0, perKg: 3.0 },
+        VIG: { label: 'Livraison vin', base: 2.0, perKg: 0.4 }
       },
       options: {
-        night: { label: 'Livraison de nuit', amount: 10 },
-        call: { label: 'Appel client', amount: 5 },
+        night:   { label: 'Livraison de nuit',   amount: 10 },
+        call:    { label: 'Appel client',         amount: 5 },
         fragile: { label: 'Manipulation fragile', amount: 5 },
-        cave: { label: 'Descente en cave', amount: 1.5 },
-        retreat: { label: 'Retrait en dépôt', amount: 3 },
-        ins1500: { label: 'Assurance 1500 CHF', amount: 1.5 },
-        ins5000: { label: 'Assurance 5000 CHF', amount: 7 }
+        cave:    { label: 'Descente en cave',     amount: 1.5 },
+        retreat: { label: 'Retrait en dépôt',     amount: 3 },
+        ins1500: { label: 'Assurance 1 500 CHF',  amount: 1.5 },
+        ins5000: { label: 'Assurance 5 000 CHF',  amount: 7 }
       },
-      floorRate: 10,
-      excludedSpecialRefs: ['PEC', 'LEV']
+      floorRate: 10
     };
 
     const els = {
-      service: document.getElementById('service'),
+      service:  document.getElementById('service'),
       distance: document.getElementById('distance'),
-      weight: document.getElementById('weight'),
-      floor: document.getElementById('floor'),
-      pickup: document.getElementById('pickup'),
+      weight:   document.getElementById('weight'),
+      floor:    document.getElementById('floor'),
+      pickup:   document.getElementById('pickup'),
       delivery: document.getElementById('delivery'),
-      night: document.getElementById('night'),
-      call: document.getElementById('call'),
-      fragile: document.getElementById('fragile'),
-      cave: document.getElementById('cave'),
-      retreat: document.getElementById('retreat'),
-      ins1500: document.getElementById('ins1500'),
-      ins5000: document.getElementById('ins5000'),
-      quoteValue: document.getElementById('quoteValue'),
-      quoteBreakdown: document.getElementById('quoteBreakdown'),
-      saveSimulationBtn: document.getElementById('saveSimulationBtn'),
-      saveStatus: document.getElementById('saveStatus'),
-      company: document.getElementById('company'),
-      contact: document.getElementById('contact'),
-      email: document.getElementById('email'),
-      phone: document.getElementById('phone'),
+      night:    document.getElementById('night'),
+      call:     document.getElementById('call'),
+      fragile:  document.getElementById('fragile'),
+      cave:     document.getElementById('cave'),
+      retreat:  document.getElementById('retreat'),
+      ins1500:  document.getElementById('ins1500'),
+      ins5000:  document.getElementById('ins5000'),
+      quoteValue:       document.getElementById('quoteValue'),
+      quoteBreakdown:   document.getElementById('quoteBreakdown'),
+      saveSimulationBtn:document.getElementById('saveSimulationBtn'),
+      saveStatus:       document.getElementById('saveStatus'),
+      company:  document.getElementById('company'),
+      contact:  document.getElementById('contact'),
+      email:    document.getElementById('email'),
+      phone:    document.getElementById('phone'),
       interest: document.getElementById('interest'),
-      volume: document.getElementById('volume'),
-      message: document.getElementById('message'),
-      sendQuoteBtn: document.getElementById('sendQuoteBtn'),
-      fillFromCalcBtn: document.getElementById('fillFromCalcBtn'),
-      quoteStatus: document.getElementById('quoteStatus')
+      volume:   document.getElementById('volume'),
+      message:  document.getElementById('message'),
+      sendQuoteBtn:   document.getElementById('sendQuoteBtn'),
+      fillFromCalcBtn:document.getElementById('fillFromCalcBtn'),
+      quoteStatus:    document.getElementById('quoteStatus')
     };
 
-    function money(n) {
-      return `${Number(n).toFixed(2)} CHF`;
-    }
+    function money(n) { return `${Number(n).toFixed(2)} CHF`; }
 
     function getSelectedOptions() {
       return Object.keys(PRICE_RULES.options).filter(key => els[key].checked);
@@ -932,28 +1164,25 @@
 
     function getCalculation() {
       const serviceKey = els.service.value;
-      const service = PRICE_RULES.services[serviceKey];
-      const distance = Math.max(0, Number(els.distance.value || 0));
-      const weight = Math.max(0, Number(els.weight.value || 0));
-      const floor = Math.max(0, Number(els.floor.value || 0));
+      const service    = PRICE_RULES.services[serviceKey];
+      const distance   = Math.max(0, Number(els.distance.value || 0));
+      const weight     = Math.max(0, Number(els.weight.value || 0));
+      const floor      = Math.max(0, Number(els.floor.value || 0));
       const selectedOptions = getSelectedOptions();
 
-      let base = service.base;
-      let kgCharge = weight * service.perKg;
-      let distanceCharge = distance * PRICE_RULES.kmRate;
-      let floorCharge = floor * PRICE_RULES.floorRate;
-      let optionsTotal = 0;
+      const base            = service.base;
+      const kgCharge        = weight * service.perKg;
+      const distanceCharge  = distance * PRICE_RULES.kmRate;
+      const floorCharge     = floor * PRICE_RULES.floorRate;
 
       const breakdown = [
-        { label: `Service — ${service.label}`, amount: base },
-        { label: `Poids (${weight.toFixed(1)} kg × ${service.perKg.toFixed(2)})`, amount: kgCharge },
-        { label: `Distance (${distance.toFixed(1)} km × ${PRICE_RULES.kmRate.toFixed(2)})`, amount: distanceCharge }
+        { label: `Service — ${service.label}`,                              amount: base },
+        { label: `Poids (${weight.toFixed(1)} kg × ${service.perKg})`,     amount: kgCharge },
+        { label: `Distance (${distance.toFixed(1)} km × ${PRICE_RULES.kmRate})`, amount: distanceCharge }
       ];
+      if (floor > 0) breakdown.push({ label: `Étages (${floor} × ${PRICE_RULES.floorRate})`, amount: floorCharge });
 
-      if (floor > 0) {
-        breakdown.push({ label: `Étages (${floor} × ${PRICE_RULES.floorRate.toFixed(2)})`, amount: floorCharge });
-      }
-
+      let optionsTotal = 0;
       selectedOptions.forEach(key => {
         const opt = PRICE_RULES.options[key];
         optionsTotal += opt.amount;
@@ -961,151 +1190,96 @@
       });
 
       const total = base + kgCharge + distanceCharge + floorCharge + optionsTotal;
-
-      return {
-        serviceKey,
-        serviceLabel: service.label,
-        distance,
-        weight,
-        floor,
-        selectedOptions,
-        pickup: els.pickup.value.trim(),
-        delivery: els.delivery.value.trim(),
-        breakdown,
-        total
-      };
+      return { serviceKey, serviceLabel: service.label, distance, weight, floor, selectedOptions,
+               pickup: els.pickup.value.trim(), delivery: els.delivery.value.trim(), breakdown, total };
     }
 
     function renderCalculation() {
       const calc = getCalculation();
       els.quoteValue.textContent = money(calc.total);
-      els.quoteBreakdown.innerHTML = calc.breakdown.map(item => `
-        <div class="line-item">
-          <span>${item.label}</span>
-          <strong>${money(item.amount)}</strong>
-        </div>
-      `).join('') + `
-        <div class="line-item" style="padding-top:10px; margin-top:8px; border-top:1px solid rgba(255,255,255,.08);">
-          <span>Total estimatif</span>
-          <strong>${money(calc.total)}</strong>
-        </div>
-      `;
+      els.quoteBreakdown.innerHTML = calc.breakdown.map(item =>
+        `<div class="line-item"><span>${item.label}</span><strong>${money(item.amount)}</strong></div>`
+      ).join('') +
+        `<div class="line-item total"><span>Total estimatif</span><strong>${money(calc.total)}</strong></div>`;
       return calc;
     }
 
-    [
-      els.service, els.distance, els.weight, els.floor,
-      els.pickup, els.delivery,
-      els.night, els.call, els.fragile, els.cave, els.retreat, els.ins1500, els.ins5000
+    [els.service, els.distance, els.weight, els.floor, els.pickup, els.delivery,
+     els.night, els.call, els.fragile, els.cave, els.retreat
     ].forEach(el => el.addEventListener('input', renderCalculation));
-    [els.night, els.call, els.fragile, els.cave, els.retreat, els.ins1500, els.ins5000].forEach(el => el.addEventListener('change', renderCalculation));
+    [els.night, els.call, els.fragile, els.cave, els.retreat
+    ].forEach(el => el.addEventListener('change', renderCalculation));
 
-    const SUPABASE_URL = window.COLIXO_SUPABASE_URL || '';
+    /* ── SUPABASE ── */
+    const SUPABASE_URL      = window.COLIXO_SUPABASE_URL || '';
     const SUPABASE_ANON_KEY = window.COLIXO_SUPABASE_ANON_KEY || '';
-    const supabaseClient = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
-      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-      : null;
+    const supabaseClient    = (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase)
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
     async function saveSimulation() {
       const calc = renderCalculation();
       if (!supabaseClient) {
         els.saveStatus.className = 'status error';
-        els.saveStatus.textContent = 'Supabase non configuré. Renseigne COLIXO_SUPABASE_URL et COLIXO_SUPABASE_ANON_KEY.';
+        els.saveStatus.textContent = 'Supabase non configuré (COLIXO_SUPABASE_URL / COLIXO_SUPABASE_ANON_KEY).';
         return;
       }
-
       els.saveStatus.className = 'status';
-      els.saveStatus.textContent = 'Enregistrement en cours...';
-
-      const payload = {
-        service_ref: calc.serviceKey,
-        service_label: calc.serviceLabel,
-        distance_km: calc.distance,
-        weight_kg: calc.weight,
-        floor_count: calc.floor,
-        pickup_address: calc.pickup || null,
-        delivery_address: calc.delivery || null,
-        selected_options: calc.selectedOptions,
-        breakdown: calc.breakdown,
-        total_chf: calc.total,
-        source: 'homepage_calculator'
-      };
-
-      const { error } = await supabaseClient.from('quote_simulations').insert(payload);
-      if (error) {
-        els.saveStatus.className = 'status error';
-        els.saveStatus.textContent = `Erreur: ${error.message}`;
-        return;
-      }
-      els.saveStatus.className = 'status ok';
-      els.saveStatus.textContent = 'Simulation enregistrée.';
+      els.saveStatus.textContent = 'Enregistrement…';
+      const { error } = await supabaseClient.from('quote_simulations').insert({
+        service_ref: calc.serviceKey, service_label: calc.serviceLabel,
+        distance_km: calc.distance,  weight_kg: calc.weight, floor_count: calc.floor,
+        pickup_address: calc.pickup||null, delivery_address: calc.delivery||null,
+        selected_options: calc.selectedOptions, breakdown: calc.breakdown,
+        total_chf: calc.total, source: 'homepage_calculator'
+      });
+      els.saveStatus.className = error ? 'status error' : 'status ok';
+      els.saveStatus.textContent = error ? `Erreur: ${error.message}` : 'Simulation enregistrée.';
     }
 
     async function sendQuoteRequest() {
       const calc = renderCalculation();
       if (!els.company.value.trim() || !els.contact.value.trim() || !els.email.value.trim()) {
         els.quoteStatus.className = 'status error';
-        els.quoteStatus.textContent = 'Renseigne au minimum la société, le contact et l’e-mail.';
+        els.quoteStatus.textContent = 'Société, contact et e-mail sont requis.';
         return;
       }
       if (!supabaseClient) {
         els.quoteStatus.className = 'status error';
-        els.quoteStatus.textContent = 'Supabase non configuré. Branche les clés puis renvoie la demande.';
+        els.quoteStatus.textContent = 'Supabase non configuré.';
         return;
       }
-
       els.quoteStatus.className = 'status';
-      els.quoteStatus.textContent = 'Envoi en cours...';
-
-      const payload = {
-        company_name: els.company.value.trim(),
-        contact_name: els.contact.value.trim(),
-        email: els.email.value.trim(),
-        phone: els.phone.value.trim() || null,
-        interest_type: els.interest.value,
-        monthly_volume: els.volume.value.trim() || null,
-        message: els.message.value.trim() || null,
-        calc_service_ref: calc.serviceKey,
-        calc_service_label: calc.serviceLabel,
-        calc_distance_km: calc.distance,
-        calc_weight_kg: calc.weight,
-        calc_floor_count: calc.floor,
-        calc_pickup_address: calc.pickup || null,
-        calc_delivery_address: calc.delivery || null,
-        calc_selected_options: calc.selectedOptions,
-        calc_breakdown: calc.breakdown,
-        calc_total_chf: calc.total,
-        status: 'new',
-        source: 'homepage_quote_form'
-      };
-
-      const { error } = await supabaseClient.from('quote_requests').insert(payload);
-      if (error) {
-        els.quoteStatus.className = 'status error';
-        els.quoteStatus.textContent = `Erreur: ${error.message}`;
-        return;
-      }
-
-      els.quoteStatus.className = 'status ok';
-      els.quoteStatus.textContent = 'Demande envoyée. Tu peux maintenant la traiter dans Supabase.';
+      els.quoteStatus.textContent = 'Envoi…';
+      const { error } = await supabaseClient.from('quote_requests').insert({
+        company_name: els.company.value.trim(), contact_name: els.contact.value.trim(),
+        email: els.email.value.trim(), phone: els.phone.value.trim()||null,
+        interest_type: els.interest.value, monthly_volume: els.volume.value.trim()||null,
+        message: els.message.value.trim()||null,
+        calc_service_ref: calc.serviceKey, calc_service_label: calc.serviceLabel,
+        calc_distance_km: calc.distance, calc_weight_kg: calc.weight, calc_floor_count: calc.floor,
+        calc_pickup_address: calc.pickup||null, calc_delivery_address: calc.delivery||null,
+        calc_selected_options: calc.selectedOptions, calc_breakdown: calc.breakdown,
+        calc_total_chf: calc.total, status: 'new', source: 'homepage_quote_form'
+      });
+      els.quoteStatus.className = error ? 'status error' : 'status ok';
+      els.quoteStatus.textContent = error ? `Erreur: ${error.message}` : 'Demande envoyée — traitement dans Supabase.';
     }
 
     function fillFromCalculator() {
       const calc = renderCalculation();
-      const optionLabels = calc.selectedOptions.map(key => PRICE_RULES.options[key].label).join(', ') || 'aucune';
-      const text = [
+      const optionLabels = calc.selectedOptions.map(k => PRICE_RULES.options[k].label).join(', ') || 'aucune';
+      els.message.value = [
         `Service: ${calc.serviceLabel}`,
         `Distance: ${calc.distance.toFixed(1)} km`,
         `Poids: ${calc.weight.toFixed(1)} kg`,
         `Étages: ${calc.floor}`,
-        `Collecte: ${calc.pickup || 'non précisée'}`,
-        `Livraison: ${calc.delivery || 'non précisée'}`,
+        `Collecte: ${calc.pickup||'non précisée'}`,
+        `Livraison: ${calc.delivery||'non précisée'}`,
         `Options: ${optionLabels}`,
         `Total estimatif: ${money(calc.total)}`
-      ].join(' | ');
-      els.message.value = text;
+      ].join(' · ');
       els.quoteStatus.className = 'status ok';
-      els.quoteStatus.textContent = 'Le détail du calcul a été repris dans le formulaire.';
+      els.quoteStatus.textContent = 'Détail du calcul repris dans le formulaire.';
     }
 
     els.saveSimulationBtn.addEventListener('click', saveSimulation);
@@ -1114,55 +1288,5 @@
 
     renderCalculation();
   </script>
-
-  <!--
-    TABLES SUPABASE CONSEILLÉES
-
-    create table public.quote_simulations (
-      id uuid primary key default gen_random_uuid(),
-      created_at timestamptz not null default now(),
-      source text,
-      service_ref text,
-      service_label text,
-      distance_km numeric,
-      weight_kg numeric,
-      floor_count integer,
-      pickup_address text,
-      delivery_address text,
-      selected_options jsonb,
-      breakdown jsonb,
-      total_chf numeric
-    );
-
-    create table public.quote_requests (
-      id uuid primary key default gen_random_uuid(),
-      created_at timestamptz not null default now(),
-      status text default 'new',
-      source text,
-      company_name text,
-      contact_name text,
-      email text,
-      phone text,
-      interest_type text,
-      monthly_volume text,
-      message text,
-      calc_service_ref text,
-      calc_service_label text,
-      calc_distance_km numeric,
-      calc_weight_kg numeric,
-      calc_floor_count integer,
-      calc_pickup_address text,
-      calc_delivery_address text,
-      calc_selected_options jsonb,
-      calc_breakdown jsonb,
-      calc_total_chf numeric
-    );
-
-    EXEMPLE DE CONFIG AVANT </body>
-    <script>
-      window.COLIXO_SUPABASE_URL = 'https://xxxx.supabase.co';
-      window.COLIXO_SUPABASE_ANON_KEY = 'ton_anon_key';
-    </script>
-  -->
 </body>
 </html>
