@@ -1,1 +1,927 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colixo Prospecting Desk</title>
+  <style>
+    :root {
+      --bg: #070707;
+      --panel: #121212;
+      --panel-2: #1a1a1a;
+      --line: #2a2a2a;
+      --text: #f4f4f4;
+      --muted: #b6b6b6;
+      --accent: #ff6a00;
+      --accent-2: #ff8c32;
+      --danger: #ff4d4f;
+      --success: #1db954;
+      --radius: 18px;
+      --shadow: 0 20px 50px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(255,106,0,.18), transparent 28%),
+        linear-gradient(180deg, #090909 0%, #050505 100%);
+      color: var(--text);
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: rgba(10,10,10,.92);
+      backdrop-filter: blur(12px);
+      padding: 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: #111;
+      box-shadow: 0 10px 25px rgba(255,106,0,.25);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.1;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .brand p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .nav button,
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .nav button {
+      text-align: left;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #121212;
+      color: var(--text);
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .nav button.active,
+    .nav button:hover {
+      border-color: rgba(255,106,0,.55);
+      background: rgba(255,106,0,.12);
+    }
+
+    .sidebar-card {
+      margin-top: 24px;
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,106,0,.12), rgba(255,106,0,.04));
+      border: 1px solid rgba(255,106,0,.18);
+    }
+
+    .sidebar-card h3 {
+      margin: 0 0 10px;
+      font-size: 14px;
+    }
+
+    .sidebar-card p {
+      margin: 0;
+      color: #ddd;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .main {
+      padding: 28px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .title-block h2 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: -.03em;
+    }
+
+    .title-block p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      max-width: 780px;
+      line-height: 1.5;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,106,0,.12);
+      color: #ffd1b2;
+      border: 1px solid rgba(255,106,0,.22);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .grid-kpi {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .kpi {
+      padding: 20px;
+    }
+
+    .kpi .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .kpi .value {
+      font-size: 34px;
+      font-weight: 800;
+      margin-top: 10px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 22px;
+    }
+
+    .panel h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+
+    .panel > p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: #ddd;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #0c0c0c;
+      color: var(--text);
+      padding: 13px 14px;
+      outline: none;
+      transition: .2s ease;
+    }
+
+    .field textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: rgba(255,106,0,.7);
+      box-shadow: 0 0 0 4px rgba(255,106,0,.12);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .btn {
+      border: 0;
+      padding: 13px 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: .2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #151515;
+    }
+
+    .btn-secondary {
+      background: #191919;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+
+    .btn-danger {
+      background: rgba(255,77,79,.12);
+      color: #ffb3b4;
+      border: 1px solid rgba(255,77,79,.22);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #0c0c0c;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 940px;
+    }
+
+    th, td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #1e1e1e;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      color: #cfcfcf;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: #111;
+      position: sticky;
+      top: 0;
+    }
+
+    tr:hover td {
+      background: rgba(255,255,255,.015);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .s-a_contacter { background: rgba(255,255,255,.06); color: #ddd; border-color: rgba(255,255,255,.08); }
+    .s-en_attente { background: rgba(255,106,0,.12); color: #ffd1b2; border-color: rgba(255,106,0,.18); }
+    .s-repondu { background: rgba(40,140,255,.13); color: #b7d8ff; border-color: rgba(40,140,255,.2); }
+    .s-rdv { background: rgba(29,185,84,.14); color: #bbefca; border-color: rgba(29,185,84,.22); }
+    .s-perdu { background: rgba(255,77,79,.12); color: #ffc1c2; border-color: rgba(255,77,79,.2); }
+
+    .message-blocks {
+      display: grid;
+      gap: 14px;
+    }
+
+    .message-card {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #0d0d0d;
+    }
+
+    .message-card h4 {
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: #ffd1b2;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .message-card p,
+    .message-card pre {
+      margin: 0;
+      color: #f1f1f1;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .split-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: 12px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1200px) {
+      .grid-kpi { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .content-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 920px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        height: auto;
+        position: static;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .main { padding: 18px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .grid-kpi { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">C</div>
+        <div>
+          <h1>Colixo Prospect</h1>
+          <p>LinkedIn desk B2B</p>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="active" type="button">Pipeline</button>
+        <button type="button" onclick="exportProspects()">Exporter JSON</button>
+        <button type="button" onclick="seedDemo()">Charger démo</button>
+        <button type="button" onclick="clearAllProspects()">Vider les données</button>
+      </div>
+
+      <div class="sidebar-card">
+        <h3>Utilisation conseillée</h3>
+        <p>
+          1. Ajoute une entreprise.<br>
+          2. Génère l’angle d’approche.<br>
+          3. Copie les messages sur LinkedIn manuellement.<br>
+          4. Mets à jour le statut dans le pipeline.
+        </p>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="title-block">
+          <h2>Dashboard de prospection LinkedIn</h2>
+          <p>
+            Base prête pour Colixo. Cette version fonctionne déjà en local avec une génération simulée.
+            Pour brancher la vraie API OpenAI et Supabase, remplace les fonctions indiquées dans le script.
+          </p>
+        </div>
+        <div class="badge">Mode local prêt à tester</div>
+      </div>
+
+      <section class="grid-kpi">
+        <article class="card kpi">
+          <div class="label">Prospects</div>
+          <div class="value" id="kpiTotal">0</div>
+        </article>
+        <article class="card kpi">
+          <div class="label">En attente</div>
+          <div class="value" id="kpiAttente">0</div>
+        </article>
+        <article class="card kpi">
+          <div class="label">Réponses</div>
+          <div class="value" id="kpiRepondu">0</div>
+        </article>
+        <article class="card kpi">
+          <div class="label">Rendez-vous</div>
+          <div class="value" id="kpiRdv">0</div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="card panel">
+          <h3>Nouveau prospect</h3>
+          <p>Ajoute une fiche entreprise, puis génère un angle d’approche et des messages prêts à copier.</p>
+
+          <form class="form-grid" id="prospectForm">
+            <div class="field">
+              <label for="entreprise">Entreprise</label>
+              <input id="entreprise" required placeholder="Ex. Hifi Filter" />
+            </div>
+
+            <div class="field">
+              <label for="ville">Ville</label>
+              <input id="ville" placeholder="Ex. Cernier" />
+            </div>
+
+            <div class="field">
+              <label for="secteur">Secteur</label>
+              <input id="secteur" placeholder="Ex. Industrie, e-commerce, pièces détachées" />
+            </div>
+
+            <div class="field">
+              <label for="site_web">Site web</label>
+              <input id="site_web" placeholder="https://..." />
+            </div>
+
+            <div class="field">
+              <label for="contact_nom">Nom du contact</label>
+              <input id="contact_nom" placeholder="Ex. Davide Antunes" />
+            </div>
+
+            <div class="field">
+              <label for="linkedin_url">Lien LinkedIn</label>
+              <input id="linkedin_url" placeholder="https://linkedin.com/in/..." />
+            </div>
+
+            <div class="field">
+              <label for="notes">Notes internes</label>
+              <textarea id="notes" placeholder="Infos utiles avant prise de contact"></textarea>
+            </div>
+
+            <div class="actions">
+              <button class="btn btn-primary" type="submit">Ajouter au pipeline</button>
+              <button class="btn btn-secondary" type="button" onclick="generateForForm()">Générer les messages</button>
+              <button class="btn btn-secondary" type="button" onclick="resetForm()">Réinitialiser</button>
+            </div>
+          </form>
+        </article>
+
+        <article class="card panel">
+          <h3>Messages et analyse</h3>
+          <p>Le contenu ici se remplit à partir de la fiche sélectionnée ou depuis le formulaire.</p>
+
+          <div id="emptyState" class="muted">
+            Aucun prospect sélectionné. Ajoute une fiche ou clique sur une ligne du tableau.
+          </div>
+
+          <div id="detailsPane" class="hidden">
+            <div class="message-blocks">
+              <div class="message-card">
+                <h4>Résumé entreprise</h4>
+                <p id="detailResume"></p>
+              </div>
+              <div class="message-card">
+                <h4>Besoin logistique détecté</h4>
+                <p id="detailBesoin"></p>
+              </div>
+              <div class="message-card">
+                <h4>Message de connexion</h4>
+                <pre id="detailConnexion"></pre>
+                <div class="split-actions">
+                  <span class="small muted">Copie manuelle sur LinkedIn</span>
+                  <button class="btn btn-secondary" type="button" onclick="copyField('detailConnexion')">Copier</button>
+                </div>
+              </div>
+              <div class="message-card">
+                <h4>Message après acceptation</h4>
+                <pre id="detailMessage1"></pre>
+                <div class="split-actions">
+                  <span class="small muted">Objectif : ouvrir la discussion</span>
+                  <button class="btn btn-secondary" type="button" onclick="copyField('detailMessage1')">Copier</button>
+                </div>
+              </div>
+              <div class="message-card">
+                <h4>Relance 1</h4>
+                <pre id="detailRelance1"></pre>
+                <div class="split-actions">
+                  <span class="small muted">3 à 5 jours après</span>
+                  <button class="btn btn-secondary" type="button" onclick="copyField('detailRelance1')">Copier</button>
+                </div>
+              </div>
+              <div class="message-card">
+                <h4>Relance 2</h4>
+                <pre id="detailRelance2"></pre>
+                <div class="split-actions">
+                  <span class="small muted">Dernière relance</span>
+                  <button class="btn btn-secondary" type="button" onclick="copyField('detailRelance2')">Copier</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="card panel" style="margin-top:20px;">
+        <h3>Pipeline prospects</h3>
+        <p>Chaque ligne peut être ouverte pour afficher les messages et modifier le statut commercial.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Entreprise</th>
+                <th>Ville</th>
+                <th>Secteur</th>
+                <th>Contact</th>
+                <th>Statut</th>
+                <th>Créé le</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="prospectsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'colixo_linkedin_prospects_v1';
+    let prospects = [];
+    let selectedId = null;
+
+    function uid() {
+      return 'p_' + Math.random().toString(36).slice(2, 10);
+    }
+
+    function todayString() {
+      return new Date().toLocaleDateString('fr-CH', {
+        day: '2-digit', month: '2-digit', year: 'numeric'
+      });
+    }
+
+    function saveProspects() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(prospects));
+    }
+
+    function loadProspects() {
+      try {
+        prospects = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      } catch {
+        prospects = [];
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function resetForm() {
+      document.getElementById('prospectForm').reset();
+    }
+
+    function getFormData() {
+      return {
+        entreprise: document.getElementById('entreprise').value.trim(),
+        ville: document.getElementById('ville').value.trim(),
+        secteur: document.getElementById('secteur').value.trim(),
+        site_web: document.getElementById('site_web').value.trim(),
+        contact_nom: document.getElementById('contact_nom').value.trim(),
+        linkedin_url: document.getElementById('linkedin_url').value.trim(),
+        notes: document.getElementById('notes').value.trim()
+      };
+    }
+
+    function buildPrompt(data) {
+      return `
+Tu es un expert en prospection B2B en Suisse romande.
+
+Objectif : générer des messages LinkedIn efficaces pour Colixo, service de transport et livraison flexible.
+
+Entreprise : ${data.entreprise}
+Ville : ${data.ville}
+Secteur : ${data.secteur}
+Site web : ${data.site_web}
+Contact : ${data.contact_nom}
+Notes internes : ${data.notes}
+
+Tu dois produire :
+1. Résumé simple de l’entreprise
+2. Besoin logistique probable
+3. Message de connexion
+4. Message après acceptation
+5. Relance 1
+6. Relance 2
+
+Contraintes :
+- ton professionnel, humain, direct
+- pas agressif
+- pas de phrases inutiles
+- focus gain de temps, flexibilité, livraison rapide, tournées personnalisées
+- objectif : obtenir un rendez-vous de 10 minutes
+      `.trim();
+    }
+
+    async function generateProspectingContent(data) {
+      // VERSION DEMO LOCALE
+      // Remplace cette fonction par un appel réel vers ton backend /api/generate
+      // qui lui-même appellera l'API OpenAI.
+
+      const secteur = data.secteur || 'activité B2B';
+      const ville = data.ville || 'Suisse romande';
+      const entreprise = data.entreprise || 'cette entreprise';
+      const contact = data.contact_nom ? ` pour ${data.contact_nom}` : '';
+
+      return {
+        resume: `${entreprise} semble active dans le secteur ${secteur} à ${ville}. Son activité laisse penser à des échanges réguliers, urgents ou planifiés avec des clients, fournisseurs ou sites partenaires. L’entreprise peut avoir besoin d’une logistique plus souple qu’un schéma standard.`,
+        besoin_detecte: `Probable besoin de livraisons ponctuelles urgentes, tournées régulières, enlèvements planifiés ou flexibilité de prise en charge selon les contraintes clients. Angle Colixo : rapidité, adaptation terrain, service réactif et plus souple qu’un prestataire rigide.`,
+        message_connexion: `Bonjour${contact ? ' ' + data.contact_nom : ''}, je vois que ${entreprise} évolue dans le secteur ${secteur}. Chez Colixo, nous aidons les entreprises en Suisse romande à rendre leurs livraisons plus souples et réactives. Au plaisir d’échanger.`,
+        message_1: `Merci pour la connexion. Nous accompagnons des entreprises comme ${entreprise} sur des besoins de transport plus flexibles : urgences, tournées régulières et enlèvements planifiés. Est-ce un sujet qui a du sens pour vous actuellement ?`,
+        relance_1: `Je me permets de revenir vers vous. Certaines entreprises gagnent du temps et réduisent leurs contraintes logistiques avec un partenaire plus flexible pour les courses urgentes et régulières. Est-ce pertinent pour ${entreprise} ?`,
+        relance_2: `Dernier message de ma part. Si vous voulez, je peux vous montrer en 10 minutes comment Colixo peut s’adapter simplement à vos flux de livraison, sans organisation lourde.`
+      };
+    }
+
+    async function generateForForm() {
+      const formData = getFormData();
+      if (!formData.entreprise) {
+        alert('Ajoute au moins le nom de l’entreprise.');
+        return;
+      }
+
+      const generated = await generateProspectingContent(formData);
+      renderDetails({ ...formData, ...generated, id: 'preview' });
+    }
+
+    async function addProspectFromForm(event) {
+      event.preventDefault();
+      const formData = getFormData();
+      if (!formData.entreprise) {
+        alert('Le nom de l’entreprise est requis.');
+        return;
+      }
+
+      const generated = await generateProspectingContent(formData);
+      const item = {
+        id: uid(),
+        created_at: new Date().toISOString(),
+        date_creation_label: todayString(),
+        statut: 'a_contacter',
+        ...formData,
+        ...generated
+      };
+
+      prospects.unshift(item);
+      selectedId = item.id;
+      saveProspects();
+      renderAll();
+      resetForm();
+    }
+
+    function updateKpis() {
+      document.getElementById('kpiTotal').textContent = prospects.length;
+      document.getElementById('kpiAttente').textContent = prospects.filter(p => p.statut === 'en_attente').length;
+      document.getElementById('kpiRepondu').textContent = prospects.filter(p => p.statut === 'repondu').length;
+      document.getElementById('kpiRdv').textContent = prospects.filter(p => p.statut === 'rdv').length;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('prospectsTableBody');
+      if (!prospects.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="muted">Aucun prospect enregistré.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = prospects.map(p => `
+        <tr>
+          <td><strong>${escapeHtml(p.entreprise)}</strong></td>
+          <td>${escapeHtml(p.ville || '-')}</td>
+          <td>${escapeHtml(p.secteur || '-')}</td>
+          <td>${escapeHtml(p.contact_nom || '-')}</td>
+          <td>
+            <select onchange="changeStatus('${p.id}', this.value)">
+              <option value="a_contacter" ${p.statut === 'a_contacter' ? 'selected' : ''}>À contacter</option>
+              <option value="en_attente" ${p.statut === 'en_attente' ? 'selected' : ''}>En attente</option>
+              <option value="repondu" ${p.statut === 'repondu' ? 'selected' : ''}>Répondu</option>
+              <option value="rdv" ${p.statut === 'rdv' ? 'selected' : ''}>Rendez-vous</option>
+              <option value="perdu" ${p.statut === 'perdu' ? 'selected' : ''}>Perdu</option>
+            </select>
+            <div style="margin-top:8px"><span class="pill s-${p.statut}">${labelStatus(p.statut)}</span></div>
+          </td>
+          <td>${escapeHtml(p.date_creation_label || '-')}</td>
+          <td>
+            <div class="actions">
+              <button class="btn btn-secondary" type="button" onclick="selectProspect('${p.id}')">Ouvrir</button>
+              <button class="btn btn-danger" type="button" onclick="deleteProspect('${p.id}')">Supprimer</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function labelStatus(value) {
+      switch (value) {
+        case 'a_contacter': return 'À contacter';
+        case 'en_attente': return 'En attente';
+        case 'repondu': return 'Répondu';
+        case 'rdv': return 'Rendez-vous';
+        case 'perdu': return 'Perdu';
+        default: return value;
+      }
+    }
+
+    function renderDetails(prospect) {
+      document.getElementById('emptyState').classList.add('hidden');
+      document.getElementById('detailsPane').classList.remove('hidden');
+      document.getElementById('detailResume').textContent = prospect.resume || '';
+      document.getElementById('detailBesoin').textContent = prospect.besoin_detecte || '';
+      document.getElementById('detailConnexion').textContent = prospect.message_connexion || '';
+      document.getElementById('detailMessage1').textContent = prospect.message_1 || '';
+      document.getElementById('detailRelance1').textContent = prospect.relance_1 || '';
+      document.getElementById('detailRelance2').textContent = prospect.relance_2 || '';
+    }
+
+    function selectProspect(id) {
+      const prospect = prospects.find(p => p.id === id);
+      if (!prospect) return;
+      selectedId = id;
+      renderDetails(prospect);
+    }
+
+    function changeStatus(id, value) {
+      const prospect = prospects.find(p => p.id === id);
+      if (!prospect) return;
+      prospect.statut = value;
+      saveProspects();
+      renderAll();
+    }
+
+    function deleteProspect(id) {
+      if (!confirm('Supprimer ce prospect ?')) return;
+      prospects = prospects.filter(p => p.id !== id);
+      if (selectedId === id) selectedId = null;
+      saveProspects();
+      renderAll();
+    }
+
+    function clearAllProspects() {
+      if (!confirm('Supprimer toutes les données locales ?')) return;
+      prospects = [];
+      selectedId = null;
+      saveProspects();
+      renderAll();
+    }
+
+    function renderAll() {
+      updateKpis();
+      renderTable();
+      const selected = prospects.find(p => p.id === selectedId);
+      if (selected) {
+        renderDetails(selected);
+      } else {
+        document.getElementById('emptyState').classList.remove('hidden');
+        document.getElementById('detailsPane').classList.add('hidden');
+      }
+    }
+
+    async function copyField(id) {
+      const text = document.getElementById(id).textContent || '';
+      try {
+        await navigator.clipboard.writeText(text);
+        alert('Texte copié.');
+      } catch {
+        alert('Copie impossible sur ce navigateur.');
+      }
+    }
+
+    function exportProspects() {
+      const blob = new Blob([JSON.stringify(prospects, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'colixo-prospects.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function seedDemo() {
+      prospects = [
+        {
+          id: uid(),
+          entreprise: 'Hifi Filter',
+          ville: 'Cernier',
+          secteur: 'Industrie',
+          site_web: 'https://www.hifi-filter.com',
+          contact_nom: 'Davide Antunes',
+          linkedin_url: '',
+          notes: 'Approche grand compte, angle flexibilité et tournées régulières.',
+          resume: 'Entreprise industrielle avec flux réguliers et potentiels besoins d’enlèvement ou de livraison B2B en Suisse.',
+          besoin_detecte: 'Livraisons urgentes, pièces, documents, tournées fixes, souplesse sur les demandes terrain.',
+          message_connexion: 'Bonjour Davide, je vois que Hifi Filter gère des flux industriels exigeants. Chez Colixo, nous aidons les entreprises à rendre leurs livraisons plus souples et réactives en Suisse romande. Au plaisir d’échanger.',
+          message_1: 'Merci pour la connexion. Nous accompagnons des entreprises qui ont besoin d’un partenaire de transport flexible pour les urgences et les flux réguliers. Est-ce un sujet qui a du sens chez Hifi Filter actuellement ?',
+          relance_1: 'Je me permets de revenir vers vous. Nous aidons certaines entreprises à fluidifier leurs envois sans mettre en place une structure lourde. Est-ce pertinent pour vous ?',
+          relance_2: 'Dernier message de ma part. Si cela vous intéresse, je peux vous montrer en 10 minutes une approche simple et souple adaptée à vos flux.',
+          statut: 'en_attente',
+          created_at: new Date().toISOString(),
+          date_creation_label: todayString()
+        }
+      ];
+      selectedId = prospects[0].id;
+      saveProspects();
+      renderAll();
+    }
+
+    // =========================
+    // BRANCHEMENT OPENAI / SUPABASE
+    // =========================
+    // 1) OPENAI : remplace generateProspectingContent() par un fetch('/api/generate')
+    // 2) SUPABASE : remplace localStorage par insert/select/update/delete en base
+    // 3) TABLE CONSEILLEE : prospects(id, entreprise, ville, secteur, site_web, contact_nom,
+    //    linkedin_url, notes, resume, besoin_detecte, message_connexion, message_1,
+    //    relance_1, relance_2, statut, created_at)
+    // =========================
+
+    document.getElementById('prospectForm').addEventListener('submit', addProspectFromForm);
+    loadProspects();
+    renderAll();
+  </script>
+</body>
+</html>
+
 
