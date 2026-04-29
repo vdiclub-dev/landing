@@ -864,10 +864,25 @@
 </footer>
 
 <script>
-  document.getElementById('quoteForm').addEventListener('submit', function(e) {
+ document.getElementById('quoteForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    alert('Thank you! Your request has been sent. We will get back to you within 24 hours.');
-  });
+    
+    const formData = new FormData(this);
+    
+    try {
+        // OPTION 1 - Avec Formspree (remplacer YOUR_ID)
+        await fetch('https://formspree.io/f/YOUR_ID', {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        });
+        
+        // Redirection vers la page merci
+        window.location.href = 'https://www.colixo.ch/merci.html';
+    } catch (error) {
+        alert('Une erreur est survenue. Merci de nous contacter directement.');
+    }
+});
 </script>
 
 </body>
