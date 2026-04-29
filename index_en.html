@@ -864,26 +864,36 @@
 </footer>
 
 <script>
- document.getElementById('quoteForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(this);
-    
-    try {
-        // OPTION 1 - Avec Formspree (remplacer YOUR_ID)
-        await fetch('https://formspree.io/f/YOUR_ID', {
-            method: 'POST',
-            body: formData,
-            headers: { 'Accept': 'application/json' }
-        });
-        
-        // Redirection vers la page merci
-        window.location.href = 'https://www.colixo.ch/merci.html';
-    } catch (error) {
-        alert('Une erreur est survenue. Merci de nous contacter directement.');
-    }
+document.getElementById('quoteForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('.submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Envoi en cours…';
+
+  const data = Object.fromEntries(new FormData(this).entries());
+
+  try {
+    const res = await fetch(
+      'https://iubbsnntcreneakbdkmv.supabase.co/functions/v1/hotel-quote',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1YmJzbm50Y3JlbmVha2Jka212Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1NzI1MDYsImV4cCI6MjA4ODE0ODUwNn0.FzMgCZxNIej1skSIc8UAGiODcZEZW1GCWZwBfonm_1Y'
+        },
+        body: JSON.stringify(data)
+      }
+    );
+    if (!res.ok) throw new Error(await res.text());
+    window.location.href = 'https://www.colixo.ch/merci.html';
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Envoyer ma demande de devis →';
+    alert('Une erreur est survenue. Merci de nous contacter directement : info@colixo.ch');
+  }
 });
 </script>
+>
 
 </body>
 </html>
