@@ -3,128 +3,342 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Colixo - Service hôtels</title>
+<title>Colixo | Livraison urgente pour hôtels</title>
 
 <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0d0d0d;
-  color:white;
-}
-
-.container {
-  max-width:1000px;
-  margin:auto;
-  padding:40px 20px;
-}
-
-h1 {
-  color:#ff8c00;
-  font-size:42px;
-  margin-bottom:10px;
-}
-
-h2 {
-  font-size:28px;
-}
-
-p {
-  color:#dddddd;
-  line-height:1.6;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #050505;
+  color: #ffffff;
 }
 
 .hero {
-  text-align:center;
-  padding:80px 20px;
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at top right, rgba(255,140,0,0.22), transparent 35%),
+    linear-gradient(135deg, #050505 0%, #111111 60%, #000000 100%);
+}
+
+.wrapper {
+  max-width: 1180px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.badge {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid rgba(255,140,0,0.45);
+  border-radius: 50px;
+  color: #ff8c00;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 60px;
+  line-height: 1.05;
+  margin: 0 0 25px;
+  letter-spacing: -2px;
+}
+
+h1 span {
+  color: #ff8c00;
+}
+
+.lead {
+  font-size: 21px;
+  line-height: 1.6;
+  color: #dddddd;
+  max-width: 650px;
+}
+
+.actions {
+  margin-top: 35px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 .btn {
-  display:inline-block;
-  background:#ff8c00;
-  color:#000;
-  padding:15px 30px;
-  border-radius:40px;
-  text-decoration:none;
-  font-weight:bold;
-  margin-top:20px;
+  padding: 16px 28px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
 }
 
-.card {
-  background:#1a1a1a;
-  padding:25px;
-  border-radius:15px;
-  margin:20px 0;
-  border-left:4px solid #ff8c00;
+.btn-primary {
+  background: #ff8c00;
+  color: #000000;
+}
+
+.btn-secondary {
+  border: 1px solid #444444;
+  color: #ffffff;
+}
+
+.features {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.feature {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 18px;
+  border-radius: 18px;
+  color: #eeeeee;
+}
+
+.calculator {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 28px;
+  padding: 30px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+  backdrop-filter: blur(18px);
+}
+
+.calculator h2 {
+  margin-top: 0;
+  font-size: 28px;
+}
+
+label {
+  display: block;
+  margin: 18px 0 8px;
+  color: #cccccc;
+  font-size: 14px;
+}
+
+input, select {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: 1px solid #333333;
+  background: #101010;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.result {
+  margin-top: 25px;
+  padding: 25px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ff8c00, #ffb347);
+  color: #000000;
+  text-align: center;
+}
+
+.price {
+  font-size: 42px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.note {
+  font-size: 13px;
+  color: #bbbbbb;
+  margin-top: 14px;
+  line-height: 1.5;
 }
 
 .section {
-  margin-top:60px;
+  padding: 80px 20px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.card {
+  background: #111111;
+  border: 1px solid #222222;
+  border-radius: 24px;
+  padding: 28px;
+}
+
+.card h3 {
+  color: #ff8c00;
+  margin-top: 0;
+}
+
+.final {
+  text-align: center;
+  background: #0a0a0a;
+}
+
+@media (max-width: 850px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  .features, .grid3 {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
-
 </head>
+
 <body>
 
-<div class="hero">
-  <h1>Valise oubliée ?</h1>
-  <h2>Nous la livrons en urgence</h2>
+<section class="hero">
+  <div class="wrapper">
 
-  <p>
-    Un client quitte votre hôtel et oublie un bagage, un sac ou un objet important ?  
-    Nous intervenons immédiatement.
-  </p>
+    <div>
+      <div class="badge">Service urgent pour hôtels</div>
 
-  <a href="tel:+41798700488" class="btn">Appeler maintenant</a>
-</div>
+      <h1>
+        Valise oubliée ?<br>
+        <span>Colixo la livre.</span>
+      </h1>
 
-<div class="container">
+      <p class="lead">
+        Un client quitte votre hôtel et oublie une valise, un sac, un document ou un objet important.
+        Colixo intervient rapidement, récupère l’objet à la réception et le livre au client.
+      </p>
 
-  <div class="section">
-    <h2>Une solution simple pour votre établissement</h2>
+      <div class="actions">
+        <a href="tel:+41798700488" class="btn btn-primary">Appeler maintenant</a>
+        <a href="#calculateur" class="btn btn-secondary">Calculer un prix</a>
+      </div>
 
-    <div class="card">
-      ✔ Récupération directe à l’hôtel  
+      <div class="features">
+        <div class="feature">Récupération directe à l’hôtel</div>
+        <div class="feature">Livraison urgente en Suisse romande</div>
+        <div class="feature">Service discret et professionnel</div>
+        <div class="feature">Aucune organisation pour votre équipe</div>
+      </div>
     </div>
 
-    <div class="card">
-      ✔ Livraison express partout en Suisse romande  
+    <div class="calculator" id="calculateur">
+      <h2>Calculateur indicatif</h2>
+
+      <label>Distance estimée</label>
+      <input type="number" id="km" placeholder="Exemple : 25" value="25">
+
+      <label>Type d’urgence</label>
+      <select id="urgence">
+        <option value="1">Standard - dans la journée</option>
+        <option value="1.25">Urgent - prise en charge rapide</option>
+        <option value="1.5">Express - priorité maximale</option>
+      </select>
+
+      <label>Type d’objet</label>
+      <select id="objet">
+        <option value="0">Valise / sac standard</option>
+        <option value="10">Objet fragile</option>
+        <option value="15">Document important</option>
+        <option value="25">Objet de valeur</option>
+      </select>
+
+      <div class="result">
+        Prix indicatif
+        <div class="price" id="prix">CHF 0.–</div>
+        <div>hors cas exceptionnel ou attente prolongée</div>
+      </div>
+
+      <p class="note">
+        Ce calcul est indicatif. Le prix final peut être confirmé avant la prise en charge selon l’adresse exacte,
+        l’urgence réelle et les contraintes de livraison.
+      </p>
+
+      <div class="actions">
+        <a href="tel:+41798700488" class="btn btn-primary">Confirmer la course</a>
+      </div>
     </div>
 
-    <div class="card">
-      ✔ Suivi clair et communication client  
-    </div>
-
-    <div class="card">
-      ✔ Aucune organisation pour votre équipe  
-    </div>
   </div>
+</section>
 
-  <div class="section">
+<section class="section">
+  <div class="container">
     <h2>Comment ça fonctionne ?</h2>
 
-    <p>
-      1. Vous nous appelez  
-      <br>2. Nous récupérons le bagage  
-      <br>3. Nous livrons votre client rapidement  
-    </p>
+    <div class="grid3">
+      <div class="card">
+        <h3>1. Vous appelez</h3>
+        <p>Votre équipe nous transmet le lieu de récupération et l’adresse du client.</p>
+      </div>
 
-    <p style="font-size:20px; color:#ff8c00;">
-      Vous nous contactez uniquement quand le problème arrive.
-    </p>
+      <div class="card">
+        <h3>2. Nous récupérons</h3>
+        <p>Colixo passe à l’hôtel et prend en charge la valise ou l’objet oublié.</p>
+      </div>
+
+      <div class="card">
+        <h3>3. Nous livrons</h3>
+        <p>Le client reçoit son bien rapidement, avec une communication claire.</p>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="section" style="text-align:center;">
-    <h2>Disponible immédiatement</h2>
-
-    <a href="tel:+41798700488" class="btn">+41 79 870 04 88</a>
-
-    <p style="margin-top:20px;">
-      Service rapide – discret – professionnel
+<section class="section final">
+  <div class="container">
+    <h2>Une solution simple pour vos clients</h2>
+    <p class="lead" style="margin:auto;">
+      Vous ne mobilisez pas votre personnel. Vous appelez Colixo uniquement quand le problème arrive.
     </p>
-  </div>
 
-</div>
+    <div class="actions" style="justify-content:center;">
+      <a href="tel:+41798700488" class="btn btn-primary">+41 79 870 04 88</a>
+      <a href="https://colixo.ch" class="btn btn-secondary">colixo.ch</a>
+    </div>
+  </div>
+</section>
+
+<script>
+function calculerPrix() {
+  const km = Number(document.getElementById("km").value) || 0;
+  const urgence = Number(document.getElementById("urgence").value);
+  const objet = Number(document.getElementById("objet").value);
+
+  const priseEnCharge = 25;
+  const prixKm = 1.80;
+  const minimum = 45;
+
+  let prix = (priseEnCharge + (km * prixKm) + objet) * urgence;
+
+  if (prix < minimum) {
+    prix = minimum;
+  }
+
+  document.getElementById("prix").innerText = "CHF " + Math.round(prix) + ".–";
+}
+
+document.getElementById("km").addEventListener("input", calculerPrix);
+document.getElementById("urgence").addEventListener("change", calculerPrix);
+document.getElementById("objet").addEventListener("change", calculerPrix);
+
+calculerPrix();
+</script>
 
 </body>
 </html>
