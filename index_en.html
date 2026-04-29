@@ -1,1 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colixo — Express Delivery for Hotels | Forgotten Luggage Service</title>
+<meta name="description" content="Dedicated service for hotels: pickup and express international delivery of items forgotten by your guests.">
 
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+  :root {
+    --bg-primary: #0A0A0A;
+    --bg-card: #1C1C1C;
+    --bg-elevated: #242424;
+    --border: #2B2B2B;
+    --border-light: #3A3A3A;
+    --text-primary: #FFFFFF;
+    --text-secondary: #CCCCCC;
+    --text-muted: #888888;
+    --accent: #FF6A00;
+    --accent-hover: #FF8C00;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .logo {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .logo span { color: var(--accent); }
+
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { font-size: 14px; color: var(--text-secondary); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text-primary); }
+
+  .lang-switch {
+    font-size: 13px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .lang-switch:hover { border-color: var(--accent); color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .nav-links { gap: 16px; }
+    .nav-links a:not(.lang-switch) { display: none; }
+  }
+
+  /* HERO */
+  .hero { padding: 100px 0 80px; position: relative; overflow: hidden; }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 106, 0, 0.15), transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 300;
+  }
+
+  .hero-subtitle {
+    font-size: 19px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 540px;
+  }
+
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 28px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    border: none;
+    font-family: var(--sans);
+  }
+
+  .btn-primary { background: var(--accent); color: white; }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(255, 106, 0, 0.25);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn .arrow { transition: transform 0.2s; }
+  .btn:hover .arrow { transform: translateX(4px); }
+
+  .hero-visual {
+    position: relative;
+    aspect-ratio: 4/5;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-primary) 100%);
+    overflow: hidden;
+    padding: 32px;
+  }
+
+  .hero-visual::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .stat-card {
+    background: rgba(255, 106, 0, 0.05);
+    border: 1px solid rgba(255, 106, 0, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .stat-number {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .stat-card.dark { background: var(--bg-elevated); border-color: var(--border); }
+  .stat-card.dark .stat-number { color: var(--text-primary); font-size: 32px; }
+
+  @media (max-width: 968px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero { padding: 60px 0 60px; }
+    .hero-visual { max-width: 400px; margin: 0 auto; }
+  }
+
+  /* SECTIONS */
+  section { padding: 100px 0; position: relative; }
+
+  .section-eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    max-width: 700px;
+  }
+
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  .section-intro {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-bottom: 64px;
+  }
+
+  /* STEPS */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    counter-reset: step;
+  }
+
+  .step {
+    counter-increment: step;
+    padding: 32px 24px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-card);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .step:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+  .step::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .step h3 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .step p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+  @media (max-width: 968px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .steps { grid-template-columns: 1fr; } }
+
+  /* BENEFITS */
+  .benefits-section {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .benefits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+    margin-top: 48px;
+  }
+
+  .benefit { padding-top: 32px; border-top: 2px solid var(--accent); }
+
+  .benefit h3 {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .benefit p { color: var(--text-secondary); line-height: 1.7; }
+
+  @media (max-width: 768px) { .benefits { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* FORM */
+  .form-section { position: relative; overflow: hidden; }
+
+  .form-section::before {
+    content: '';
+    position: absolute;
+    bottom: -300px;
+    left: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 106, 0, 0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .form-info h2 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 4vw, 44px);
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .form-info h2 em { font-style: italic; color: var(--accent); }
+
+  .form-info p {
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  .contact-direct {
+    margin-top: 40px;
+    padding: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .contact-direct .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .contact-direct a {
+    display: block;
+    color: var(--text-primary);
+    font-size: 16px;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+  }
+
+  .contact-direct a:hover { color: var(--accent); }
+
+  .form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-group { margin-bottom: 16px; }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  .form-group label .required { color: var(--accent); }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 15px;
+    font-family: var(--sans);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.1);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 100px; font-family: var(--sans); }
+
+  .form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23888' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  .checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .checkbox-group label {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .checkbox-group a { color: var(--accent); text-decoration: underline; }
+
+  .submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: var(--accent);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: var(--sans);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .submit-btn:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(255, 106, 0, 0.3);
+  }
+
+  .form-footer {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 968px) {
+    .form-grid { grid-template-columns: 1fr; gap: 48px; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-card { padding: 28px 24px; }
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border);
+    padding: 64px 0 32px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand h3 { font-family: var(--serif); font-size: 28px; margin-bottom: 16px; }
+  .footer-brand h3 span { color: var(--accent); }
+  .footer-brand p { color: var(--text-muted); font-size: 14px; max-width: 320px; }
+
+  .footer-col h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .footer-col a {
+    display: block;
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero h1, .hero-subtitle, .hero-cta { animation: fadeInUp 0.8s ease both; }
+  .hero-subtitle { animation-delay: 0.1s; }
+  .hero-cta { animation-delay: 0.2s; }
+  .hero-visual { animation: fadeInUp 0.8s ease 0.3s both; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Col<span>i</span>xo</a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#benefits">Benefits</a>
+      <a href="#quote">Quote</a>
+      <a href="index-fr.html" class="lang-switch">FR</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Dedicated service for hoteliers</div>
+        <h1>Your guests forget.<br>We <em>deliver.</em></h1>
+        <p class="hero-subtitle">
+          Pickup and express international delivery of items left behind by your guests — anywhere in the world. One single contact, zero workload for your team.
+        </p>
+        <div class="hero-cta">
+          <a href="#quote" class="btn btn-primary">
+            Request a quote
+            <span class="arrow">→</span>
+          </a>
+          <a href="#how" class="btn btn-secondary">
+            How it works
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="stat-card">
+          <div class="stat-number">24h</div>
+          <div class="stat-label">Guaranteed pickup</div>
+        </div>
+        <div class="stat-card dark">
+          <div class="stat-number">200+</div>
+          <div class="stat-label">Countries served</div>
+        </div>
+        <div class="stat-card dark">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Real-time tracking</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="container">
+    <div class="section-eyebrow">How it works</div>
+    <h2 class="section-title">Four steps, <em>zero workload</em> for your front desk.</h2>
+    <p class="section-intro">
+      A process built for hotels: clear, fast, and fully delegated.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <h3>You report the item</h3>
+        <p>An email or a phone call is enough. Send us the guest's contact details and a description of the item.</p>
+      </div>
+      <div class="step">
+        <h3>We pick it up</h3>
+        <p>Our courier collects from your front desk the same day or the next, depending on your preference.</p>
+      </div>
+      <div class="step">
+        <h3>Packing & shipping</h3>
+        <p>Secure packaging, labeling, customs declaration if needed. You don't have to prepare anything.</p>
+      </div>
+      <div class="step">
+        <h3>Delivery & tracking</h3>
+        <p>Your guest receives their belongings within days, anywhere in the world, with real-time tracking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section id="benefits" class="benefits-section">
+  <div class="container">
+    <div class="section-eyebrow">Why choose us</div>
+    <h2 class="section-title">Three reasons to turn an <em>annoyance</em> into an asset.</h2>
+
+    <div class="benefits">
+      <div class="benefit">
+        <h3>Stronger brand image</h3>
+        <p>A guest who recovers their belongings keeps an excellent memory of your establishment. 5★ reviews often mention this kind of attention.</p>
+      </div>
+      <div class="benefit">
+        <h3>Relieved staff</h3>
+        <p>No more packing, hunting for couriers, or chasing guests. Your team focuses on hospitality, not logistics.</p>
+      </div>
+      <div class="benefit">
+        <h3>Partner pricing</h3>
+        <p>Preferential terms for partner hotels, simplified billing, and the option to charge the service back to the end guest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section id="quote" class="form-section">
+  <div class="container">
+    <div class="form-grid">
+      <div class="form-info">
+        <div class="section-eyebrow">Quote request</div>
+        <h2>Receive your <em>tailored pricing</em> within 24 hours.</h2>
+        <p>
+          Fill out the form on the right. We'll get back to you with a proposal tailored to your volume and your guests' destinations.
+        </p>
+
+        <div class="contact-direct">
+          <div class="label">Prefer to talk?</div>
+          <a href="tel:+41796467442">+41 79 646 74 42</a>
+          <a href="mailto:info@colixo.com">info@colixo.com</a>
+        </div>
+      </div>
+
+      <form class="form-card" id="quoteForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First name <span class="required">*</span></label>
+            <input type="text" name="firstname" required>
+          </div>
+          <div class="form-group">
+            <label>Last name <span class="required">*</span></label>
+            <input type="text" name="lastname" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Hotel / Establishment <span class="required">*</span></label>
+          <input type="text" name="hotel" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email <span class="required">*</span></label>
+            <input type="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Country / City <span class="required">*</span></label>
+            <input type="text" name="location" required>
+          </div>
+          <div class="form-group">
+            <label>Establishment category</label>
+            <select name="category">
+              <option value="">Select...</option>
+              <option>3 stars</option>
+              <option>4 stars</option>
+              <option>5 stars</option>
+              <option>Palace / Luxury</option>
+              <option>Boutique hotel</option>
+              <option>Hotel chain</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Estimated forgotten items / month</label>
+          <select name="volume">
+            <option value="">Select...</option>
+            <option>Less than 5</option>
+            <option>5 to 15</option>
+            <option>15 to 30</option>
+            <option>More than 30</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Main guest destinations</label>
+          <select name="destinations">
+            <option value="">Select...</option>
+            <option>Mainly Europe</option>
+            <option>International (all continents)</option>
+            <option>Africa / Middle East</option>
+            <option>Asia-Pacific</option>
+            <option>Americas</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Message (optional)</label>
+          <textarea name="message" placeholder="Any specific needs, constraints, or questions..."></textarea>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="rgpd" required>
+          <label for="rgpd">
+            I agree that my data will be used to process my request, in accordance with the <a href="#">privacy policy</a>.
+          </label>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          Submit my quote request
+          <span>→</span>
+        </button>
+
+        <p class="form-footer">Reply within 24 business hours. No commitment.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>Col<span>i</span>xo</h3>
+        <p>International express delivery service, dedicated to hotels and tourism establishments.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Service</h4>
+        <a href="#how">How it works</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#quote">Quote</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+41796467442">+41 79 646 74 42</a>
+        <a href="mailto:info@colixo.com">info@colixo.com</a>
+        <a href="#">www.colixo.com</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Legal notice</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Colixo — Impasse des Griottes 3, 1462 Yvonand, Switzerland</div>
+      <div>Built for international hospitality</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('quoteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Thank you! Your request has been sent. We will get back to you within 24 hours.');
+  });
+</script>
+
+</body>
+</html>
